@@ -9,12 +9,19 @@ import {
   InputAdornment,
   TextField,
   Grid,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  Button,
 } from "@mui/material";
 import Head from "next/head";
 import React from "react";
 import { ReactElement } from "react";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import { AiFillTwitterCircle } from "react-icons/ai";
 
-const Home = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -38,82 +45,126 @@ const Home = () => {
         sx={{ py: 6 }}
       >
         <Box
-          minWidth={700}
-          sx={{ border: `1px solid ${colors.grey[300]}`, p: 4 }}
+          sx={{
+            px: 4,
+            py: 4,
+            border: `1px solid ${colors.grey[300]}`,
+            borderRadius: "4px",
+          }}
         >
-          <Grid container>
-            <Grid item xs={12} lg={6}>
-              <Box>
-                <img
-                  src="/reg.gif"
-                  alt="Register"
-                  style={{ width: "100%", objectFit: "cover" }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  px: 8,
-                  py: 4,
+          <Box
+            minWidth={500}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <img src="/logo-only.png" alt="" />
+            </Box>
+            <Typography variant="h5">Loi Heng International</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                width: "100%",
+                mt: 4,
+              }}
+            >
+              <TextField
+                type={"text"}
+                id="outlined-basic"
+                label="Email or Phone"
+                variant="outlined"
+              />
+              <TextField
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                id="fullWidth"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
-              >
-                <Box>
-                  <img src="/logo-only.png" alt="" />
-                </Box>
-                <Typography variant="h5">Loi Heng International</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 4,
-                    width: "100%",
-                    my: 4,
-                  }}
-                >
-                  <TextField
-                    type={"text"}
-                    id="outlined-basic"
-                    label="Email or Phone"
-                    variant="outlined"
-                    fullWidth
-                  />
-                  <TextField
-                    type={showPassword ? "text" : "password"}
-                    fullWidth
-                    label="Password"
-                    id="fullWidth"
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
+              />
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label="Remember me"
+                />
+              </FormGroup>
+            </Box>
+            <Box>
+              <Typography>Forgot password?</Typography>
+            </Box>
+          </Box>
+          <Box>
+            <Button variant={"contained"} fullWidth>
+              Login
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              my: 1,
+              "&::before": {
+                content: '""',
+                px: 1,
+                width: "50%",
+                height: "1px",
+                backgroundColor: "rgba(0, 0, 0, 0.15)",
+              },
+              "&::after": {
+                content: '""',
+                width: "50%",
+                height: "1px",
+                backgroundColor: "rgba(0, 0, 0, 0.15)",
+              },
+            }}
+          >
+            <span style={{ margin: "0px 12px" }}>or</span>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 4 }}>
+            <IconButton>
+              <BsFacebook style={{ color: "#15A2FA" }} />
+            </IconButton>
+            <IconButton>
+              <FcGoogle />
+            </IconButton>
+            <IconButton>
+              <AiFillTwitterCircle style={{ color: "#1DA1F2" }} />
+            </IconButton>
+          </Box>
         </Box>
       </Stack>
     </Box>
   );
 };
 
-Home.getLayout = function getLayout(page: ReactElement) {
+Login.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout>{page}</MainLayout>;
 };
 
-export default Home;
+export default Login;

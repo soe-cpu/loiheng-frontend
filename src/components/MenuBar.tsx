@@ -1,4 +1,5 @@
-import { Box, colors, Container, Stack } from "@mui/material";
+import { Box, colors, Container, Stack, styled } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 
 const MenuBar = () => {
@@ -12,16 +13,40 @@ const MenuBar = () => {
           sx={{ height: "64px", fontWeight: 400 }}
           spacing={8}
         >
-          <Box>HOME</Box>
-          <Box>PRODUCT</Box>
-          <Box>DEALS & PROMOTION</Box>
-          <Box>ABOUT US</Box>
-          <Box>CONTACT US</Box>
-          <Box>RMA</Box>
+          <Box>
+            <Link href={"/"} legacyBehavior>
+              <MenuLink>HOME</MenuLink>
+            </Link>
+          </Box>
+          <Box>
+            <MenuLink>PRODUCT</MenuLink>
+          </Box>
+          <Box>
+            <MenuLink>DEALS & PROMOTION</MenuLink>
+          </Box>
+          <Box>
+            <Link href={"/about-us"} legacyBehavior>
+              <MenuLink>ABOUT US</MenuLink>
+            </Link>
+          </Box>
+          <Box>
+            <Link href={"/contact-us"} legacyBehavior>
+              <MenuLink>CONTACT US</MenuLink>
+            </Link>
+          </Box>
+          <Box>
+            <MenuLink>RMA</MenuLink>
+          </Box>
         </Stack>
       </Container>
     </Box>
   );
 };
 
+const MenuLink = styled("a")(({ theme }) => ({
+  color: "#fff",
+  textDecoration: "none",
+  fontWeight: 500,
+  cursor: "pointer",
+}));
 export default MenuBar;
