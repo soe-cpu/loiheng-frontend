@@ -25,6 +25,7 @@ import {
   BsClockHistory,
   BsFillCalendarXFill,
 } from "react-icons/bs";
+import Link from "next/link";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,7 +45,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -192,24 +193,44 @@ const ContactComponent = () => {
               <Typography variant="h6">Share with: </Typography>
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                 <Tooltip title="Facebook" arrow>
-                  <ShareButton size="small">
-                    <BsFacebook />
-                  </ShareButton>
+                  <Link
+                    href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
+                    passHref={true}
+                  >
+                    <ShareButton>
+                      <BsFacebook />
+                    </ShareButton>
+                  </Link>
                 </Tooltip>
                 <Tooltip title="Messenger" arrow>
-                  <ShareButton size="small">
-                    <BsMessenger />
-                  </ShareButton>
+                  <Link
+                    href="https://www.messenger.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
+                    passHref={true}
+                  >
+                    <ShareButton>
+                      <BsMessenger />
+                    </ShareButton>
+                  </Link>
                 </Tooltip>
                 <Tooltip title="Twitter" arrow>
-                  <ShareButton size="small">
-                    <AiFillTwitterCircle />
-                  </ShareButton>
+                  <Link
+                    href="https://www.twitter.com/sharer/sharer.php?u=https://www.twitter.com/loihengmm"
+                    passHref={true}
+                  >
+                    <ShareButton>
+                      <AiFillTwitterCircle />
+                    </ShareButton>
+                  </Link>
                 </Tooltip>
                 <Tooltip title="Email" arrow>
-                  <ShareButton size="small">
-                    <GrMail />
-                  </ShareButton>
+                  <Link
+                    href="https://mail.google.com//sharer/sharer.php?u=sale@loiheng.com"
+                    passHref={true}
+                  >
+                    <ShareButton>
+                      <GrMail />
+                    </ShareButton>
+                  </Link>
                 </Tooltip>
               </Box>
             </Box>
@@ -278,7 +299,7 @@ const ContactComponent = () => {
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31909.854608866877!2d103.74219536715987!3d1.3371638875825897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da106e2359f501%3A0xe711c6cdf0d7a4ad!2sSingapore%20658065!5e0!3m2!1sen!2smm!4v1647421108482!5m2!1sen!2smm"
                       width="100%"
-                      height="300px"
+                      height="350px"
                       loading="lazy"
                     ></iframe>
                     <Box
@@ -328,7 +349,7 @@ const ContactComponent = () => {
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3819.778342319566!2d96.12613621486804!3d16.78769998844059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c1ec88a7610aeb%3A0x2d13e34361457af!2sLoi%20Heng%20International!5e0!3m2!1sen!2smm!4v1647421270384!5m2!1sen!2smm"
                       width="100%"
-                      height="300px"
+                      height="350px"
                       loading="lazy"
                     ></iframe>
                     <Box
@@ -378,7 +399,7 @@ const ContactComponent = () => {
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d925.015430386235!2d96.0857026!3d21.9705941!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30cb6d232ca3110d%3A0x9ca0dd57bb8e02b4!2sLoi%20Heng%20International!5e0!3m2!1sen!2smm!4v1647421194477!5m2!1sen!2smm"
                       width="100%"
-                      height="300px"
+                      height="350px"
                       loading="lazy"
                     ></iframe>
                     <Box
@@ -432,11 +453,16 @@ const ContactComponent = () => {
   );
 };
 
-const ShareButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
+const ShareButton = styled("a")(({ theme }) => ({
   backgroundColor: colors.blue[100],
   color: colors.blue[700],
   borderRadius: "4px",
   border: `0px`,
+  padding: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
   "&:hover": {
     backgroundColor: colors.blue[200],
   },
