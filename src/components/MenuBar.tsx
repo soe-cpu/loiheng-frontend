@@ -10,7 +10,7 @@ const MenuBar = () => {
           direction={"row"}
           justifyContent={"center"}
           alignItems={"center"}
-          sx={{ height: "64px", fontWeight: 400 }}
+          sx={{ height: "40px" }}
           spacing={8}
         >
           <Box>
@@ -46,7 +46,7 @@ const MenuBar = () => {
 const MenuLink = styled("a")(({ theme }) => ({
   color: "#fff",
   textDecoration: "none",
-  fontWeight: 500,
+  fontWeight: 400,
   cursor: "pointer",
 }));
 export default MenuBar;

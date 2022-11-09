@@ -90,7 +90,17 @@ const Footer = () => {
                 </Box>
               </Stack>
             </Grid>
-            <Grid item xs={12} md={6} lg={3}></Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box>
+                <iframe
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Floihengmm&tabs=timeline&width=300&height=220&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=693283734995039"
+                  width="300"
+                  height="220"
+                  scrolling="no"
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                ></iframe>
+              </Box>
+            </Grid>
           </Grid>
         </Container>
       </Box>

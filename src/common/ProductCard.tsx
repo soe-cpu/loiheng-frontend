@@ -21,11 +21,7 @@ const ProductCard = () => {
       }}
     >
       <Box maxHeight={"180px"}>
-        <img
-          src="/bg1.png"
-          alt={"Slider"}
-          style={{ width: "100%", objectFit: "cover" }}
-        />
+        <ProductImage src="/bg1.png" alt={"ProductImage"} />
       </Box>
       <Typography
         sx={{
@@ -75,6 +71,16 @@ const ProductCard = () => {
   );
 };
 
+const ProductImage = styled("img")(({ theme }) => ({
+  width: "100%",
+  objectFit: "cover",
+  transition: "transform 0.3s",
+  "&:hover": {
+    transform: " scale(1.1)",
+  },
+
+  // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2) !important;
+}));
 const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.getContrastText(colors.blue[500]),
   width: "100%",
@@ -83,7 +89,7 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
     backgroundColor: colors.blue[700],
   },
 }));
-const FavButton = styled(Button)(({ theme }) => ({
+const FavButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: colors.pink[500],
   borderRadius: "4px",
   border: `1px solid ${colors.pink[500]}`,
