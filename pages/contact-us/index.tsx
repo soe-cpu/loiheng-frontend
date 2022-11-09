@@ -1,3 +1,4 @@
+import { ContactComponent } from "@components/ContactComponent";
 import MainLayout from "@layouts/MainLayout";
 import { Box, Container, Typography } from "@mui/material";
 import Head from "next/head";
@@ -11,11 +12,7 @@ const ContactUs = () => {
         <meta name="description" content="Loi Heng About Us" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box sx={{ py: 2 }}>
-        <Container>
-          <Typography>Contact Us</Typography>
-        </Container>
-      </Box>
+      <ContactComponent />
     </Box>
   );
 };
