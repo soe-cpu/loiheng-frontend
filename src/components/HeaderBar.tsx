@@ -8,6 +8,8 @@ import {
   Stack,
   styled,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -18,8 +20,10 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Link from "next/link";
 
 const HeaderBar = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
-    <Box>
+    <Box sx={{ display: isMobile ? "none" : "block" }}>
       <Container maxWidth="lg">
         <Stack
           direction={"row"}

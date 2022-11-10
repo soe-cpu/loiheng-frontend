@@ -13,6 +13,8 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import React from "react";
 import { AiFillTwitterCircle } from "react-icons/ai";
@@ -37,19 +39,15 @@ function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      {value === index && <Box sx={{ p: 2, height: "100%" }}>{children}</Box>}
+    </Box>
   );
 }
 
@@ -66,6 +64,8 @@ const ContactComponent = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box>
       <Box
@@ -76,7 +76,13 @@ const ContactComponent = () => {
           backgroundSize: "cover",
         }}
       >
-        <Box sx={{ position: "absolute", bottom: "-100px", width: "100%" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: isMobile ? "-500px" : "-100px",
+            width: "100%",
+          }}
+        >
           <Container maxWidth={"lg"}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={6} lg={4}>
@@ -183,7 +189,7 @@ const ContactComponent = () => {
           </Container>
         </Box>
       </Box>
-      <Box sx={{ mt: "130px", pb: 4 }}>
+      <Box sx={{ mt: isMobile ? "600px" : "130px", pb: 4 }}>
         <Container maxWidth={"lg"}>
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Box>
@@ -195,7 +201,7 @@ const ContactComponent = () => {
                 <Tooltip title="Facebook" arrow>
                   <Link
                     href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
-                    passHref={true}
+                    legacyBehavior
                   >
                     <ShareButton>
                       <BsFacebook />
@@ -205,7 +211,7 @@ const ContactComponent = () => {
                 <Tooltip title="Messenger" arrow>
                   <Link
                     href="https://www.messenger.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
-                    passHref={true}
+                    legacyBehavior
                   >
                     <ShareButton>
                       <BsMessenger />
@@ -215,7 +221,7 @@ const ContactComponent = () => {
                 <Tooltip title="Twitter" arrow>
                   <Link
                     href="https://www.twitter.com/sharer/sharer.php?u=https://www.twitter.com/loihengmm"
-                    passHref={true}
+                    legacyBehavior
                   >
                     <ShareButton>
                       <AiFillTwitterCircle />
@@ -225,7 +231,7 @@ const ContactComponent = () => {
                 <Tooltip title="Email" arrow>
                   <Link
                     href="https://mail.google.com//sharer/sharer.php?u=sale@loiheng.com"
-                    passHref={true}
+                    legacyBehavior
                   >
                     <ShareButton>
                       <GrMail />
