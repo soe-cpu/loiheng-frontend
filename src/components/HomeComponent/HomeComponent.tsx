@@ -1,4 +1,14 @@
-import { Box, Container, Grid, Typography, Stack } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Stack,
+  styled,
+  colors,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -15,6 +25,8 @@ import ProductCard from "@common/ProductCard";
 import Link from "next/link";
 
 const HomeComponent = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box sx={{ py: 2 }}>
       <Container maxWidth="lg">
@@ -29,7 +41,13 @@ const HomeComponent = () => {
           className="mySwiper"
         >
           <SwiperSlide>
-            <Box sx={{ position: "relative", width: "100%", height: "500px" }}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "100%",
+                height: isMobile ? "250px" : "500px",
+              }}
+            >
               <img
                 src="https://swiperjs.com/demos/images/nature-1.jpg"
                 alt={"Slider"}
@@ -38,7 +56,13 @@ const HomeComponent = () => {
             </Box>
           </SwiperSlide>
           <SwiperSlide>
-            <Box sx={{ position: "relative", width: "100%", height: "500px" }}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "100%",
+                height: isMobile ? "250px" : "500px",
+              }}
+            >
               <img
                 src="https://swiperjs.com/demos/images/nature-2.jpg"
                 alt={"Slider"}
@@ -58,13 +82,13 @@ const HomeComponent = () => {
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
-                <a>View all</a>
+                <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
           </Stack>
           <Box>
             <Swiper
-              slidesPerView={1}
+              slidesPerView={2}
               spaceBetween={10}
               navigation={true}
               breakpoints={{
@@ -122,13 +146,13 @@ const HomeComponent = () => {
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
-                <a>View all</a>
+                <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
           </Stack>
           <Box>
             <Swiper
-              slidesPerView={1}
+              slidesPerView={2}
               spaceBetween={10}
               navigation={true}
               breakpoints={{
@@ -186,13 +210,13 @@ const HomeComponent = () => {
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
-                <a>View all</a>
+                <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
           </Stack>
           <Box>
             <Swiper
-              slidesPerView={1}
+              slidesPerView={2}
               spaceBetween={10}
               navigation={true}
               breakpoints={{
@@ -244,4 +268,13 @@ const HomeComponent = () => {
   );
 };
 
+const ViewAllLink = styled("a")(({ theme }) => ({
+  color: colors.blue[500],
+  fontWeight: 600,
+  fontSize: 18,
+  cursor: "pointer",
+  "&:hover": {
+    color: colors.blue[700],
+  },
+}));
 export default HomeComponent;
