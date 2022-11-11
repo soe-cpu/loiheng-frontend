@@ -52,9 +52,11 @@ const HeaderBar = () => {
             <Badge badgeContent={4} color="primary">
               <NotificationsNoneOutlinedIcon color="action" />
             </Badge>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlinedIcon color="action" />
-            </Badge>
+            <Link href={"/addtocart"}>
+              <Badge badgeContent={4} color="primary">
+                <ShoppingCartOutlinedIcon color="action" />
+              </Badge>
+            </Link>
             <Box sx={{ display: "flex", gap: 1, ml: 1 }}>
               <Link href={"/auth/login"} legacyBehavior>
                 <a
