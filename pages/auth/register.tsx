@@ -225,7 +225,7 @@ const Register = () => {
           </Box>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
             <Box sx={{ display: "flex", gap: 1 }}>
-              <Typography>I have not registered yet?</Typography>
+              <Typography>Already have an account</Typography>
               <Link href={"/auth/login"} legacyBehavior>
                 <a style={{ color: colors.blue[600], fontWeight: 500 }}>
                   Sign In
