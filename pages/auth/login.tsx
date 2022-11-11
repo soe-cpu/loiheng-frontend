@@ -13,6 +13,8 @@ import {
   FormControlLabel,
   FormGroup,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Head from "next/head";
 import React from "react";
@@ -31,6 +33,9 @@ const Login = () => {
   ) => {
     event.preventDefault();
   };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box>
       <Head>
@@ -53,7 +58,7 @@ const Login = () => {
           }}
         >
           <Box
-            minWidth={500}
+            minWidth={isMobile ? 400 : 500}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -119,10 +124,12 @@ const Login = () => {
               <Typography>Forgot password?</Typography>
             </Box>
           </Box>
-          <Box>
-            <Button variant={"contained"} fullWidth>
-              Login
-            </Button>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: "300px" }}>
+              <Button variant={"contained"} fullWidth>
+                Login
+              </Button>
+            </Box>
           </Box>
           <Box
             sx={{
