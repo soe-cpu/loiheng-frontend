@@ -25,6 +25,7 @@ import { AiFillTwitterCircle } from "react-icons/ai";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Link from "next/link";
 
 const Register = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -221,6 +222,16 @@ const Register = () => {
             <IconButton>
               <AiFillTwitterCircle style={{ color: "#1DA1F2" }} />
             </IconButton>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <Typography>I have not registered yet?</Typography>
+              <Link href={"/auth/login"} legacyBehavior>
+                <a style={{ color: colors.blue[600], fontWeight: 500 }}>
+                  Sign In
+                </a>
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Stack>
