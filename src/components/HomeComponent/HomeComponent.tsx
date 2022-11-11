@@ -277,4 +277,5 @@ const ViewAllLink = styled("a")(({ theme }) => ({
     color: colors.blue[700],
   },
 }));
+
 export default HomeComponent;
