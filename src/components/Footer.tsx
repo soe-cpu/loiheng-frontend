@@ -113,9 +113,7 @@ const Footer = () => {
           justifyContent: "center",
         }}
       >
-        <Typography>
-          LoiHeng © 2022 | Developed by Myanmar Web Creator.
-        </Typography>
+        <Typography>LoiHeng © 2022 | Developed by Clever Scale.</Typography>
       </Box>
     </Box>
   );
