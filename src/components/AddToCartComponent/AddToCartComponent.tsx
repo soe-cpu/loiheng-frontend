@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   colors,
   Container,
   Divider,
@@ -13,6 +14,8 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Link from "next/link";
 
 const AddToCartComponent = () => {
   return (
@@ -126,6 +129,149 @@ const AddToCartComponent = () => {
               </Grid>
             </Grid>
           </Box>
+        </Box>
+        <Grid container sx={{ mt: 4 }} spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Box sx={{ display: "flex", gap: 4 }}>
+              <Typography variant="h6">Promocode:</Typography>
+              <InputBase
+                sx={{ border: `1px solid ${colors.grey[300]}` }}
+                fullWidth
+              ></InputBase>
+              <Button variant="contained">Apply</Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box>
+                <Typography sx={{ fontWeight: 500 }}>Sub Total:</Typography>
+                <Typography sx={{ fontWeight: 500 }}>
+                  Promocode discount:
+                </Typography>
+                <Typography sx={{ fontWeight: 500 }}>Total:</Typography>
+              </Box>
+              <Box>
+                <Typography>3,269,370 MMK</Typography>
+                <Typography>3,269,370 MMK</Typography>
+                <Typography>3,269,370 MMK</Typography>
+              </Box>
+            </Box>
+            <Divider />
+            <Box
+              sx={{ py: 2, display: "flex", justifyContent: "space-between" }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                  color: colors.blue[500],
+                }}
+              >
+                <ArrowBackIcon />
+                <Link href={"/product"} legacyBehavior>
+                  <a
+                    style={{
+                      textDecoration: "none",
+                      fontWeight: 500,
+                      color: colors.blue[500],
+                    }}
+                  >
+                    Continue Shopping
+                  </a>
+                </Link>
+              </Box>
+              <Box>
+                <Button variant="contained">Check Out</Button>
+              </Box>
+            </Box>
+            <Divider />
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            border: `1px solid ${colors.blue[500]}`,
+            px: 2,
+            py: 4,
+            borderRadius: "6px",
+            mt: 4,
+          }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "center",
+                  borderRight: `1px solid ${colors.grey[300]}`,
+                }}
+              >
+                <img src="/cart.gif" alt="" width={"70px"} height={"70px"} />
+                <Box>
+                  <Typography variant="h6">Add to Cart</Typography>
+                  <Typography variant="caption">Add your products.</Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "center",
+                  borderRight: `1px solid ${colors.grey[300]}`,
+                }}
+              >
+                <img src="/payment.gif" alt="" width={"70px"} height={"70px"} />
+                <Box>
+                  <Typography variant="h6">Payment</Typography>
+                  <Typography variant="caption">
+                    Pay for many method.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "center",
+                  borderRight: `1px solid ${colors.grey[300]}`,
+                }}
+              >
+                <img
+                  src="/shipping.gif"
+                  alt=""
+                  width={"70px"}
+                  height={"70px"}
+                />
+                <Box>
+                  <Typography variant="h6">Shipping</Typography>
+                  <Typography variant="caption">
+                    Order from anywhere.
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={3}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  alignItems: "center",
+                  borderRight: `1px solid ${colors.grey[300]}`,
+                }}
+              >
+                <img src="/service.gif" alt="" width={"70px"} height={"70px"} />
+                <Box>
+                  <Typography variant="h6">Service</Typography>
+                  <Typography variant="caption">24 hr service.</Typography>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     </Box>
