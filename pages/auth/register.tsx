@@ -13,6 +13,8 @@ import {
   FormControlLabel,
   FormGroup,
   Button,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import Head from "next/head";
 import React from "react";
@@ -35,6 +37,9 @@ const Register = () => {
   ) => {
     event.preventDefault();
   };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box>
       <Head>
@@ -57,7 +62,7 @@ const Register = () => {
           }}
         >
           <Box
-            minWidth={700}
+            minWidth={isMobile ? 400 : 700}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -68,9 +73,9 @@ const Register = () => {
               <img src="/logo-only.png" alt="" />
             </Box>
             <Typography variant="h5">Loi Heng International</Typography>
-            <Box sx={{ width: 700, pt: 4 }}>
+            <Box sx={{ width: isMobile ? 400 : 700, pt: 4 }}>
               <Grid container spacing={4}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     type={"text"}
                     id="outlined-basic"
@@ -79,7 +84,7 @@ const Register = () => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     type={"text"}
                     id="outlined-basic"
@@ -88,7 +93,7 @@ const Register = () => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     type={"text"}
                     id="outlined-basic"
@@ -97,7 +102,7 @@ const Register = () => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       label="Date Of Birth"
@@ -111,7 +116,7 @@ const Register = () => {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     type={showPassword ? "text" : "password"}
                     label="Password"
@@ -133,7 +138,7 @@ const Register = () => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <TextField
                     type={showPassword ? "text" : "password"}
                     label="Confirm Password"
@@ -177,10 +182,12 @@ const Register = () => {
               <Typography>Forgot password?</Typography>
             </Box>
           </Box>
-          <Box>
-            <Button variant={"contained"} fullWidth>
-              Register
-            </Button>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box sx={{ width: "300px" }}>
+              <Button variant={"contained"} fullWidth>
+                Register
+              </Button>
+            </Box>
           </Box>
           <Box
             sx={{

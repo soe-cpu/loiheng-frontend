@@ -102,7 +102,9 @@ const MenuBar = () => {
                   />
                 </Search>
                 <Box sx={{ position: "relative" }}>
-                  <img src="/loi-heng-logo.png" alt={"Logo"} height="40px" />
+                  <Link href={"/"}>
+                    <img src="/loi-heng-logo.png" alt={"Logo"} height="40px" />
+                  </Link>
                 </Box>
               </Box>
             </Toolbar>
@@ -127,8 +129,41 @@ const MenuBar = () => {
         }}
         elevation={20}
       >
-        <Box width={"220px"} sx={{ marginTop: "64px" }}>
-          <h1>Hi</h1>
+        <Box
+          width={"220px"}
+          sx={{
+            marginTop: "64px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Link href={"/"} legacyBehavior>
+            <StyledMenuLink>Home</StyledMenuLink>
+          </Link>
+          <Link href={"/"} legacyBehavior>
+            <StyledMenuLink>PRODUCT</StyledMenuLink>
+          </Link>
+          <Link href={"/"} legacyBehavior>
+            <StyledMenuLink>DEALS & PROMOTION</StyledMenuLink>
+          </Link>
+          <Link href={"/about-us"} legacyBehavior>
+            <StyledMenuLink>ABOUT US</StyledMenuLink>
+          </Link>
+          <Link href={"/contact-us"} legacyBehavior>
+            <StyledMenuLink>CONTACT US</StyledMenuLink>
+          </Link>
+          <Link href={"/"} legacyBehavior>
+            <StyledMenuLink>RMA</StyledMenuLink>
+          </Link>
+          <Link href={"/auth/login"} legacyBehavior>
+            <StyledMenuLink>Login</StyledMenuLink>
+          </Link>
+          <Link href={"/auth/register"} legacyBehavior>
+            <StyledMenuLink>Register</StyledMenuLink>
+          </Link>
         </Box>
       </Drawer>
     </Box>
@@ -171,6 +206,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     width: "100%",
+  },
+}));
+
+const StyledMenuLink = styled("a")(({ theme }) => ({
+  backgroundColor: colors.blue[100],
+  width: "200px",
+  fontWeight: 600,
+  textDecoration: "none",
+  color: colors.blue[700],
+  borderRadius: "4px",
+  border: `0px`,
+  padding: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: colors.blue[200],
   },
 }));
 export default MenuBar;
