@@ -77,7 +77,9 @@ const MenuBar = () => {
               </Link>
             </Box>
             <Box>
-              <MenuLink>RMA</MenuLink>
+              <Link href={"/rma"} legacyBehavior>
+                <MenuLink>RMA</MenuLink>
+              </Link>
             </Box>
           </Stack>
           <AppBar

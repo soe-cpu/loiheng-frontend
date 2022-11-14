@@ -8,6 +8,7 @@ import {
   colors,
   useMediaQuery,
   useTheme,
+  Tooltip,
 } from "@mui/material";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -23,6 +24,9 @@ import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
 import Image from "next/image";
 import ProductCard from "@common/ProductCard";
 import Link from "next/link";
+import { AiFillTwitterCircle } from "react-icons/ai";
+import { BsFacebook, BsMessenger } from "react-icons/bs";
+import { GrMail } from "react-icons/gr";
 
 const HomeComponent = () => {
   const theme = useTheme();
@@ -263,6 +267,117 @@ const HomeComponent = () => {
             </Swiper>
           </Box>
         </Box>
+        <Box sx={{ py: 4 }}>
+          <Stack
+            justifyContent={"space-between"}
+            direction={"row"}
+            sx={{ pb: 4 }}
+          >
+            <Box>
+              <Typography variant="h5">Company Profile</Typography>
+            </Box>
+          </Stack>
+          <Box
+            sx={{
+              border: `1px solid ${colors.grey[300]}`,
+              p: 2,
+              borderRadius: "20px",
+            }}
+          >
+            <Grid container spacing={16}>
+              <Grid item xs={12} md={6}>
+                <Box>
+                  <img src="/ec.gif" alt="" />
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: 500,
+                        fontSize: 18,
+                      }}
+                    >
+                      About Company
+                    </Typography>
+                    <Typography sx={{ py: 2 }}>
+                      Loi Heng International Pte Ltd is one of the leading IT
+                      Company provides products and networking solutions through
+                      channel dealers and direct sales, serving both the local
+                      and international organizations. Our official name in
+                      Myanmar is known as THEIN HAN & KHINE MYAE CO., LTD. (aka
+                      LOI HENG INTERNATIONAL). In order to meet the needs of
+                      clients, we distribute a wide range of IT products that
+                      are well known globally and synonymous with ease of
+                      technology leadership. SMC Networks – Full Range of
+                      Networking Products (Authorized Distributor for Singapore
+                      & Myanmar) EdgeCore – Full Range of Networking Products
+                      (Authorized Distributor for Singapore & Myanmar) LevelOne
+                      – Full Range of Networking Products (Authorized
+                      Distributor for Myanmar) UBiQUiTi – Full Range of
+                      Networking Products (Authorized Distributor for Myanmar)
+                      SEPOMs – Ink & Paper (Photo Paper, Inkjet Paper… etc).
+                    </Typography>
+                    <Stack direction={"row"} sx={{ pt: 2 }}>
+                      <Box
+                        sx={{ display: "flex", gap: 1, alignItems: "center" }}
+                      >
+                        <Tooltip title="Facebook" arrow>
+                          <Link
+                            href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
+                            legacyBehavior
+                          >
+                            <ShareButton>
+                              <BsFacebook />
+                            </ShareButton>
+                          </Link>
+                        </Tooltip>
+                        <Tooltip title="Messenger" arrow>
+                          <Link
+                            href="https://www.messenger.com/sharer/sharer.php?u=https://www.facebook.com/loihengmm"
+                            legacyBehavior
+                          >
+                            <ShareButton>
+                              <BsMessenger />
+                            </ShareButton>
+                          </Link>
+                        </Tooltip>
+                        <Tooltip title="Twitter" arrow>
+                          <Link
+                            href="https://www.twitter.com/sharer/sharer.php?u=https://www.twitter.com/loihengmm"
+                            legacyBehavior
+                          >
+                            <ShareButton>
+                              <AiFillTwitterCircle />
+                            </ShareButton>
+                          </Link>
+                        </Tooltip>
+                        <Tooltip title="Email" arrow>
+                          <Link
+                            href="https://mail.google.com//sharer/sharer.php?u=sale@loiheng.com"
+                            legacyBehavior
+                          >
+                            <ShareButton>
+                              <GrMail />
+                            </ShareButton>
+                          </Link>
+                        </Tooltip>
+                      </Box>
+                    </Stack>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );
@@ -275,6 +390,21 @@ const ViewAllLink = styled("a")(({ theme }) => ({
   cursor: "pointer",
   "&:hover": {
     color: colors.blue[700],
+  },
+}));
+
+const ShareButton = styled("a")(({ theme }) => ({
+  backgroundColor: colors.blue[100],
+  color: colors.blue[700],
+  borderRadius: "4px",
+  border: `0px`,
+  padding: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: colors.blue[200],
   },
 }));
 
