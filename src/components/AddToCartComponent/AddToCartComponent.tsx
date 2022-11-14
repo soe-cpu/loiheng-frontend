@@ -88,8 +88,9 @@ const AddToCartComponent = () => {
                         width: "50px",
                         height: "50px",
                         borderRadius: "4px",
-                        px: 1,
+                        px: 2,
                       }}
+                      value={1}
                     ></InputBase>
                     <IconButton
                       sx={{
@@ -182,7 +183,11 @@ const AddToCartComponent = () => {
                 </Link>
               </Box>
               <Box>
-                <Button variant="contained">Check Out</Button>
+                <Link href={"/checkout/test"} legacyBehavior>
+                  <a style={{ textDecoration: "none" }}>
+                    <Button variant="contained">Check Out</Button>
+                  </a>
+                </Link>
               </Box>
             </Box>
             <Divider />
