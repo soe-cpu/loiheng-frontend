@@ -142,7 +142,7 @@ const HomeComponent = () => {
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Featured Brarnd Store</Typography>
+              <Typography variant="h5">Hots & Sales & Promotion</Typography>
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
@@ -206,7 +206,7 @@ const HomeComponent = () => {
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Featured Products</Typography>
+              <Typography variant="h5">Featured Brand Store</Typography>
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
