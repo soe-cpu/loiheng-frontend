@@ -27,14 +27,89 @@ import Link from "next/link";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { BsFacebook, BsMessenger } from "react-icons/bs";
 import { GrMail } from "react-icons/gr";
+import {
+  IoIosArrowDropleftCircle,
+  IoIosArrowDroprightCircle,
+} from "react-icons/io";
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+function NextArrow(props: any) {
+  const { style, onClick } = props;
+  return (
+    <div style={{ ...style, display: "block" }} onClick={onClick}>
+      <IoIosArrowDroprightCircle className="slick-arrow-icon-right" />
+    </div>
+  );
+}
+
+function PrevArrow(props: any) {
+  const { style, onClick } = props;
+  return (
+    <div
+      style={{ ...style, display: "block" }}
+      className="test"
+      onClick={onClick}
+    >
+      <IoIosArrowDropleftCircle className="slick-arrow-icon-left" />
+    </div>
+  );
+}
 
 const HomeComponent = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const homeSlide = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+  };
+  var productSlide = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    initialSlide: 0,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <Box sx={{ py: 2 }}>
       <Container maxWidth="lg">
-        <Swiper
+        {/* <Swiper
           spaceBetween={30}
           effect={"fade"}
           navigation={true}
@@ -74,7 +149,37 @@ const HomeComponent = () => {
               />
             </Box>
           </SwiperSlide>
-        </Swiper>
+        </Swiper> */}
+        <div>
+          <Slider {...homeSlide}>
+            <Box
+              sx={{
+                position: "relative",
+                width: "100%",
+                height: isMobile ? "250px" : "500px",
+              }}
+            >
+              <img
+                src="https://swiperjs.com/demos/images/nature-1.jpg"
+                alt={"Slider"}
+                style={{ width: "100%" }}
+              />
+            </Box>
+            <Box
+              sx={{
+                position: "relative",
+                width: "100%",
+                height: isMobile ? "250px" : "500px",
+              }}
+            >
+              <img
+                src="https://swiperjs.com/demos/images/nature-2.jpg"
+                alt={"Slider"}
+                style={{ width: "100%" }}
+              />
+            </Box>
+          </Slider>
+        </div>
         <Box sx={{ py: 4 }}>
           <Stack
             justifyContent={"space-between"}
@@ -155,52 +260,26 @@ const HomeComponent = () => {
             </Box>
           </Stack>
           <Box>
-            <Swiper
-              slidesPerView={2}
-              spaceBetween={10}
-              navigation={true}
-              breakpoints={{
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 10,
-                },
-              }}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
+            <Slider {...productSlide}>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-            </Swiper>
+              </Box>
+            </Slider>
           </Box>
         </Box>
         <Box sx={{ py: 4 }}>

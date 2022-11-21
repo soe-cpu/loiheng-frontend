@@ -97,7 +97,7 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
     backgroundColor: colors.blue[700],
   },
 }));
-const FavButton = styled(Button)<ButtonProps>(({ theme }) => ({
+const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
   color: colors.pink[500],
   borderRadius: "4px",
   border: `1px solid ${colors.pink[500]}`,
