@@ -94,7 +94,7 @@ body::-webkit-scrollbar {
 .slick-arrow-icon-right {
   position: absolute;
   cursor: pointer;
-  color: black;
+  color: #2196f3;
   top: 50%;
   -webkit-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
@@ -115,7 +115,7 @@ body::-webkit-scrollbar {
   right: -50px;
 }
 
-.slick-arrow-icon-right:hover {
+/* .slick-arrow-icon-right:hover {
   background: #fff !important;
   color: #fff !important;
-}
+} */

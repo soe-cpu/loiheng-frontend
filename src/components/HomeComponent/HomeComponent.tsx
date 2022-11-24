@@ -10,18 +10,7 @@ import {
   useTheme,
   Tooltip,
 } from "@mui/material";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
-// import required modules
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
-import Image from "next/image";
 import ProductCard from "@common/ProductCard";
 import Link from "next/link";
 import { AiFillTwitterCircle } from "react-icons/ai";
@@ -65,18 +54,18 @@ const HomeComponent = () => {
     dots: false,
     infinite: true,
     speed: 500,
+    fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
   var productSlide = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 5,
-    initialSlide: 0,
+    swipeToSlide: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
@@ -84,7 +73,6 @@ const HomeComponent = () => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
           infinite: true,
           dots: true,
         },
@@ -93,7 +81,6 @@ const HomeComponent = () => {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 2,
           initialSlide: 2,
         },
       },
@@ -101,7 +88,6 @@ const HomeComponent = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
         },
       },
     ],
@@ -196,52 +182,26 @@ const HomeComponent = () => {
             </Box>
           </Stack>
           <Box>
-            <Swiper
-              slidesPerView={2}
-              spaceBetween={10}
-              navigation={true}
-              breakpoints={{
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 10,
-                },
-              }}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
+            <Slider {...productSlide}>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-            </Swiper>
+              </Box>
+            </Slider>
           </Box>
         </Box>
         <Box sx={{ py: 4 }}>
@@ -298,52 +258,26 @@ const HomeComponent = () => {
             </Box>
           </Stack>
           <Box>
-            <Swiper
-              slidesPerView={2}
-              spaceBetween={10}
-              navigation={true}
-              breakpoints={{
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 10,
-                },
-              }}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
+            <Slider {...productSlide}>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
+              </Box>
+              <Box sx={{ pr: 1 }}>
                 <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ProductCard />
-              </SwiperSlide>
-            </Swiper>
+              </Box>
+            </Slider>
           </Box>
         </Box>
         <Box sx={{ py: 4 }}>

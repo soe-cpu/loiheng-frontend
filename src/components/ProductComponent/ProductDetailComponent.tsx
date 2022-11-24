@@ -21,7 +21,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoLocation } from "react-icons/go";
 import { BsTruck, BsCash, BsShare } from "react-icons/bs";
 import { FiRotateCcw } from "react-icons/fi";
@@ -31,26 +31,10 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ProductCard from "@common/ProductCard";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, type Swiper as SwiperRef } from "swiper";
+import Slider from "react-slick";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/free-mode";
-import "swiper/css/thumbs";
-
-// import required modules
-import {
-  Autoplay,
-  EffectFade,
-  Navigation,
-  Pagination,
-  FreeMode,
-  Thumbs,
-} from "swiper";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // Tab start //
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -105,161 +89,119 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ProductDetailComponent = () => {
   const [value, setValue] = React.useState(0);
+  // const [nav1, setNav1] = React.useState<null | undefined>();
+  // const [nav2, setNav2] = React.useState<null | undefined>();
+  // let slider1: any = [];
+  // let slider2: any = [];
+
+  // useEffect(() => {
+  //   setNav1(slider1);
+  //   setNav2(slider2);
+  // }, [slider1, slider2]);
+  const slider1 = useRef(null);
+  const slider2 = useRef(null);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const swiperRef = useRef<SwiperRef>();
 
   return (
     <Box sx={{ py: 4 }}>
       <Container maxWidth={"lg"}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
-            <Swiper
-              loop={true}
-              spaceBetween={10}
-              navigation={true}
-              thumbs={{ swiper: thumbsSwiper }}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper2"
-            >
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-1.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-2.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-3.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-4.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-5.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-6.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-7.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-8.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-9.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-10.jpg"
-                  style={{ maxHeight: "250px", width: "100%" }}
-                />
-              </SwiperSlide>
-            </Swiper>
-            <Swiper
-              onSwiper={(swiper) => {
-                swiperRef.current = swiper;
-              }}
-              loop={true}
-              spaceBetween={10}
-              slidesPerView={4}
-              freeMode={true}
-              watchSlidesProgress={true}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-1.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-2.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-3.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-4.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-5.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-6.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-7.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-8.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-9.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="https://swiperjs.com/demos/images/nature-10.jpg"
-                  style={{ height: "100px", width: "100%" }}
-                />
-              </SwiperSlide>
-            </Swiper>
+            <div>
+              <Slider asNavFor={slider2.current} ref={slider1}>
+                <div>
+                  <img
+                    src="/test/1.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"300px"}
+                  />
+                </div>
+                <div>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"300px"}
+                  />
+                </div>
+                <div>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"300px"}
+                  />
+                </div>
+                <div>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"300px"}
+                  />
+                </div>
+                <div>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"300px"}
+                  />
+                </div>
+              </Slider>
+              <Slider
+                asNavFor={slider1.current}
+                ref={slider2}
+                slidesToShow={5}
+                swipeToSlide={true}
+                focusOnSelect={true}
+              >
+                <Box sx={{ pr: 1 }}>
+                  <img
+                    src="/test/1.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"60px"}
+                  />
+                </Box>
+                <Box sx={{ pr: 1 }}>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"60px"}
+                  />
+                </Box>
+                <Box sx={{ pr: 1 }}>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"60px"}
+                  />
+                </Box>
+                <Box sx={{ pr: 1 }}>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"60px"}
+                  />
+                </Box>
+                <Box sx={{ pr: 1 }}>
+                  <img
+                    src="/test/3.jpg"
+                    alt=""
+                    width={"100%"}
+                    height={"60px"}
+                  />
+                </Box>
+              </Slider>
+            </div>
           </Grid>
           <Grid item xs={12} md={6} lg={5}>
             <Stack>
@@ -589,7 +531,7 @@ const ProductDetailComponent = () => {
         <Box>
           <Typography variant="h5">You may also like</Typography>
           <Box sx={{ py: 2 }}>
-            <Swiper
+            {/* <Swiper
               slidesPerView={2}
               spaceBetween={10}
               navigation={true}
@@ -634,7 +576,7 @@ const ProductDetailComponent = () => {
               <SwiperSlide>
                 <ProductCard />
               </SwiperSlide>
-            </Swiper>
+            </Swiper> */}
           </Box>
         </Box>
       </Container>

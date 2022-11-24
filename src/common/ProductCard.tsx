@@ -20,6 +20,7 @@ const ProductCard = () => {
         p: 1,
         borderRadius: "4px",
         "&:hover": {
+          transition: "0.8s",
           border: `1px solid ${colors.blue[500]}`,
         },
       }}
@@ -98,12 +99,12 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
   },
 }));
 const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
-  color: colors.pink[500],
+  color: colors.blue[500],
   borderRadius: "4px",
-  border: `1px solid ${colors.pink[500]}`,
+  border: `1px solid ${colors.blue[500]}`,
   "&:hover": {
     color: "#fff",
-    backgroundColor: colors.pink[700],
+    backgroundColor: colors.blue[700],
   },
 }));
 
