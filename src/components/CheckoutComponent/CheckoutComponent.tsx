@@ -167,7 +167,18 @@ const CheckoutComponent = () => {
               <Button variant="outlined" onClick={() => router.back()}>
                 Back
               </Button>
-              <Button variant="contained">Continue</Button>
+              <Button
+                sx={{
+                  boxShadow: "0px",
+                  backgroundColor: colors.blue[500],
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: colors.blue[700],
+                  },
+                }}
+              >
+                Continue
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>

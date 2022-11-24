@@ -139,7 +139,18 @@ const AddToCartComponent = () => {
                 sx={{ border: `1px solid ${colors.grey[300]}` }}
                 fullWidth
               ></InputBase>
-              <Button variant="contained">Apply</Button>
+              <Button
+                sx={{
+                  boxShadow: "0px",
+                  backgroundColor: colors.blue[500],
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: colors.blue[700],
+                  },
+                }}
+              >
+                Apply
+              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -185,7 +196,19 @@ const AddToCartComponent = () => {
               <Box>
                 <Link href={"/checkout/test"} legacyBehavior>
                   <a style={{ textDecoration: "none" }}>
-                    <Button variant="contained">Check Out</Button>
+                    <Button
+                      sx={{
+                        boxShadow: "0px",
+                        backgroundColor: colors.blue[500],
+                        color: "#fff",
+                        "&:hover": {
+                          backgroundColor: colors.blue[700],
+                        },
+                      }}
+                      fullWidth
+                    >
+                      Checkout
+                    </Button>
                   </a>
                 </Link>
               </Box>

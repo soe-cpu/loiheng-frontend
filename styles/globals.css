@@ -89,3 +89,33 @@ body::-webkit-scrollbar {
     transform: rotate(1turn);
   }
 }
+
+.slick-arrow-icon-left,
+.slick-arrow-icon-right {
+  position: absolute;
+  cursor: pointer;
+  color: #2196f3;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  padding: 0;
+  border: none;
+  outline: none;
+  transition: 0.5s ease-in-out;
+  display: block;
+  font-size: 40px;
+}
+
+.slick-arrow-icon-left {
+  left: -50px;
+}
+
+.slick-arrow-icon-right {
+  right: -50px;
+}
+
+/* .slick-arrow-icon-right:hover {
+  background: #fff !important;
+  color: #fff !important;
+} */
