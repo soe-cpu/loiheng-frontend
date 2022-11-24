@@ -288,8 +288,30 @@ const ProductDetailComponent = () => {
                 </Box>
               </Box>
               <Box sx={{ display: "flex", gap: 2 }}>
-                <Button variant="contained">Add to Cart</Button>
-                <Button variant="contained">Buy Now</Button>
+                <Button
+                  sx={{
+                    boxShadow: "0px",
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: colors.blue[700],
+                    },
+                  }}
+                >
+                  Add to cart
+                </Button>
+                <Button
+                  sx={{
+                    boxShadow: "0px",
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: colors.blue[700],
+                    },
+                  }}
+                >
+                  Buy Now
+                </Button>
               </Box>
             </Stack>
           </Grid>
