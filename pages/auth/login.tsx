@@ -17,13 +17,15 @@ import {
 	useTheme,
 } from "@mui/material";
 import Head from "next/head";
-import React from "react";
+import React, { useRef } from "react";
 import { ReactElement } from "react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Login = () => {
 	const [showPassword, setShowPassword] = React.useState(false);
@@ -38,6 +40,27 @@ const Login = () => {
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+	const router = useRouter();
+
+	// refs
+	const emailRef = useRef<HTMLInputElement>(null);
+	const passwordRef = useRef<HTMLInputElement>(null);
+
+	const login = () => {
+		const email = emailRef.current?.value;
+		const password = passwordRef.current?.value;
+
+		if (email && password)
+			signIn("credentials", {
+				email,
+				password,
+				// redirect: true,
+				callbackUrl: router.query?.callbackUrl as string,
+			});
+		else if (!email) emailRef.current?.focus();
+		else if (!password) passwordRef.current?.focus();
+	};
+
 	return (
 		<Box>
 			<Head>
@@ -67,8 +90,8 @@ const Login = () => {
 							alignItems: "center",
 						}}
 					>
-						<Box>
-							<img src="/logo-only.png" alt="" />
+						<Box sx={{ position: "relative", width: 110, height: 100 }}>
+							<Image fill src="/logo-only.png" alt="" />
 						</Box>
 						<Typography variant="h5">Loi Heng International</Typography>
 						<Box
@@ -85,11 +108,13 @@ const Login = () => {
 								id="outlined-basic"
 								label="Email or Phone"
 								variant="outlined"
+								inputRef={emailRef}
 							/>
 							<TextField
 								type={showPassword ? "text" : "password"}
 								label="Password"
 								id="fullWidth"
+								inputRef={passwordRef}
 								InputProps={{
 									endAdornment: (
 										<InputAdornment position="end">
@@ -128,19 +153,7 @@ const Login = () => {
 					</Box>
 					<Box sx={{ display: "flex", justifyContent: "center" }}>
 						<Box sx={{ width: "300px" }}>
-							<Button
-								variant={"contained"}
-								onClick={() => {
-									signIn("credentials", {
-										email: "heinkozin@gmail.com",
-										password: "password",
-										redirect: false,
-									}).then((data) => {
-										console.log(data);
-									});
-								}}
-								fullWidth
-							>
+							<Button variant={"contained"} onClick={() => login()} fullWidth>
 								Login
 							</Button>
 						</Box>

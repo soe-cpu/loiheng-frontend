@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import type { NextAuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { use } from "react";
 
 export interface UserLoginSuccessInterface {
 	success: boolean;
@@ -36,6 +37,32 @@ export interface UserLoginFailedInterface {
 	message: string;
 }
 
+export interface Me {
+	success: boolean;
+	data: CurrentUser;
+}
+
+export interface CurrentUser {
+	id: number;
+	fullname: string;
+	email: string;
+	email_verified_at: any;
+	phone_no: any;
+	is_admin: any;
+	is_active: any;
+	last_login: any;
+	role: any;
+	status: any;
+	dob: any;
+	gender: any;
+	profile_img: any;
+	provider: any;
+	provider_id: any;
+	provider_token: any;
+	created_at: string;
+	updated_at: string;
+}
+
 export const authOptions: NextAuthOptions = {
 	providers: [
 		CredentialProvider({
@@ -53,8 +80,6 @@ export const authOptions: NextAuthOptions = {
 				}).then((res) => res.json())) as
 					| UserLoginSuccessInterface
 					| UserLoginFailedInterface;
-
-				console.log(data);
 
 				if ("token" in data) {
 					return {
@@ -95,19 +120,19 @@ export const authOptions: NextAuthOptions = {
 				token.token = user.token;
 				token.user = user.user;
 			}
-			const data = await axios
-				.get(`${process.env.API_URL}user`, {
+			const data = (await axios
+				.get(`${process.env.API_URL}auth/me`, {
 					headers: {
 						Authorization: `${token.token}`,
 					},
 				})
-				.then((res) => res.data);
+				.then((res) => res.data)) as Me;
 
 			token.user = {
-				id: data.data.employee.id,
-				name: data.data.employee.name,
-				email: data.data.employee.email,
-				image: data.data.employee.img,
+				id: data.data.id,
+				name: data.data.fullname,
+				email: data.data.email,
+				image: data.data.profile_img,
 			};
 
 			return token;

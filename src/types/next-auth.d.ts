@@ -21,11 +21,12 @@ declare module "next-auth" {
 		token: string;
 		user: {
 			id?: number;
+			fullname?: string;
 			// user_type?: string;
-			role?: {
-				department?: string;
-				position?: string;
-			};
+			// role?: {
+			// 	department?: string;
+			// 	position?: string;
+			// };
 		};
 	}
 }
