@@ -16,15 +16,18 @@
     "@mui/material": "^5.10.12",
     "@mui/x-date-pickers": "^5.0.6",
     "@types/react-slick": "^0.23.10",
+    "axios": "^1.2.0",
     "dayjs": "^1.11.6",
     "moment": "^2.29.4",
     "next": "13.0.0",
+    "next-auth": "^4.17.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.6.0",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^8.4.4"
+    "swiper": "^8.4.4",
+    "zustand": "^4.1.4"
   },
   "devDependencies": {
     "@types/node": "18.11.7",
