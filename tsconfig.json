@@ -20,7 +20,9 @@
       "@layouts/*": ["src/layouts/*"],
       "@libs/*": ["src/libs/*"],
       "@stores/*": ["src/stores/*"],
-      "@common/*": ["src/common/*"]
+      "@common/*": ["src/common/*"],
+      "@atoms/*": ["src/atoms/*"],
+      "@apis/*": ["src/utils/apis/*"]
     },
     "typeRoots": ["@types"]
   },

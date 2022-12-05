@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Container,
@@ -24,6 +25,8 @@ import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import useAllHomePageBanner from "@apis/useAllHomePageBanner";
+import { GetHomePageBannerListResponse } from "@atoms/homePageBannerListAtom";
 
 function NextArrow(props: any) {
   const { style, onClick } = props;
@@ -92,78 +95,40 @@ const HomeComponent = () => {
       },
     ],
   };
+
+  const { data, error, isValidating } = useAllHomePageBanner();
+  const [banner, setBanner] =
+    React.useState<GetHomePageBannerListResponse["data"]>();
+
+  React.useEffect(() => {
+    if (data) {
+      setBanner(data.data);
+    }
+  }, [data, setBanner]);
+
   return (
     <Box sx={{ py: 2 }}>
       <Container maxWidth="lg">
-        {/* <Swiper
-          spaceBetween={30}
-          effect={"fade"}
-          navigation={true}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[EffectFade, Navigation, Pagination]}
-          className="mySwiper"
-        >
-          <SwiperSlide>
-            <Box
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: isMobile ? "250px" : "500px",
-              }}
-            >
-              <img
-                src="https://swiperjs.com/demos/images/nature-1.jpg"
-                alt={"Slider"}
-                style={{ width: "100%" }}
-              />
-            </Box>
-          </SwiperSlide>
-          <SwiperSlide>
-            <Box
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: isMobile ? "250px" : "500px",
-              }}
-            >
-              <img
-                src="https://swiperjs.com/demos/images/nature-2.jpg"
-                alt={"Slider"}
-                style={{ width: "100%" }}
-              />
-            </Box>
-          </SwiperSlide>
-        </Swiper> */}
         <div>
           <Slider {...homeSlide}>
-            <Box
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: isMobile ? "250px" : "500px",
-              }}
-            >
-              <img
-                src="https://swiperjs.com/demos/images/nature-1.jpg"
-                alt={"Slider"}
-                style={{ width: "100%" }}
-              />
-            </Box>
-            <Box
-              sx={{
-                position: "relative",
-                width: "100%",
-                height: isMobile ? "250px" : "500px",
-              }}
-            >
-              <img
-                src="https://swiperjs.com/demos/images/nature-2.jpg"
-                alt={"Slider"}
-                style={{ width: "100%" }}
-              />
-            </Box>
+            {banner?.banner_sliders.map((banner, index) => {
+              return (
+                <Box
+                  key={index}
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    height: isMobile ? "250px" : "500px",
+                  }}
+                >
+                  <img
+                    src={`http://localhost:8000${banner.image}`}
+                    alt={"Slider"}
+                    style={{ width: "100%" }}
+                  />
+                </Box>
+              );
+            })}
           </Slider>
         </div>
         <Box sx={{ py: 4 }}>
