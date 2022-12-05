@@ -96,6 +96,7 @@ const HomeComponent = () => {
     ],
   };
 
+  // const { data: session } = useSession();
   const { data, error, isValidating } = useAllHomePageBanner();
   const [banner, setBanner] =
     React.useState<GetHomePageBannerListResponse["data"]>();

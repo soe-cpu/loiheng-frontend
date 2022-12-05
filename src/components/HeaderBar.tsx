@@ -1,15 +1,15 @@
 import {
-	Badge,
-	Box,
-	colors,
-	Container,
-	IconButton,
-	InputBase,
-	Stack,
-	styled,
-	Typography,
-	useMediaQuery,
-	useTheme,
+  Badge,
+  Box,
+  colors,
+  Container,
+  IconButton,
+  InputBase,
+  Stack,
+  styled,
+  Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -21,81 +21,81 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 const HeaderBar = () => {
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-	return (
-		<Box sx={{ display: isMobile ? "none" : "block" }}>
-			<Container maxWidth="lg">
-				<Stack
-					direction={"row"}
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					sx={{ height: "100px" }}
-				>
-					<Box sx={{ position: "relative", maxWidth: "200px" }}>
-						<img src="/loi-heng-logo.png" alt={"Logo"} />
-					</Box>
-					<Box sx={{ display: "flex", alignItems: "center" }}>
-						<Search>
-							<SearchIconWrapper>
-								<SearchIcon sx={{ color: "gray" }} />
-							</SearchIconWrapper>
-							<StyledInputBase
-								placeholder="Search…"
-								inputProps={{ "aria-label": "search" }}
-							/>
-						</Search>
-					</Box>
-					<Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-						<Badge badgeContent={4} color="primary">
-							<FavoriteBorderOutlinedIcon color="action" />
-						</Badge>
-						<Badge badgeContent={4} color="primary">
-							<NotificationsNoneOutlinedIcon color="action" />
-						</Badge>
-						<Link href={"/addtocart"}>
-							<Badge badgeContent={4} color="primary">
-								<ShoppingCartOutlinedIcon color="action" />
-							</Badge>
-						</Link>
-						{}
-					</Box>
-				</Stack>
-			</Container>
-		</Box>
-	);
+  return (
+    <Box sx={{ display: isMobile ? "none" : "block" }}>
+      <Container maxWidth="lg">
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          sx={{ height: "100px" }}
+        >
+          <Box sx={{ position: "relative", maxWidth: "200px" }}>
+            <img src="/loi-heng-logo.png" alt={"Logo"} />
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon sx={{ color: "gray" }} />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </Box>
+          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <Badge badgeContent={4} color="primary">
+              <FavoriteBorderOutlinedIcon color="action" />
+            </Badge>
+            <Badge badgeContent={4} color="primary">
+              <NotificationsNoneOutlinedIcon color="action" />
+            </Badge>
+            <Link href={"/addtocart"}>
+              <Badge badgeContent={4} color="primary">
+                <ShoppingCartOutlinedIcon color="action" />
+              </Badge>
+            </Link>
+            {}
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
 };
 
 const Search = styled("div")(({ theme }) => ({
-	position: "relative",
-	borderRadius: theme.spacing(40),
-	backgroundColor: colors.grey[200],
-	"&:hover": {
-		backgroundColor: colors.grey[300],
-	},
-	width: "350px",
-	padding: theme.spacing(1, 0),
+  position: "relative",
+  borderRadius: theme.spacing(40),
+  backgroundColor: colors.grey[200],
+  "&:hover": {
+    backgroundColor: colors.grey[300],
+  },
+  width: "350px",
+  padding: theme.spacing(1, 0),
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
-	padding: theme.spacing(0, 0, 2, 2),
-	height: "100%",
-	position: "absolute",
-	pointerEvents: "none",
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
+  padding: theme.spacing(0, 0, 2, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-	color: "inherit",
-	fontWeight: theme.typography.fontWeightBold,
-	"& .MuiInputBase-input": {
-		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-		width: "100%",
-	},
+  color: "inherit",
+  fontWeight: theme.typography.fontWeightBold,
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    width: "100%",
+  },
 }));
 export default HeaderBar;
