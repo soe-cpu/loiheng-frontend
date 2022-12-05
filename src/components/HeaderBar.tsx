@@ -18,10 +18,12 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const HeaderBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box sx={{ display: isMobile ? "none" : "block" }}>
       <Container maxWidth="lg">
@@ -57,31 +59,7 @@ const HeaderBar = () => {
                 <ShoppingCartOutlinedIcon color="action" />
               </Badge>
             </Link>
-            <Box sx={{ display: "flex", gap: 1, ml: 1 }}>
-              <Link href={"/auth/login"} legacyBehavior>
-                <a
-                  style={{
-                    textDecoration: "none",
-                    fontWeight: 400,
-                    color: "#000",
-                  }}
-                >
-                  Login
-                </a>
-              </Link>
-              <span>|</span>
-              <Link href={"/auth/register"} legacyBehavior>
-                <a
-                  style={{
-                    textDecoration: "none",
-                    fontWeight: 400,
-                    color: "#000",
-                  }}
-                >
-                  Register
-                </a>
-              </Link>
-            </Box>
+            {}
           </Box>
         </Stack>
       </Container>
