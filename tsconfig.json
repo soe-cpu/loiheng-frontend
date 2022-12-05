@@ -1,35 +1,4 @@
 {
-<<<<<<< HEAD
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@libs/*": ["src/libs/*"],
-      "@stores/*": ["src/stores/*"],
-      "@common/*": ["src/common/*"],
-      "@atoms/*": ["src/atoms/*"],
-      "@apis/*": ["src/utils/apis/*"]
-    },
-    "typeRoots": ["@types"]
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-=======
 	"compilerOptions": {
 		"target": "es5",
 		"lib": ["dom", "dom.iterable", "esnext"],
@@ -52,11 +21,12 @@
 			"@libs/*": ["src/libs/*"],
 			"@stores/*": ["src/stores/*"],
 			"@common/*": ["src/common/*"],
-			"@types/*": ["src/types/*"]
+			"@types/*": ["src/types/*"],
+      "@atoms/*": ["src/atoms/*"],
+      "@apis/*": ["src/utils/apis/*"]
 		},
 		"typeRoots": ["@types"]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"]
->>>>>>> 0efa9afbb6caa319011b3ef8a67a472406fb60ff
 }
