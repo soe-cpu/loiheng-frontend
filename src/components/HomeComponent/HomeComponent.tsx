@@ -10,6 +10,7 @@ import {
   useMediaQuery,
   useTheme,
   Tooltip,
+  Skeleton,
 } from "@mui/material";
 
 import ProductCard from "@common/ProductCard";
@@ -161,7 +162,7 @@ const HomeComponent = () => {
       <Container maxWidth="lg">
         <div>
           <Slider {...homeSlide}>
-            {banner?.banner_sliders.map((banner, index) => {
+            {banner?.banner_sliders.map((ban, index) => {
               return (
                 <Box
                   key={index}
@@ -171,12 +172,22 @@ const HomeComponent = () => {
                     height: isMobile ? "250px" : "400px",
                   }}
                 >
-                  <Image
-                    loader={myLoader}
-                    src={banner.image}
-                    alt="Banner Slider"
-                    fill
-                  />
+                  {!ban.image ? (
+                    <Skeleton
+                      variant="rectangular"
+                      animation={"wave"}
+                      width={"100%"}
+                      height={"400px"}
+                    />
+                  ) : (
+                    <Image
+                      loader={myLoader}
+                      src={ban.image}
+                      alt="Banner Slider"
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                    />
+                  )}
                 </Box>
               );
             })}
@@ -275,12 +286,22 @@ const HomeComponent = () => {
                         p: 2,
                       }}
                     >
-                      <Image
-                        loader={myLoader}
-                        src={brand.picture}
-                        alt="Brand Image"
-                        fill
-                      />
+                      {!brand.picture ? (
+                        <Skeleton
+                          variant="rectangular"
+                          animation={"wave"}
+                          width={"100%"}
+                          height={"400px"}
+                        />
+                      ) : (
+                        <Image
+                          loader={myLoader}
+                          src={brand.picture}
+                          alt="Brand Image"
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      )}
                     </Box>
                   </Box>
                 );

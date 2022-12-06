@@ -54,6 +54,7 @@ const ProductCard = (props: ProductInterface) => {
               alt={"ProductImage"}
               fill
               loader={myLoader}
+              sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
             />
           </Box>
           <Typography
