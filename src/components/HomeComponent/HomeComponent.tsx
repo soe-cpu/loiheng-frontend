@@ -29,7 +29,11 @@ import useAllHomePageBanner from "@apis/useAllHomePageBanner";
 import { GetHomePageBannerListResponse } from "@atoms/homePageBannerListAtom";
 import Image from "next/image";
 import useAllNewArrivalProduct from "@apis/useAllNewArrivalProduct";
-import { GetNewArrivalProductListResponse } from "@atoms/newArrivalProductListAtom";
+import useAllBrand from "@apis/useAllBrand";
+import { GetBrandResponse } from "@atoms/brandListAtom";
+import { relative } from "path";
+import { GetProductListResponse } from "@atoms/productListAtom";
+import useAllFeatureProduct from "@apis/useAllFeatureProduct";
 
 function NextArrow(props: any) {
   const { style, onClick } = props;
@@ -104,17 +108,29 @@ const HomeComponent = () => {
   };
 
   const { data, error, isValidating } = useAllHomePageBanner();
-  const [banner, setBanner] =
-    React.useState<GetHomePageBannerListResponse["data"]>();
-
   const {
     data: newProductData,
     error: newProductError,
     isValidating: newProductIsValidating,
   } = useAllNewArrivalProduct();
+  const {
+    data: featureProductData,
+    error: featureProductError,
+    isValidating: featureProductIsValidating,
+  } = useAllFeatureProduct();
+  const {
+    data: brandData,
+    error: brandError,
+    isValidating: brandIsValidating,
+  } = useAllBrand();
 
+  const [banner, setBanner] =
+    React.useState<GetHomePageBannerListResponse["data"]>();
   const [newProduct, setNewProduct] =
-    React.useState<GetNewArrivalProductListResponse["data"]>();
+    React.useState<GetProductListResponse["data"]>();
+  const [featureProduct, setFeatureProduct] =
+    React.useState<GetProductListResponse["data"]>();
+  const [brand, setBrand] = React.useState<GetBrandResponse["data"]>();
 
   React.useEffect(() => {
     if (data) {
@@ -123,7 +139,22 @@ const HomeComponent = () => {
     if (newProductData) {
       setNewProduct(newProductData.data);
     }
-  }, [data, setBanner, newProductData, setNewProduct]);
+    if (featureProductData) {
+      setFeatureProduct(featureProductData.data);
+    }
+    if (brandData) {
+      setBrand(brandData.data);
+    }
+  }, [
+    data,
+    setBanner,
+    newProductData,
+    setNewProduct,
+    brandData,
+    setBrand,
+    featureProductData,
+    setFeatureProduct,
+  ]);
 
   return (
     <Box sx={{ py: 2 }}>
@@ -190,7 +221,7 @@ const HomeComponent = () => {
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Hots & Sales & Promotion</Typography>
+              <Typography variant="h5">Featured Products</Typography>
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
@@ -200,9 +231,18 @@ const HomeComponent = () => {
           </Stack>
           <Box>
             <Slider {...productSlide}>
-              {/* <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box> */}
+              {featureProduct?.products.map((featured, index) => {
+                return (
+                  <Box sx={{ pr: 1 }} key={index}>
+                    <ProductCard
+                      name={featured.name}
+                      price={featured.price}
+                      image={featured.cover_img}
+                      category={featured.category[0].name}
+                    />
+                  </Box>
+                );
+              })}
             </Slider>
           </Box>
         </Box>
@@ -223,9 +263,28 @@ const HomeComponent = () => {
           </Stack>
           <Box>
             <Slider {...productSlide}>
-              {/* <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box> */}
+              {brand?.brands.map((brand, index) => {
+                return (
+                  <Box sx={{ pr: 1 }} key={index}>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "120px",
+                        position: "relative",
+                        border: `1px solid ${colors.grey[300]}`,
+                        p: 2,
+                      }}
+                    >
+                      <Image
+                        loader={myLoader}
+                        src={brand.picture}
+                        alt="Brand Image"
+                        fill
+                      />
+                    </Box>
+                  </Box>
+                );
+              })}
             </Slider>
           </Box>
         </Box>

@@ -1,11 +1,11 @@
-export interface GetNewArrivalProductListResponse {
+export interface GetProductListResponse {
   success: boolean;
-  data: AllNewArrivalProductList;
+  data: AllProductList;
   message: string;
   status: number;
 }
 
-export interface AllNewArrivalProductList {
+export interface AllProductList {
   products: Product[];
   pagination: Pagination;
 }

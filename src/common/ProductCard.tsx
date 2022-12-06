@@ -43,6 +43,10 @@ const ProductCard = (props: ProductInterface) => {
               position: "relative",
               width: "100%",
               height: "180px",
+              transition: "transform 0.3s",
+              "&:hover": {
+                transform: " scale(1.05)",
+              },
             }}
           >
             <Image
