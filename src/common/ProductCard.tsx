@@ -12,7 +12,18 @@ import React from "react";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Link from "next/link";
 
-const ProductCard = () => {
+interface ProductInterface {
+  image: string;
+  name: string;
+  price: string;
+  category: string;
+}
+
+const myLoader = ({ src, width, quality }: any) => {
+  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
+};
+
+const ProductCard = (props: ProductInterface) => {
   return (
     <Box
       sx={{
@@ -27,8 +38,23 @@ const ProductCard = () => {
     >
       <Link href={"/product/test"} legacyBehavior>
         <StyledLink>
-          <Box maxHeight={"180px"}>
-            <ProductImage src="/bg1.png" alt={"ProductImage"} />
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: "180px",
+              transition: "transform 0.3s",
+              "&:hover": {
+                transform: " scale(1.05)",
+              },
+            }}
+          >
+            <Image
+              src={props.image}
+              alt={"ProductImage"}
+              fill
+              loader={myLoader}
+            />
           </Box>
           <Typography
             sx={{
@@ -39,7 +65,7 @@ const ProductCard = () => {
               py: 1,
             }}
           >
-            Access Point
+            {props.category}
           </Typography>
           <Typography
             sx={{
@@ -54,8 +80,7 @@ const ProductCard = () => {
               WebkitBoxOrient: "vertical",
             }}
           >
-            Parabolic 5 GHz dish antenna with precision alignment mount mANT30
-            PA, 4 pack (MTAD-5G-30D3-4PA)
+            {props.name}
           </Typography>
           <Typography
             sx={{
@@ -66,7 +91,7 @@ const ProductCard = () => {
               fontWeight: 500,
             }}
           >
-            Ks 130,000
+            $ {props.price}
           </Typography>
         </StyledLink>
       </Link>
@@ -80,16 +105,14 @@ const ProductCard = () => {
   );
 };
 
-const ProductImage = styled("img")(({ theme }) => ({
-  width: "100%",
-  objectFit: "cover",
-  transition: "transform 0.3s",
-  "&:hover": {
-    transform: " scale(1.1)",
-  },
-
-  // box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2) !important;
-}));
+// const ProductImage = styled("img")(({ theme }) => ({
+//   width: "100%",
+//   objectFit: "cover",
+//   transition: "transform 0.3s",
+//   "&:hover": {
+//     transform: " scale(1.1)",
+//   },
+// }));
 const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.getContrastText(colors.blue[500]),
   width: "100%",
