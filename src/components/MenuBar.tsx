@@ -5,11 +5,13 @@ import {
   colors,
   Container,
   Drawer,
+  Grid,
   IconButton,
   InputBase,
   Stack,
   styled,
   Toolbar,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -60,8 +62,39 @@ const MenuBar = () => {
                 <MenuLink>HOME</MenuLink>
               </Link>
             </Box>
-            <Box>
+            <Box
+              sx={{
+                position: "relative",
+                display: "inline-block",
+                "&:hover": {
+                  "& .drop": {
+                    display: "block",
+                  },
+                },
+              }}
+            >
               <MenuLink>PRODUCT</MenuLink>
+              <Box
+                className="drop"
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "#fff",
+                  position: "absolute",
+                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
+                  zIndex: 1,
+                  display: "none",
+                  p: 2,
+                }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={3}>
+                    <Link href={"/"} legacyBehavior>
+                      <a>Hi</a>
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
             </Box>
             <Box>
               <MenuLink>DEALS & PROMOTION</MenuLink>
