@@ -89,15 +89,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ProductDetailComponent = () => {
   const [value, setValue] = React.useState(0);
-  // const [nav1, setNav1] = React.useState<null | undefined>();
-  // const [nav2, setNav2] = React.useState<null | undefined>();
-  // let slider1: any = [];
-  // let slider2: any = [];
-
-  // useEffect(() => {
-  //   setNav1(slider1);
-  //   setNav2(slider2);
-  // }, [slider1, slider2]);
   const slider1 = useRef(null);
   const slider2 = useRef(null);
 
@@ -110,7 +101,7 @@ const ProductDetailComponent = () => {
       <Container maxWidth={"lg"}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
-            <div>
+            {/* <div>
               <Slider asNavFor={slider2.current} ref={slider1}>
                 <div>
                   <img
@@ -201,7 +192,7 @@ const ProductDetailComponent = () => {
                   />
                 </Box>
               </Slider>
-            </div>
+            </div> */}
           </Grid>
           <Grid item xs={12} md={6} lg={5}>
             <Stack>

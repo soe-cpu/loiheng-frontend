@@ -2,10 +2,10 @@ import { GetHomePageBannerListResponse } from "@atoms/homePageBannerListAtom";
 import useSWR from "swr";
 import fetcher from "../fetcher";
 
-const useAllHomePageBanner = (token?: string) => {
+const useAllHomePageBanner = () => {
   const url = process.env.API_URL;
   const res = useSWR<GetHomePageBannerListResponse>(
-    [`${url}home-page-banner-image`, token],
+    [`${url}home-page-banner-image`],
     fetcher
   );
   return res;

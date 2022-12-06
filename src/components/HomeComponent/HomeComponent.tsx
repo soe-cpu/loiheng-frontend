@@ -27,6 +27,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import useAllHomePageBanner from "@apis/useAllHomePageBanner";
 import { GetHomePageBannerListResponse } from "@atoms/homePageBannerListAtom";
+import Image from "next/image";
+import useAllNewArrivalProduct from "@apis/useAllNewArrivalProduct";
+import useAllBrand from "@apis/useAllBrand";
+import { GetBrandResponse } from "@atoms/brandListAtom";
+import { relative } from "path";
+import { GetProductListResponse } from "@atoms/productListAtom";
+import useAllFeatureProduct from "@apis/useAllFeatureProduct";
 
 function NextArrow(props: any) {
   const { style, onClick } = props;
@@ -50,6 +57,10 @@ function PrevArrow(props: any) {
   );
 }
 
+const myLoader = ({ src, width, quality }: any) => {
+  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
+};
+
 const HomeComponent = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -61,7 +72,7 @@ const HomeComponent = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
   };
   var productSlide = {
     dots: false,
@@ -96,16 +107,54 @@ const HomeComponent = () => {
     ],
   };
 
-  // const { data: session } = useSession();
   const { data, error, isValidating } = useAllHomePageBanner();
+  const {
+    data: newProductData,
+    error: newProductError,
+    isValidating: newProductIsValidating,
+  } = useAllNewArrivalProduct();
+  const {
+    data: featureProductData,
+    error: featureProductError,
+    isValidating: featureProductIsValidating,
+  } = useAllFeatureProduct();
+  const {
+    data: brandData,
+    error: brandError,
+    isValidating: brandIsValidating,
+  } = useAllBrand();
+
   const [banner, setBanner] =
     React.useState<GetHomePageBannerListResponse["data"]>();
+  const [newProduct, setNewProduct] =
+    React.useState<GetProductListResponse["data"]>();
+  const [featureProduct, setFeatureProduct] =
+    React.useState<GetProductListResponse["data"]>();
+  const [brand, setBrand] = React.useState<GetBrandResponse["data"]>();
 
   React.useEffect(() => {
     if (data) {
       setBanner(data.data);
     }
-  }, [data, setBanner]);
+    if (newProductData) {
+      setNewProduct(newProductData.data);
+    }
+    if (featureProductData) {
+      setFeatureProduct(featureProductData.data);
+    }
+    if (brandData) {
+      setBrand(brandData.data);
+    }
+  }, [
+    data,
+    setBanner,
+    newProductData,
+    setNewProduct,
+    brandData,
+    setBrand,
+    featureProductData,
+    setFeatureProduct,
+  ]);
 
   return (
     <Box sx={{ py: 2 }}>
@@ -119,13 +168,14 @@ const HomeComponent = () => {
                   sx={{
                     position: "relative",
                     width: "100%",
-                    height: isMobile ? "250px" : "500px",
+                    height: isMobile ? "250px" : "400px",
                   }}
                 >
-                  <img
-                    src={`http://localhost:8000${banner.image}`}
-                    alt={"Slider"}
-                    style={{ width: "100%" }}
+                  <Image
+                    loader={myLoader}
+                    src={banner.image}
+                    alt="Banner Slider"
+                    fill
                   />
                 </Box>
               );
@@ -149,24 +199,18 @@ const HomeComponent = () => {
           </Stack>
           <Box>
             <Slider {...productSlide}>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
+              {newProduct?.products.map((product, index) => {
+                return (
+                  <Box sx={{ pr: 1 }} key={index}>
+                    <ProductCard
+                      name={product.name}
+                      price={product.price}
+                      image={product.cover_img}
+                      category={product.category[0].name}
+                    />
+                  </Box>
+                );
+              })}
             </Slider>
           </Box>
         </Box>
@@ -177,7 +221,7 @@ const HomeComponent = () => {
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Hots & Sales & Promotion</Typography>
+              <Typography variant="h5">Featured Products</Typography>
             </Box>
             <Box>
               <Link href={"/"} legacyBehavior>
@@ -187,24 +231,18 @@ const HomeComponent = () => {
           </Stack>
           <Box>
             <Slider {...productSlide}>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
+              {featureProduct?.products.map((featured, index) => {
+                return (
+                  <Box sx={{ pr: 1 }} key={index}>
+                    <ProductCard
+                      name={featured.name}
+                      price={featured.price}
+                      image={featured.cover_img}
+                      category={featured.category[0].name}
+                    />
+                  </Box>
+                );
+              })}
             </Slider>
           </Box>
         </Box>
@@ -225,24 +263,28 @@ const HomeComponent = () => {
           </Stack>
           <Box>
             <Slider {...productSlide}>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
-              <Box sx={{ pr: 1 }}>
-                <ProductCard />
-              </Box>
+              {brand?.brands.map((brand, index) => {
+                return (
+                  <Box sx={{ pr: 1 }} key={index}>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "120px",
+                        position: "relative",
+                        border: `1px solid ${colors.grey[300]}`,
+                        p: 2,
+                      }}
+                    >
+                      <Image
+                        loader={myLoader}
+                        src={brand.picture}
+                        alt="Brand Image"
+                        fill
+                      />
+                    </Box>
+                  </Box>
+                );
+              })}
             </Slider>
           </Box>
         </Box>
