@@ -1,11 +1,5 @@
-const fetcher = async (
-  url: RequestInfo,
-  token: RequestInit,
-  ...args: any[]
-) => {
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+const fetcher = async (url: RequestInfo, ...args: any[]) => {
+  const res = await fetch(url);
   return res.json();
 };
 
