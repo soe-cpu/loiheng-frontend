@@ -113,7 +113,9 @@ const Footer = () => {
           justifyContent: "center",
         }}
       >
-        <Typography>LoiHeng © 2022 | Developed by Clever Scale.</Typography>
+        <Typography>
+          LoiHeng © 2022 | Developed by LoiHeng Development.
+        </Typography>
       </Box>
     </Box>
   );
