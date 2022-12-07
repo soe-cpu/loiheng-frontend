@@ -158,7 +158,7 @@ const HomeComponent = () => {
   ]);
 
   return (
-    <Box sx={{ py: 2 }}>
+    <Box sx={{ py: 1 }}>
       <Container maxWidth="lg">
         <div>
           <Slider {...homeSlide}>
@@ -203,7 +203,7 @@ const HomeComponent = () => {
               <Typography variant="h5">New Arrivals</Typography>
             </Box>
             <Box>
-              <Link href={"/"} legacyBehavior>
+              <Link href={"/new-arrivals"} legacyBehavior>
                 <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
@@ -235,7 +235,7 @@ const HomeComponent = () => {
               <Typography variant="h5">Featured Products</Typography>
             </Box>
             <Box>
-              <Link href={"/"} legacyBehavior>
+              <Link href={"/featured-products"} legacyBehavior>
                 <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
@@ -267,7 +267,7 @@ const HomeComponent = () => {
               <Typography variant="h5">Featured Brand Store</Typography>
             </Box>
             <Box>
-              <Link href={"/"} legacyBehavior>
+              <Link href={"/brands"} legacyBehavior>
                 <ViewAllLink>View all</ViewAllLink>
               </Link>
             </Box>
@@ -328,8 +328,14 @@ const HomeComponent = () => {
           >
             <Grid container spacing={16}>
               <Grid item xs={12} md={6}>
-                <Box>
-                  <img src="/ec.gif" alt="" />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <Image src={"/ec.gif"} alt={"logo"} fill />
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
