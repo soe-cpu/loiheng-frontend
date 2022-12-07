@@ -221,7 +221,7 @@ const Offset = styled(Toolbar)(({ theme }) => ({
 const MenuLink = styled("a")(({ theme }) => ({
   color: "#fff",
   textDecoration: "none",
-  fontWeight: 400,
+  fontWeight: 500,
   cursor: "pointer",
 }));
 
