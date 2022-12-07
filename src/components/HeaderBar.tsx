@@ -19,6 +19,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Logo from "loi-heng-log.png";
 
 const HeaderBar = () => {
   const theme = useTheme();
@@ -33,9 +34,11 @@ const HeaderBar = () => {
           alignItems={"center"}
           sx={{ height: "100px" }}
         >
-          <Box sx={{ position: "relative", maxWidth: "200px" }}>
-            <img src="/loi-heng-logo.png" alt={"Logo"} />
-          </Box>
+          <Link href={"/"}>
+            <Box sx={{ position: "relative", width: "200px", height: "50px" }}>
+              <Image src={"/loi-heng-logo.png"} alt={"logo"} fill />
+            </Box>
+          </Link>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Search>
               <SearchIconWrapper>

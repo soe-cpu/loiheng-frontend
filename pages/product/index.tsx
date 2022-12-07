@@ -1,3 +1,4 @@
+import { ProductComponent } from "@components/ProductComponent";
 import MainLayout from "@layouts/MainLayout";
 import { Box } from "@mui/material";
 import Head from "next/head";
@@ -11,7 +12,7 @@ const Product = () => {
         <meta name="description" content="Loi Heng Product" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      Product
+      <ProductComponent />
     </Box>
   );
 };
