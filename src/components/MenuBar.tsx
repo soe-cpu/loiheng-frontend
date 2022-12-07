@@ -21,6 +21,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
+import { NextRouter, useRouter } from "next/router";
 
 const MenuBar = () => {
   const theme = useTheme();
@@ -144,7 +145,7 @@ const MenuBar = () => {
                     <Box
                       sx={{
                         position: "relative",
-                        width: "200px",
+                        width: "160px",
                         height: "40px",
                       }}
                     >
@@ -187,28 +188,28 @@ const MenuBar = () => {
           }}
         >
           <Link href={"/"} legacyBehavior>
-            <StyledMenuLink>Home</StyledMenuLink>
+            <StyledMenuLink path="/">Home</StyledMenuLink>
           </Link>
-          <Link href={"/"} legacyBehavior>
-            <StyledMenuLink>PRODUCT</StyledMenuLink>
+          <Link href={"/product"} legacyBehavior>
+            <StyledMenuLink path="/product">PRODUCT</StyledMenuLink>
           </Link>
-          <Link href={"/"} legacyBehavior>
-            <StyledMenuLink>DEALS & PROMOTION</StyledMenuLink>
+          <Link href={"/product"} legacyBehavior>
+            <StyledMenuLink path="/product">DEALS & PROMOTION</StyledMenuLink>
           </Link>
           <Link href={"/about-us"} legacyBehavior>
-            <StyledMenuLink>ABOUT US</StyledMenuLink>
+            <StyledMenuLink path="/about-us">ABOUT US</StyledMenuLink>
           </Link>
           <Link href={"/contact-us"} legacyBehavior>
-            <StyledMenuLink>CONTACT US</StyledMenuLink>
+            <StyledMenuLink path="/contact-us">CONTACT US</StyledMenuLink>
           </Link>
-          <Link href={"/"} legacyBehavior>
-            <StyledMenuLink>RMA</StyledMenuLink>
+          <Link href={"/rma"} legacyBehavior>
+            <StyledMenuLink path="/rma">RMA</StyledMenuLink>
           </Link>
           <Link href={"/auth/login"} legacyBehavior>
-            <StyledMenuLink>Login</StyledMenuLink>
+            <StyledMenuLink path="/auth/login">Login</StyledMenuLink>
           </Link>
           <Link href={"/auth/register"} legacyBehavior>
-            <StyledMenuLink>Register</StyledMenuLink>
+            <StyledMenuLink path="/auth/register">Register</StyledMenuLink>
           </Link>
         </Box>
       </Drawer>
@@ -255,21 +256,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const StyledMenuLink = styled("a")(({ theme }) => ({
-  backgroundColor: colors.blue[100],
+const StyledMenuLink = styled("a")<{
+  path: string;
+  router?: NextRouter;
+}>(({ theme, path, router = useRouter() }) => ({
+  backgroundColor: router.pathname === path ? colors.blue[500] : "",
   width: "200px",
   fontWeight: 600,
   textDecoration: "none",
-  color: colors.blue[700],
-  borderRadius: "4px",
+  color: router.pathname === path ? "#fff" : "#000",
+  borderRadius: theme.spacing(4),
   border: `0px`,
   padding: "10px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   cursor: "pointer",
+  transition: "0.3s",
   "&:hover": {
-    backgroundColor: colors.blue[200],
+    backgroundColor: colors.blue[500],
+    color: "#fff",
   },
 }));
 export default MenuBar;
