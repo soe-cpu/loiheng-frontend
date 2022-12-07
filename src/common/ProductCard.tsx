@@ -124,11 +124,12 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
 }));
 const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
   color: colors.blue[500],
-  borderRadius: "4px",
+  borderRadius: "50%",
   border: `1px solid ${colors.blue[500]}`,
+  transition: "0.3s",
   "&:hover": {
     color: "#fff",
-    backgroundColor: colors.blue[700],
+    backgroundColor: colors.blue[500],
   },
 }));
 
