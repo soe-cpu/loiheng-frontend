@@ -16,7 +16,11 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
+import Image from "next/image";
 
+const myLoader = ({ src, width, quality }: any) => {
+  return `${src}?q=${quality || 75}`;
+};
 const AddToCartComponent = () => {
   return (
     <Box sx={{ py: 2 }}>
@@ -37,13 +41,19 @@ const AddToCartComponent = () => {
                     alignItems: "center",
                   }}
                 >
-                  <Box>
-                    <img
-                      src="/bg2.png"
-                      alt={"Product"}
-                      width={"120px"}
-                      height={"120px"}
-                      style={{ objectFit: "cover" }}
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "120px",
+                      height: "120px",
+                    }}
+                  >
+                    <Image
+                      src={"/bg2.png"}
+                      alt="Add to cart Img"
+                      loader={myLoader}
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                     />
                   </Box>
                   <Box>
@@ -235,7 +245,21 @@ const AddToCartComponent = () => {
                   borderRight: `1px solid ${colors.grey[300]}`,
                 }}
               >
-                <img src="/cart.gif" alt="" width={"70px"} height={"70px"} />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "70px",
+                    height: "70px",
+                  }}
+                >
+                  <Image
+                    src={"/cart.gif"}
+                    alt="Cart Gif"
+                    loader={myLoader}
+                    fill
+                    sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  />
+                </Box>
                 <Box>
                   <Typography variant="h6">Add to Cart</Typography>
                   <Typography variant="caption">Add your products.</Typography>
@@ -251,7 +275,21 @@ const AddToCartComponent = () => {
                   borderRight: `1px solid ${colors.grey[300]}`,
                 }}
               >
-                <img src="/payment.gif" alt="" width={"70px"} height={"70px"} />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "70px",
+                    height: "70px",
+                  }}
+                >
+                  <Image
+                    src={"/payment.gif"}
+                    alt="Payment Gif"
+                    loader={myLoader}
+                    fill
+                    sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  />
+                </Box>
                 <Box>
                   <Typography variant="h6">Payment</Typography>
                   <Typography variant="caption">
@@ -269,12 +307,21 @@ const AddToCartComponent = () => {
                   borderRight: `1px solid ${colors.grey[300]}`,
                 }}
               >
-                <img
-                  src="/shipping.gif"
-                  alt=""
-                  width={"70px"}
-                  height={"70px"}
-                />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "70px",
+                    height: "70px",
+                  }}
+                >
+                  <Image
+                    src={"/shipping.gif"}
+                    alt="Shipping Gif"
+                    loader={myLoader}
+                    fill
+                    sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  />
+                </Box>
                 <Box>
                   <Typography variant="h6">Shipping</Typography>
                   <Typography variant="caption">
@@ -292,7 +339,21 @@ const AddToCartComponent = () => {
                   borderRight: `1px solid ${colors.grey[300]}`,
                 }}
               >
-                <img src="/service.gif" alt="" width={"70px"} height={"70px"} />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "70px",
+                    height: "70px",
+                  }}
+                >
+                  <Image
+                    src={"/service.gif"}
+                    alt="Service Gif"
+                    loader={myLoader}
+                    fill
+                    sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  />
+                </Box>
                 <Box>
                   <Typography variant="h6">Service</Typography>
                   <Typography variant="caption">24 hr service.</Typography>

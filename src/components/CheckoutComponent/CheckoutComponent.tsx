@@ -28,6 +28,11 @@ import Link from "next/link";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
+import Image from "next/image";
+
+const myLoader = ({ src, width, quality }: any) => {
+  return `${src}?q=${quality || 75}`;
+};
 
 const CheckoutComponent = () => {
   const [addressType, setAddressType] = React.useState("");
@@ -54,7 +59,7 @@ const CheckoutComponent = () => {
           <Typography color="text.primary">Product Detail</Typography>
           <Typography color="text.primary">Payment</Typography>
         </Breadcrumbs>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ pb: 2 }}>
           <Grid item xs={12} md={6}>
             <Typography
               sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
@@ -202,7 +207,21 @@ const CheckoutComponent = () => {
                     boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                   }}
                 >
-                  <img src="/bank.gif" alt="" width={"80px"} height={"80px"} />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "80px",
+                      height: "80px",
+                    }}
+                  >
+                    <Image
+                      src={"/bank.gif"}
+                      alt="Bank Gif"
+                      loader={myLoader}
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
                   <Typography sx={{ color: colors.blue[500] }}>
                     Bank Account
                   </Typography>
@@ -222,12 +241,21 @@ const CheckoutComponent = () => {
                     boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                   }}
                 >
-                  <img
-                    src="/pickup.gif"
-                    alt=""
-                    width={"80px"}
-                    height={"80px"}
-                  />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "80px",
+                      height: "80px",
+                    }}
+                  >
+                    <Image
+                      src={"/pickup.gif"}
+                      alt="Pickup Gif"
+                      loader={myLoader}
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
                   <Typography sx={{ color: colors.blue[500] }}>
                     Pickup By Myself
                   </Typography>
@@ -247,7 +275,21 @@ const CheckoutComponent = () => {
                     boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                   }}
                 >
-                  <img src="/cod.gif" alt="" width={"80px"} height={"80px"} />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "80px",
+                      height: "80px",
+                    }}
+                  >
+                    <Image
+                      src={"/cod.gif"}
+                      alt="Cod Gif"
+                      loader={myLoader}
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
                   <Typography sx={{ color: colors.blue[500] }}>
                     Cash On Delivery(COD)
                   </Typography>
@@ -267,7 +309,21 @@ const CheckoutComponent = () => {
                     boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                   }}
                 >
-                  <img src="/2c2p.png" alt="" width={"80px"} height={"80px"} />
+                  <Box
+                    sx={{
+                      position: "relative",
+                      width: "80px",
+                      height: "80px",
+                    }}
+                  >
+                    <Image
+                      src={"/2c2p.png"}
+                      alt="2c2p Gif"
+                      loader={myLoader}
+                      fill
+                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
                   <Typography sx={{ color: colors.blue[500] }}>2C2P</Typography>
                 </Box>
               </Grid>

@@ -19,7 +19,9 @@ const NewArrivalComponent = () => {
     <Box sx={{ py: 2 }}>
       <Container maxWidth={"lg"}>
         <Typography variant="h6">New Arrivals</Typography>
-        <Typography variant="body2">Show all (32) results.</Typography>
+        <Typography variant="body2">
+          Show all ({newProduct?.products.length}) results.
+        </Typography>
 
         <Grid container spacing={2} sx={{ py: 2 }} columns={15}>
           {newProduct?.products.map((product, index) => {
