@@ -20,6 +20,7 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import Image from "next/image";
 
 const MenuBar = () => {
   const theme = useTheme();
@@ -138,7 +139,15 @@ const MenuBar = () => {
                 </Search>
                 <Box sx={{ position: "relative" }}>
                   <Link href={"/"}>
-                    <img src="/loi-heng-logo.png" alt={"Logo"} height="40px" />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "200px",
+                        height: "40px",
+                      }}
+                    >
+                      <Image src={"/loi-heng-logo.png"} alt={"logo"} fill />
+                    </Box>
                   </Link>
                 </Box>
               </Box>
