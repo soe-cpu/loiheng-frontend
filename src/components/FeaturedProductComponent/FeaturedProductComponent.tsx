@@ -19,7 +19,9 @@ const FeaturedProductComponent = () => {
     <Box sx={{ py: 2 }}>
       <Container maxWidth={"lg"}>
         <Typography variant="h6">Featured Products</Typography>
-        <Typography variant="body2">Show all (32) results.</Typography>
+        <Typography variant="body2">
+          Show all ({featured?.products.length}) results.
+        </Typography>
 
         <Grid container spacing={2} sx={{ py: 2 }} columns={15}>
           {featured?.products.map((product, index) => {

@@ -282,7 +282,15 @@ const ContactComponent = () => {
                   variant="outlined"
                   fullWidth
                 />
-                <Button fullWidth variant="contained">
+                <Button
+                  fullWidth
+                  sx={{
+                    boxShadow: "0px",
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    "&:hover": { backgroundColor: colors.blue[600] },
+                  }}
+                >
                   Submit
                 </Button>
               </Stack>

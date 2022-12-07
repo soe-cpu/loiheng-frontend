@@ -98,7 +98,9 @@ const MenuBar = () => {
               </Box>
             </Box>
             <Box>
-              <MenuLink>DEALS & PROMOTION</MenuLink>
+              <Link href={"/product"} legacyBehavior>
+                <MenuLink>DEALS & PROMOTION</MenuLink>
+              </Link>
             </Box>
             <Box>
               <Link href={"/about-us"} legacyBehavior>

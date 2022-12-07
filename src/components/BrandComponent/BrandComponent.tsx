@@ -30,7 +30,9 @@ const BrandComponent = () => {
     <Box sx={{ py: 2 }}>
       <Container maxWidth={"lg"}>
         <Typography variant="h6">Brands</Typography>
-        <Typography variant="body2">Show all (32) results.</Typography>
+        <Typography variant="body2">
+          Show all ({brand?.brands.length}) results.
+        </Typography>
 
         <Grid container spacing={2} sx={{ py: 2 }} columns={15}>
           {brand?.brands.map((brand, index) => {
