@@ -3,10 +3,12 @@ import HeaderBar from "@components/HeaderBar";
 import MenuBar from "@components/MenuBar";
 import {
   Box,
+  Button,
   colors,
   Container,
   Divider,
   Grid,
+  Stack,
   styled,
   Typography,
   useTheme,
@@ -21,9 +23,13 @@ import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { NextRouter, useRouter } from "next/router";
+import StyledModalBox from "@common/StyledModalBox";
 
 const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box width={"100%"} height={"100%"}>
@@ -87,13 +93,57 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                     </MenuLink>
                   </Link>
                 </ActiveBox>
-                <ActiveBox path="/">
-                  <Link href={"/"} legacyBehavior>
+                <Box sx={{ px: 1 }}>
+                  <Button onClick={handleOpen}>
                     <MenuLink>
                       <LogoutOutlinedIcon /> Logout
                     </MenuLink>
-                  </Link>
-                </ActiveBox>
+                  </Button>
+                  {/* Note Modal start */}
+                  <StyledModalBox open={open} handleClose={handleOpen}>
+                    <Box
+                      sx={{
+                        width: 350,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                      }}
+                    >
+                      <Typography variant="h6">Logout Confrim</Typography>
+                      <Divider />
+                      <Typography>Are you sure you want to logout?</Typography>
+                      <Divider />
+                      <Stack
+                        direction={"row"}
+                        spacing={2}
+                        justifyContent={"end"}
+                      >
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={handleClose}
+                          sx={{ boxShadow: "0px 0px 0px #fff" }}
+                        >
+                          NO
+                        </Button>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            color: "#fff",
+                            backgroundColor: theme.palette.primary.main,
+                            boxShadow: "0px 0px 0px #fff",
+                            "&:hover": {
+                              backgroundColor: theme.palette.primary.main,
+                            },
+                          }}
+                        >
+                          YES
+                        </Button>
+                      </Stack>
+                    </Box>
+                  </StyledModalBox>
+                  {/* Note Modal end */}
+                </Box>
               </Box>
             </Grid>
             <Grid item xs={12} lg={8}>

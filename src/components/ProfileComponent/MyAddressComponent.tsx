@@ -7,6 +7,7 @@ import {
   IconButton,
   Stack,
   styled,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -31,7 +32,17 @@ const MyAddressComponent = () => {
           <LocationOnOutlinedIcon />
           <Typography variant="h6"> My Addresses</Typography>
         </Stack>
-        <Button sx={{ backgroundColor: colors.blue[500], color: "#fff" }}>
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: colors.blue[500],
+            color: "#fff",
+            boxShadow: "0px 0px 0px #fff",
+            "&:hover": {
+              backgroundColor: colors.blue[600],
+            },
+          }}
+        >
           Add Address
         </Button>
       </Stack>
@@ -67,32 +78,36 @@ const MyAddressComponent = () => {
               <Divider />
               <Box sx={{ p: 2, display: "flex", justifyContent: "end" }}>
                 <Stack direction={"row"} spacing={1}>
-                  <IconButton
-                    sx={{
-                      border: `1px solid ${colors.blue[600]}`,
-                      color: colors.blue[600],
-                      transition: "0.4s",
-                      "&:hover": {
-                        backgroundColor: colors.blue[600],
-                        color: "#fff",
-                      },
-                    }}
-                  >
-                    <BiEdit style={{ fontSize: 16 }} />
-                  </IconButton>
-                  <IconButton
-                    sx={{
-                      border: `1px solid ${colors.red[600]}`,
-                      color: colors.red[600],
-                      transition: "0.4s",
-                      "&:hover": {
-                        backgroundColor: colors.red[600],
-                        color: "#fff",
-                      },
-                    }}
-                  >
-                    <ImBin style={{ fontSize: 16 }} />
-                  </IconButton>
+                  <Tooltip title={"Edit Address"} arrow placement="top">
+                    <IconButton
+                      sx={{
+                        border: `1px solid ${colors.blue[600]}`,
+                        color: colors.blue[600],
+                        transition: "0.4s",
+                        "&:hover": {
+                          backgroundColor: colors.blue[600],
+                          color: "#fff",
+                        },
+                      }}
+                    >
+                      <BiEdit style={{ fontSize: 16 }} />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={"Delete Address"} arrow placement="top">
+                    <IconButton
+                      sx={{
+                        border: `1px solid ${colors.red[600]}`,
+                        color: colors.red[600],
+                        transition: "0.4s",
+                        "&:hover": {
+                          backgroundColor: colors.red[600],
+                          color: "#fff",
+                        },
+                      }}
+                    >
+                      <ImBin style={{ fontSize: 16 }} />
+                    </IconButton>
+                  </Tooltip>
                 </Stack>
               </Box>
             </Box>
