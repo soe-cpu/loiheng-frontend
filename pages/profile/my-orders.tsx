@@ -1,10 +1,10 @@
-import { ProfileComponent } from "@components/ProfileComponent";
+import { MyOrderComponent } from "@components/ProfileComponent";
 import ProfileLayout from "@layouts/ProfileLayout";
-import { Box, Container, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Head from "next/head";
 import { ReactElement } from "react";
 
-const Profile = () => {
+const MyOrders = () => {
   return (
     <Box>
       <Head>
@@ -12,13 +12,13 @@ const Profile = () => {
         <meta name="description" content="Loi Heng Profile" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ProfileComponent />
+      <MyOrderComponent />
     </Box>
   );
 };
 
-Profile.getLayout = function getLayout(page: ReactElement) {
+MyOrders.getLayout = function getLayout(page: ReactElement) {
   return <ProfileLayout>{page}</ProfileLayout>;
 };
 
-export default Profile;
+export default MyOrders;

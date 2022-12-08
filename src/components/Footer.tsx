@@ -18,6 +18,7 @@ const Footer = () => {
     <Box
       sx={{
         backgroundColor: "#F4F6F8",
+        borderTop: `1px solid ${colors.grey[200]}`,
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
