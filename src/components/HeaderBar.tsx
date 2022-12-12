@@ -84,7 +84,9 @@ const HeaderBar = () => {
 					</Box>
 					<Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
 						<Badge badgeContent={wishlists?.length} color="primary">
-							<FavoriteBorderOutlinedIcon color="action" />
+							<Link href={"/wishlists"}>
+								<FavoriteBorderOutlinedIcon color="action" />
+							</Link>
 						</Badge>
 						<Badge badgeContent={4} color="primary">
 							<NotificationsNoneOutlinedIcon color="action" />
