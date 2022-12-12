@@ -120,20 +120,22 @@ export const authOptions: NextAuthOptions = {
 				token.token = user.token;
 				token.user = user.user;
 			}
-			const data = (await axios
-				.get(`${process.env.API_URL}auth/me`, {
-					headers: {
-						Authorization: `${token.token}`,
-					},
-				})
-				.then((res) => res.data)) as Me;
 
-			token.user = {
-				id: data.data.id,
-				name: data.data.fullname,
-				email: data.data.email,
-				image: data.data.profile_img,
-			};
+			// console.log(token);
+			// const data = (await axios
+			// 	.get(`${process.env.API_URL}auth/me`, {
+			// 		headers: {
+			// 			Authorization: `${token.token}`,
+			// 		},
+			// 	})
+			// 	.then((res) => res.data)) as Me;
+
+			// token.user = {
+			// 	id: data.data.id,
+			// 	name: data.data.fullname,
+			// 	email: data.data.email,
+			// 	image: data.data.profile_img,
+			// };
 
 			return token;
 		},

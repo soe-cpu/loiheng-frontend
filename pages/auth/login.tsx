@@ -55,7 +55,7 @@ const Login = () => {
 				email,
 				password,
 				// redirect: true,
-				callbackUrl: router.query?.callbackUrl as string,
+				callbackUrl: "/",
 			});
 		else if (!email) emailRef.current?.focus();
 		else if (!password) passwordRef.current?.focus();
