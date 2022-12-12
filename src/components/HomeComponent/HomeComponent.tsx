@@ -35,6 +35,8 @@ import { GetBrandResponse } from "@atoms/brandListAtom";
 import { relative } from "path";
 import { GetProductListResponse } from "@atoms/productListAtom";
 import useAllFeatureProduct from "@apis/useAllFeatureProduct";
+import { useSession } from "next-auth/react";
+import wishlistStore from "@stores/wishlist.store";
 
 function NextArrow(props: any) {
 	const { style, onClick } = props;
@@ -64,6 +66,7 @@ const myLoader = ({ src, width, quality }: any) => {
 
 const HomeComponent = () => {
 	const theme = useTheme();
+	const { data: session } = useSession();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 	const homeSlide = {
 		dots: false,

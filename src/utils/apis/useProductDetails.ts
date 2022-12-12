@@ -24,6 +24,7 @@ export interface Product {
 	description: string;
 	short_description: any;
 	sku: string;
+	stock: any;
 	desc_file: string;
 	approved_by: any;
 	approved_when: any;

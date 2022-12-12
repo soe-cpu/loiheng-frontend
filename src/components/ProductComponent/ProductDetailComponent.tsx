@@ -37,6 +37,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { ProductDetails } from "@apis/useProductDetails";
 import Link from "next/link";
+import Image from "next/image";
+import { width } from "@mui/system";
+import { useSession } from "next-auth/react";
+import wishlistStore from "@stores/wishlist.store";
+import { useRouter } from "next/router";
 // Tab start //
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -92,12 +97,49 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const ProductDetailComponent = (
 	props: ProductDetails["data"]["products"][0]
 ) => {
+	// states
 	const [value, setValue] = React.useState(0);
+	const [quantity, setQuantity] = React.useState(1);
+
 	const slider1 = useRef(null);
 	const slider2 = useRef(null);
+	const [nav1, setNav1] = useState<any>();
+	const [nav2, setNav2] = useState<any>();
+
+	const { data } = useSession();
+
+	const router = useRouter();
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
+	};
+
+	const increaseQuantity = () => {
+		const stock = props.stock ?? 0;
+		if (stock > quantity) {
+			setQuantity(quantity + 1);
+		}
+	};
+
+	const decreaseQuantity = () => {
+		if (quantity > 1) {
+			setQuantity(quantity - 1);
+		}
+	};
+
+	useEffect(() => {
+		setNav1(slider1.current);
+		setNav2(slider2.current);
+	}, []);
+
+	const addWishlist = wishlistStore((store) => store.addWishlist);
+
+	const addProductToWishlist = () => {
+		if (data) {
+			addWishlist(data, props);
+		} else {
+			router.push("/auth/login");
+		}
 	};
 
 	return (
@@ -105,98 +147,79 @@ const ProductDetailComponent = (
 			<Container maxWidth={"lg"}>
 				<Grid container spacing={3}>
 					<Grid item xs={12} md={6} lg={4}>
-						{/* <div>
-              <Slider asNavFor={slider2.current} ref={slider1}>
-                <div>
-                  <img
-                    src="/test/1.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"300px"}
-                  />
-                </div>
-                <div>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"300px"}
-                  />
-                </div>
-                <div>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"300px"}
-                  />
-                </div>
-                <div>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"300px"}
-                  />
-                </div>
-                <div>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"300px"}
-                  />
-                </div>
-              </Slider>
-              <Slider
-                asNavFor={slider1.current}
-                ref={slider2}
-                slidesToShow={5}
-                swipeToSlide={true}
-                focusOnSelect={true}
-              >
-                <Box sx={{ pr: 1 }}>
-                  <img
-                    src="/test/1.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"60px"}
-                  />
-                </Box>
-                <Box sx={{ pr: 1 }}>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"60px"}
-                  />
-                </Box>
-                <Box sx={{ pr: 1 }}>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"60px"}
-                  />
-                </Box>
-                <Box sx={{ pr: 1 }}>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"60px"}
-                  />
-                </Box>
-                <Box sx={{ pr: 1 }}>
-                  <img
-                    src="/test/3.jpg"
-                    alt=""
-                    width={"100%"}
-                    height={"60px"}
-                  />
-                </Box>
-              </Slider>
-            </div> */}
+						<div>
+							<Slider infinite={false} asNavFor={nav2} ref={slider1}>
+								{props.product_pictures.map((pic) => {
+									return (
+										<Box
+											key={pic.id}
+											sx={{
+												width: "100%",
+												height: "300px",
+												position: "relative",
+											}}
+										>
+											<Image
+												src={"https://api.loiheng.duckdns.org/" + pic.image}
+												alt={"Product Image"}
+												fill
+											/>
+										</Box>
+									);
+								})}
+							</Slider>
+							<Slider
+								asNavFor={nav1}
+								ref={slider2}
+								slidesToShow={5}
+								swipeToSlide={true}
+								focusOnSelect={true}
+								infinite={false}
+							>
+								{props.product_pictures.map((pic) => {
+									return (
+										<Box
+											sx={{ pr: 1 }}
+											key={pic.id}
+											width={"100%"}
+											height={"60px"}
+											position={"relative"}
+										>
+											<Image
+												src={"https://api.loiheng.duckdns.org/" + pic.image}
+												alt={"Product Image"}
+												fill
+											/>
+										</Box>
+									);
+								})}
+								{/*
+								<Box sx={{ pr: 1 }}>
+									<img
+										src="/test/3.jpg"
+										alt=""
+										width={"100%"}
+										height={"60px"}
+									/>
+								</Box>
+								<Box sx={{ pr: 1 }}>
+									<img
+										src="/test/3.jpg"
+										alt=""
+										width={"100%"}
+										height={"60px"}
+									/>
+								</Box>
+								<Box sx={{ pr: 1 }}>
+									<img
+										src="/test/3.jpg"
+										alt=""
+										width={"100%"}
+										height={"60px"}
+									/>
+								</Box> */}
+							</Slider>
+						</div>
 					</Grid>
 					<Grid item xs={12} md={6} lg={5}>
 						<Stack>
@@ -217,12 +240,9 @@ const ProductDetailComponent = (
 								<Typography>Be The First Review</Typography>
 							</Box>
 							<Box sx={{ py: 2 }}>
-								<ul>
-									<li>Mikrotik Cloud Core Router</li>
-									<li>1 * 10/100/1000 Ethernet ports</li>
-									<li>12 * SFP+ ports</li>
-									<li>Size of RAM : 4 GB</li>
-								</ul>
+								<div
+									dangerouslySetInnerHTML={{ __html: props.short_description }}
+								/>
 							</Box>
 							<Box
 								sx={{ display: "flex", gap: 2, alignItems: "center", pb: 1 }}
@@ -231,12 +251,10 @@ const ProductDetailComponent = (
 								<Typography sx={{ fontSize: 14 }}>
 									{props.brand.map((b) => {
 										return (
-											<>
-												<Link key={b.id} href={"#"}>
-													{b.name}
-												</Link>
+											<React.Fragment key={b.id}>
+												<span>{b.name}</span>
 												{", "}
-											</>
+											</React.Fragment>
 										);
 									})}
 								</Typography>
@@ -248,12 +266,10 @@ const ProductDetailComponent = (
 								<Typography sx={{ fontSize: 14 }}>
 									{props.category.map((c) => {
 										return (
-											<>
-												<Link key={c.id} href={"#"}>
-													{c.name}
-												</Link>
+											<React.Fragment key={c.id}>
+												<span>{c.name}</span>
 												{", "}
-											</>
+											</React.Fragment>
 										);
 									})}
 								</Typography>
@@ -268,68 +284,115 @@ const ProductDetailComponent = (
 								sx={{ display: "flex", justifyContent: "space-between", pb: 4 }}
 							>
 								<Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-									<IconButton
-										sx={{
-											color: colors.red[500],
-											backgroundColor: colors.grey[100],
-										}}
-									>
-										<RemoveIcon />
-									</IconButton>
-									<InputBase
-										sx={{
-											border: `2px solid ${colors.blue[500]}`,
-											width: "40px",
-											height: "40px",
-											borderRadius: "4px",
-											px: 1,
-										}}
-										value={1}
-									></InputBase>
-									<IconButton
-										sx={{
-											color: colors.green[500],
-											backgroundColor: colors.grey[100],
-										}}
-									>
-										<AddIcon />
-									</IconButton>
+									{props.stock ? (
+										props.stock > 0 ? (
+											<Box>
+												<IconButton
+													sx={{
+														color: colors.red[500],
+														backgroundColor: colors.grey[100],
+													}}
+													onClick={() => decreaseQuantity()}
+												>
+													<RemoveIcon />
+												</IconButton>
+												<InputBase
+													sx={{
+														border: `2px solid ${colors.blue[500]}`,
+														width: "40px",
+														height: "40px",
+														borderRadius: "4px",
+														px: 1,
+													}}
+													value={quantity}
+												></InputBase>
+												<IconButton
+													sx={{
+														color: colors.green[500],
+														backgroundColor: colors.grey[100],
+													}}
+													onClick={() => increaseQuantity()}
+												>
+													<AddIcon />
+												</IconButton>
+											</Box>
+										) : (
+											""
+										)
+									) : (
+										""
+									)}
 								</Box>
 								<Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-									<Typography sx={{ fontWeight: 600, color: colors.red[600] }}>
-										Out of Stock
-									</Typography>
-									<FavButton size={"small"}>
+									{props.stock ? (
+										props.stock > 0 ? (
+											<Typography
+												sx={{ fontWeight: 600, color: colors.green[600] }}
+											>
+												In Stock
+											</Typography>
+										) : props.is_preorder ? (
+											<Typography
+												sx={{ fontWeight: 600, color: colors.green[600] }}
+											>
+												Pre-order
+											</Typography>
+										) : (
+											<Typography
+												sx={{ fontWeight: 600, color: colors.red[600] }}
+											>
+												Out of Stock
+											</Typography>
+										)
+									) : (
+										<Typography
+											sx={{ fontWeight: 600, color: colors.red[600] }}
+										>
+											Out of Stock
+										</Typography>
+									)}
+									<FavButton
+										size={"small"}
+										onClick={() => addProductToWishlist()}
+									>
 										<FavoriteBorderOutlinedIcon />
 									</FavButton>
 								</Box>
 							</Box>
-							<Box sx={{ display: "flex", gap: 2 }}>
-								<Button
-									sx={{
-										boxShadow: "0px",
-										backgroundColor: colors.blue[500],
-										color: "#fff",
-										"&:hover": {
-											backgroundColor: colors.blue[700],
-										},
-									}}
-								>
-									Add to cart
-								</Button>
-								<Button
-									sx={{
-										boxShadow: "0px",
-										backgroundColor: colors.blue[500],
-										color: "#fff",
-										"&:hover": {
-											backgroundColor: colors.blue[700],
-										},
-									}}
-								>
-									Buy Now
-								</Button>
-							</Box>
+							{props.stock ? (
+								props.stock > 0 ? (
+									<Box sx={{ display: "flex", gap: 2 }}>
+										<Button
+											sx={{
+												boxShadow: "0px",
+												backgroundColor: colors.blue[500],
+												color: "#fff",
+												"&:hover": {
+													backgroundColor: colors.blue[700],
+												},
+											}}
+										>
+											Add to cart
+										</Button>
+										<Button
+											sx={{
+												boxShadow: "0px",
+												backgroundColor: colors.blue[500],
+												color: "#fff",
+												"&:hover": {
+													backgroundColor: colors.blue[700],
+												},
+											}}
+										>
+											Buy Now
+										</Button>
+									</Box>
+								) : (
+									""
+								)
+							) : (
+								""
+							)}
 						</Stack>
 					</Grid>
 					<Grid item xs={12} md={6} lg={3}>
@@ -410,7 +473,7 @@ const ProductDetailComponent = (
 						</Stack>
 					</Grid>
 				</Grid>
-				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+				<Box sx={{ borderBottom: 1, marginTop: 10, borderColor: "divider" }}>
 					<Tabs
 						value={value}
 						onChange={handleChange}
@@ -423,173 +486,22 @@ const ProductDetailComponent = (
 					</Tabs>
 				</Box>
 				<TabPanel value={value} index={0}>
-					<Stack>
-						<Typography sx={{ color: colors.grey[600] }}>
-							The “Improvise. Adapt. Overcome.” mindset can be very helpful, but
-							sometimes you simply need a device that works and solves the
-							problem without additional tinkering. The CCR2004-1G-12S+2XS does
-							just that – forget about all connectivity troubles and expand your
-							setup in any way you please. This handy router features 12 x 10G
-							SFP+ and 2 x 25G SFP28 ports. CCR2004-1G-12S+2XS is our router
-							with the most powerful single-core performance so far. It provides
-							incredible results in single tunnel (up to 3.4 Gbps) and BGP feed
-							processing. Be prepared for anything: 10G, 40G and now 25G! Paired
-							with such MikroTik multiport products as CRS317-1G-16S+RM,
-							CRS312-4C+8XG-RM and CRS326-24S+2Q+RM, your networking setup will
-							know no bounds. Performance-wise, CCR2004-1G-12S+2XS is on par
-							with the renowned CCR1009/CCR1016 routers. And with dual redundant
-							power supply you can forget about unexpected downtime! With its
-							elaborate port configuration, the new CCR2004-1G-12S+2XS is the
-							perfect addition to any professional networking arsenal – it will
-							save you tons of time in some tricky situations! Size of RAM in
-							RouterOS v7 4GB ECC
-						</Typography>
-						<Box sx={{ py: 2 }}>
-							<Typography
-								sx={{ fontWeight: 600, fontSize: 18, color: colors.grey[600] }}
-							>
-								Specifications
-							</Typography>
-							<TableContainer>
-								<Table
-									sx={{ minWidth: 700 }}
-									aria-label="customized table"
-									size="small"
-								>
-									<TableHead>
-										<TableRow>
-											<StyledTableCell colSpan={2}>Details</StyledTableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										<StyledTableRow>
-											<StyledTableCell component="th" scope="row">
-												Product Code
-											</StyledTableCell>
-											<StyledTableCell>test</StyledTableCell>
-										</StyledTableRow>
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-						<Box sx={{ py: 2 }}>
-							<Typography
-								sx={{ fontWeight: 600, fontSize: 18, color: colors.grey[600] }}
-							>
-								Powering
-							</Typography>
-							<TableContainer>
-								<Table
-									sx={{ minWidth: 700 }}
-									aria-label="customized table"
-									size="small"
-								>
-									<TableHead>
-										<TableRow>
-											<StyledTableCell colSpan={2}>Details</StyledTableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										<StyledTableRow>
-											<StyledTableCell component="th" scope="row">
-												Product Code
-											</StyledTableCell>
-											<StyledTableCell>test</StyledTableCell>
-										</StyledTableRow>
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-						<Box sx={{ py: 2 }}>
-							<Typography
-								sx={{ fontWeight: 600, fontSize: 18, color: colors.grey[600] }}
-							>
-								Ethernet
-							</Typography>
-							<TableContainer>
-								<Table
-									sx={{ minWidth: 700 }}
-									aria-label="customized table"
-									size="small"
-								>
-									<TableHead>
-										<TableRow>
-											<StyledTableCell colSpan={2}>Details</StyledTableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										<StyledTableRow>
-											<StyledTableCell component="th" scope="row">
-												Product Code
-											</StyledTableCell>
-											<StyledTableCell>test</StyledTableCell>
-										</StyledTableRow>
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-						<Box sx={{ py: 2 }}>
-							<Typography
-								sx={{ fontWeight: 600, fontSize: 18, color: colors.grey[600] }}
-							>
-								Fiber
-							</Typography>
-							<TableContainer>
-								<Table
-									sx={{ minWidth: 700 }}
-									aria-label="customized table"
-									size="small"
-								>
-									<TableHead>
-										<TableRow>
-											<StyledTableCell colSpan={2}>Details</StyledTableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										<StyledTableRow>
-											<StyledTableCell component="th" scope="row">
-												Product Code
-											</StyledTableCell>
-											<StyledTableCell>test</StyledTableCell>
-										</StyledTableRow>
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-						<Box sx={{ py: 2 }}>
-							<Typography
-								sx={{ fontWeight: 600, fontSize: 18, color: colors.grey[600] }}
-							>
-								Peripherals
-							</Typography>
-							<TableContainer>
-								<Table
-									sx={{ minWidth: 700 }}
-									aria-label="customized table"
-									size="small"
-								>
-									<TableHead>
-										<TableRow>
-											<StyledTableCell colSpan={2}>Details</StyledTableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										<StyledTableRow>
-											<StyledTableCell component="th" scope="row">
-												Product Code
-											</StyledTableCell>
-											<StyledTableCell>test</StyledTableCell>
-										</StyledTableRow>
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-					</Stack>
+					<div dangerouslySetInnerHTML={{ __html: props.description }} />
 				</TabPanel>
-				<TabPanel value={value} index={1}></TabPanel>
-				<TabPanel value={value} index={2}></TabPanel>
+				<TabPanel value={value} index={1}>
+					-
+				</TabPanel>
+				<TabPanel value={value} index={2}>
+					{props.desc_file ? (
+						<a href={"https://api.loiheng.duckdns.org" + props.desc_file}>
+							Support & Download
+						</a>
+					) : (
+						""
+					)}
+				</TabPanel>
 				<TabPanel value={value} index={3}></TabPanel>
-				<Box>
+				<Box sx={{ marginTop: 10 }}>
 					<Typography variant="h5">You may also like</Typography>
 					<Box sx={{ py: 2 }}>
 						{/* <Swiper

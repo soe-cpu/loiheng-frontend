@@ -25,6 +25,7 @@ import { signOut, useSession } from "next-auth/react";
 import Logo from "loi-heng-log.png";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useRouter } from "next/router";
+import wishlistStore from "@stores/wishlist.store";
 
 const HeaderBar = () => {
 	const theme = useTheme();
@@ -46,6 +47,15 @@ const HeaderBar = () => {
 	};
 
 	const router = useRouter();
+
+	const wishlists = wishlistStore((store) => store.wishlists);
+	const fetch = wishlistStore((store) => store.fetch);
+
+	React.useEffect(() => {
+		if (data) {
+			fetch(data);
+		}
+	}, [data, fetch]);
 
 	return (
 		<Box sx={{ display: isMobile ? "none" : "block" }}>
@@ -73,7 +83,7 @@ const HeaderBar = () => {
 						</Search>
 					</Box>
 					<Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-						<Badge badgeContent={4} color="primary">
+						<Badge badgeContent={wishlists?.length} color="primary">
 							<FavoriteBorderOutlinedIcon color="action" />
 						</Badge>
 						<Badge badgeContent={4} color="primary">
@@ -84,23 +94,25 @@ const HeaderBar = () => {
 								<ShoppingCartOutlinedIcon color="action" />
 							</Badge>
 						</Link>
-						<Button
-							id="basic-button"
-							aria-controls={open ? "basic-menu" : undefined}
-							aria-haspopup="true"
-							aria-expanded={open ? "true" : undefined}
-							onClick={handleClick}
-							style={{
-								display: "flex",
-								gap: 2,
-								textDecoration: "none",
-								color: "#000",
-								textTransform: "capitalize",
-							}}
-						>
-							<AccountCircleIcon color="action" />
-							<Typography variant="body2">My Account</Typography>
-						</Button>
+						{data?.user && (
+							<Button
+								id="basic-button"
+								aria-controls={open ? "basic-menu" : undefined}
+								aria-haspopup="true"
+								aria-expanded={open ? "true" : undefined}
+								onClick={handleClick}
+								style={{
+									display: "flex",
+									gap: 2,
+									textDecoration: "none",
+									color: "#000",
+									textTransform: "capitalize",
+								}}
+							>
+								<AccountCircleIcon color="action" />
+								<Typography variant="body2">My Account</Typography>
+							</Button>
+						)}
 						<Menu
 							id="basic-menu"
 							anchorEl={anchorEl}
