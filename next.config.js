@@ -7,6 +7,9 @@ const nextConfig = {
   env: {
     API_URL: process.env.API_URL,
   },
+  experimental: {
+    esmExternals: false,
+  }
 };
 
 module.exports = nextConfig;
