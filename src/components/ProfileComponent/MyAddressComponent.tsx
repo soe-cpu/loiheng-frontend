@@ -79,7 +79,6 @@ const MyAddressComponent = () => {
 				street_address,
 				is_default
 			).then((res) => {
-				console.log(res);
 				if (res) {
 					handleClose();
 				}

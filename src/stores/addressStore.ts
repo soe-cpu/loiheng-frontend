@@ -2,6 +2,8 @@ import axios from "axios";
 import { Session } from "next-auth";
 import create from "zustand";
 
+const url = process.env.API_URL;
+
 export interface User {
 	id: number;
 	fullname: string;
@@ -85,6 +87,12 @@ export interface AddAddressResponse {
 	status: number;
 }
 
+export interface AddressActionResponse {
+	success: boolean;
+	message: string;
+	status: number;
+}
+
 export interface AddressStoreInterface {
 	address?: Address[];
 	isSaving: boolean;
@@ -100,6 +108,7 @@ export interface AddressStoreInterface {
 		street_address?: string,
 		is_default?: boolean
 	) => Promise<boolean>;
+	removeAddress: (session: Session, id: number) => Promise<boolean>;
 	successMsg: {};
 }
 
@@ -134,7 +143,7 @@ const addressStore = create<AddressStoreInterface>((set, get) => ({
 		is_default?: boolean
 	) => {
 		set({ isSaving: true });
-		const url = process.env.API_URL;
+
 		const res = axios.post<AddAddressResponse>(
 			url + `address-create`,
 			{
@@ -158,6 +167,26 @@ const addressStore = create<AddressStoreInterface>((set, get) => ({
 			const { data } = await res;
 			set({ isSaving: false });
 			set({ successMsg: data.message });
+			return true;
+		} else {
+			return false;
+		}
+	},
+	removeAddress: async (session: Session, id: number) => {
+		const res = axios.put<AddressActionResponse>(
+			url + "address-remove/" + id,
+			{},
+			{
+				headers: {
+					Authorization: session.token,
+				},
+			}
+		);
+
+		if ((await res).data.success) {
+			const address = get().address;
+			const filtered = address?.filter((a) => a.id !== id);
+			set({ address: filtered });
 			return true;
 		} else {
 			return false;
