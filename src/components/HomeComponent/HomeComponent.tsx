@@ -315,34 +315,40 @@ const HomeComponent = () => {
 						<Slider {...brandSlide}>
 							{brand?.brands.map((brand, index) => {
 								return (
-									<Box sx={{ pr: 1 }} key={index}>
-										<Box
-											sx={{
-												width: "100%",
-												height: "120px",
-												position: "relative",
-												border: `1px solid ${colors.grey[300]}`,
-												p: 2,
-											}}
-										>
-											{!brand.picture ? (
-												<Skeleton
-													variant="rectangular"
-													animation={"wave"}
-													width={"100%"}
-													height={"400px"}
-												/>
-											) : (
-												<Image
-													loader={myLoader}
-													src={brand.picture}
-													alt="Brand Image"
-													fill
-													sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-												/>
-											)}
+									<Link
+										href={`/brands/${brand.id}`}
+										style={{ paddingRight: 1 }}
+										key={index}
+									>
+										<Box>
+											<Box
+												sx={{
+													width: "100%",
+													height: "120px",
+													position: "relative",
+													border: `1px solid ${colors.grey[300]}`,
+													p: 2,
+												}}
+											>
+												{!brand.picture ? (
+													<Skeleton
+														variant="rectangular"
+														animation={"wave"}
+														width={"100%"}
+														height={"400px"}
+													/>
+												) : (
+													<Image
+														loader={myLoader}
+														src={brand.picture}
+														alt="Brand Image"
+														fill
+														sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+													/>
+												)}
+											</Box>
 										</Box>
-									</Box>
+									</Link>
 								);
 							})}
 						</Slider>
