@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Session } from "next-auth";
 import create from "zustand";
+import createVanilla from "zustand/vanilla";
 
 export interface WishlistResponse {
 	success: boolean;
@@ -188,7 +189,7 @@ function removeDuplicateObjects(arr: Product[]) {
 	return uniqueObjects;
 }
 
-const wishlistStore = create<WishlistStoreInterface>((set, get) => ({
+const store = createVanilla<WishlistStoreInterface>((set, get) => ({
 	wishlists: [],
 	fetch: async (session: Session) => {
 		const url = process.env.API_URL;
@@ -238,14 +239,8 @@ const wishlistStore = create<WishlistStoreInterface>((set, get) => ({
 				}
 			});
 	},
-	// toggleTheme() {
-	// 	set({
-	// 		mode:
-	// 			get().mode === ThemeModeEnum.LIGHT
-	// 				? ThemeModeEnum.DARK
-	// 				: ThemeModeEnum.LIGHT,
-	// 	});
-	// },
 }));
+
+const wishlistStore = create(store);
 
 export default wishlistStore;

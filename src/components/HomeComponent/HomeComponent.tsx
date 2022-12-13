@@ -254,6 +254,7 @@ const HomeComponent = () => {
 											price={product.price}
 											image={product.cover_img}
 											category={product.category[0].name}
+											data={product}
 										/>
 									</Box>
 								);
@@ -287,6 +288,7 @@ const HomeComponent = () => {
 											price={featured.price}
 											image={featured.cover_img}
 											category={featured.category[0].name}
+											data={featured}
 										/>
 									</Box>
 								);
