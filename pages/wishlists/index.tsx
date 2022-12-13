@@ -7,33 +7,51 @@ import axios from "axios";
 import { SettingResponse } from "@atoms/settingResponse";
 import wishlistStore from "@stores/wishlist.store";
 import ProductCard from "@common/ProductCard";
+import { authOptions, Me } from "pages/api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
 
-export const getServerSideProps = async () => {
-	const url = process.env.API_URL;
-	const res = await fetch(url + "settings/about");
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const session = await unstable_getServerSession(
+		context.req,
+		context.res,
+		authOptions
+	);
 
-	const data = (await res.json()) as SettingResponse;
+	if (!session) {
+		return {
+			redirect: {
+				destination: "/auth/login",
+				permanent: false,
+			},
+		};
+	}
+
+	const data = (await axios
+		.get(`${process.env.API_URL}auth/me`, {
+			headers: {
+				Authorization: `${session.token}`,
+			},
+		})
+		.then((res) => res.data)) as Me;
 
 	return {
-		props: {
-			content: data.data[0].value,
-		},
+		props: { data },
 	};
 };
 
-const WishlistPage = (props: { content: string }) => {
+const WishlistPage = (props: { data: Me }) => {
 	const wishlists = wishlistStore((store) => store.wishlists);
 
 	return (
 		<Box>
 			<Head>
-				<title>Loi Heng | Wishlist</title>
+				<title>Loi Heng | Wishlists</title>
 				<meta name="description" content="Loi Heng About Us" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Box sx={{ py: 2 }}>
 				<Container>
-					<Typography variant="h6">Wishlist</Typography>
+					<Typography variant="h6">Wishlists</Typography>
 					<Typography variant="body2">
 						Show all ({wishlists?.length}) results.
 					</Typography>
@@ -47,6 +65,7 @@ const WishlistPage = (props: { content: string }) => {
 										price={product.price}
 										name={product.name}
 										category={product.category[0].name}
+										data={product}
 									/>
 								</Grid>
 							);

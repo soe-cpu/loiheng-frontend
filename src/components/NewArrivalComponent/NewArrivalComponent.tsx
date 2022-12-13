@@ -33,6 +33,7 @@ const NewArrivalComponent = () => {
 									price={product.price}
 									image={product.cover_img}
 									category={product.category[0].name}
+									data={product}
 								/>
 							</Grid>
 						);
