@@ -10,135 +10,168 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import Image from "next/image";
+import cartStore from "@stores/cart.store";
+import { useSession } from "next-auth/react";
 
 const myLoader = ({ src, width, quality }: any) => {
+  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
+};
+const myLoaderGif = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
+
 const AddToCartComponent = () => {
+  const [subtotal, setSubtotal] = useState<String>("");
+  const { data: session } = useSession();
+  const fetch = cartStore((store) => store.fetch);
+  const cartData = cartStore((store) => store.carts);
+  React.useEffect(() => {
+    if (session) {
+      fetch(session);
+    }
+  }, [session, fetch]);
   return (
     <Box sx={{ py: 2 }}>
       <Container>
         <Box sx={{ border: `1px solid ${colors.grey[300]}` }}>
           <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
             <Typography sx={{ fontWeight: 500 }}>Shopping Cart</Typography>
-            <Typography>3 items</Typography>
+            <Typography>{cartData?.length} items</Typography>
           </Box>
           <Divider />
           <Box sx={{ p: 2 }}>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: { sm: 1, md: 4 },
-                    alignItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: "relative",
-                      width: "120px",
-                      height: "120px",
-                    }}
-                  >
-                    <Image
-                      src={"/bg2.png"}
-                      alt="Add to cart Img"
-                      loader={myLoader}
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
-                  </Box>
-                  <Box>
-                    <Typography sx={{ fontSize: 12, color: colors.grey[700] }}>
-                      Ubiquiti UniFi Cloud Key Gen2 Plus (UCK-G2-PLUS)
-                    </Typography>
-                    <Typography sx={{ fontSize: 10, color: colors.grey[600] }}>
-                      Sold By Ubiquiti
-                    </Typography>
-                    <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
-                      Ks 805,980
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    height: "100%",
-                  }}
-                >
-                  <Typography
-                    sx={{ color: colors.green[800], fontWeight: 600 }}
-                  >
-                    In Stock
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                    <IconButton
+            {cartData?.map((cart, index) => {
+              return (
+                <Grid container spacing={4} key={index}>
+                  <Grid item xs={12} md={4}>
+                    <Box
                       sx={{
-                        color: colors.red[500],
-                        backgroundColor: colors.grey[100],
+                        display: "flex",
+                        gap: { sm: 1, md: 4 },
+                        alignItems: "center",
                       }}
                     >
-                      <RemoveIcon />
-                    </IconButton>
-                    <InputBase
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "120px",
+                          height: "120px",
+                        }}
+                      >
+                        <Image
+                          src={cart.product[0].cover_img}
+                          alt="Add to cart Img"
+                          loader={myLoader}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </Box>
+                      <Box>
+                        <Typography
+                          sx={{ fontSize: 12, color: colors.grey[700] }}
+                        >
+                          {cart.product[0].name}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: 10, color: colors.grey[600] }}
+                        >
+                          Sold By {cart.product[0].brand[0].name}
+                        </Typography>
+                        <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                          Ks {cart.product[0].price}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Box
                       sx={{
-                        border: `2px solid ${colors.blue[500]}`,
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "4px",
-                        px: 2,
-                      }}
-                      value={1}
-                    ></InputBase>
-                    <IconButton
-                      sx={{
-                        color: colors.green[500],
-                        backgroundColor: colors.grey[100],
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    height: "100%",
-                  }}
-                >
-                  <Typography>Ks 805,980</Typography>
-                  <Tooltip title={"Remove Item"} arrow placement="top">
-                    <IconButton
-                      color="error"
-                      sx={{
-                        border: `1px solid ${colors.red[500]}`,
-                        "&:hover": {
-                          backgroundColor: colors.red[100],
-                        },
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        height: "100%",
                       }}
                     >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Grid>
-            </Grid>
+                      <Typography
+                        sx={{
+                          color:
+                            cart.product[0].stock <= 0
+                              ? colors.red[800]
+                              : colors.green[800],
+                          fontWeight: 600,
+                        }}
+                      >
+                        {cart.product[0].stock <= 0
+                          ? "Out of stock"
+                          : "In Stock"}
+                      </Typography>
+                      <Box
+                        sx={{ display: "flex", gap: 1, alignItems: "center" }}
+                      >
+                        <IconButton
+                          sx={{
+                            color: colors.red[500],
+                            backgroundColor: colors.grey[100],
+                          }}
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+                        <InputBase
+                          sx={{
+                            border: `2px solid ${colors.blue[500]}`,
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "4px",
+                            px: 2,
+                          }}
+                          value={cart.qty}
+                        ></InputBase>
+                        <IconButton
+                          sx={{
+                            color: colors.green[500],
+                            backgroundColor: colors.grey[100],
+                          }}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Box>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <Typography>Ks {cart.product[0].price}</Typography>
+                      <Tooltip title={"Remove Item"} arrow placement="top">
+                        <IconButton
+                          color="error"
+                          sx={{
+                            border: `1px solid ${colors.red[500]}`,
+                            "&:hover": {
+                              backgroundColor: colors.red[100],
+                            },
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                </Grid>
+              );
+            })}
           </Box>
         </Box>
         <Grid container sx={{ mt: 4 }} spacing={4}>
@@ -173,7 +206,7 @@ const AddToCartComponent = () => {
                 <Typography sx={{ fontWeight: 500 }}>Total:</Typography>
               </Box>
               <Box>
-                <Typography>3,269,370 MMK</Typography>
+                <Typography>{subtotal} MMK</Typography>
                 <Typography>3,269,370 MMK</Typography>
                 <Typography>3,269,370 MMK</Typography>
               </Box>
@@ -255,7 +288,7 @@ const AddToCartComponent = () => {
                   <Image
                     src={"/cart.gif"}
                     alt="Cart Gif"
-                    loader={myLoader}
+                    loader={myLoaderGif}
                     fill
                     sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                   />
@@ -285,7 +318,7 @@ const AddToCartComponent = () => {
                   <Image
                     src={"/payment.gif"}
                     alt="Payment Gif"
-                    loader={myLoader}
+                    loader={myLoaderGif}
                     fill
                     sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                   />
@@ -317,7 +350,7 @@ const AddToCartComponent = () => {
                   <Image
                     src={"/shipping.gif"}
                     alt="Shipping Gif"
-                    loader={myLoader}
+                    loader={myLoaderGif}
                     fill
                     sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                   />
@@ -349,7 +382,7 @@ const AddToCartComponent = () => {
                   <Image
                     src={"/service.gif"}
                     alt="Service Gif"
-                    loader={myLoader}
+                    loader={myLoaderGif}
                     fill
                     sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                   />

@@ -58,7 +58,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                     </MenuLink>
                   </Link>
                 </ActiveBox>
-                <ActiveBox path="/profile/my-orders">
+                {/* <ActiveBox path="/profile/my-orders">
                   <Link href={"/profile/my-orders"} legacyBehavior>
                     <MenuLink>
                       <ShoppingCartOutlinedIcon /> My Orders
@@ -78,7 +78,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                       <PercentOutlinedIcon /> My coupon
                     </MenuLink>
                   </Link>
-                </ActiveBox>
+                </ActiveBox> */}
                 <ActiveBox path="/profile/my-addresses">
                   <Link href={"/profile/my-addresses"} legacyBehavior>
                     <MenuLink>
@@ -86,13 +86,13 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                     </MenuLink>
                   </Link>
                 </ActiveBox>
-                <ActiveBox path="/profile/my-card-info">
+                {/* <ActiveBox path="/profile/my-card-info">
                   <Link href={"/profile/my-card-info"} legacyBehavior>
                     <MenuLink>
                       <ContactMailOutlinedIcon /> My Card Information
                     </MenuLink>
                   </Link>
-                </ActiveBox>
+                </ActiveBox> */}
                 <Box sx={{ px: 1 }}>
                   <Button onClick={handleOpen}>
                     <MenuLink>
