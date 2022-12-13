@@ -75,7 +75,9 @@ const MenuBar = () => {
                 },
               }}
             >
-              <MenuLink>PRODUCT</MenuLink>
+              <Link href={"/product"} legacyBehavior>
+                <MenuLink>PRODUCT</MenuLink>
+              </Link>
               <Box
                 className="drop"
                 sx={{
