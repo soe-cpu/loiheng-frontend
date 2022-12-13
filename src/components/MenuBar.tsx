@@ -100,11 +100,11 @@ const MenuBar = () => {
                 </Grid>
               </Box>
             </Box>
-            <Box>
+            {/* <Box>
               <Link href={"/product"} legacyBehavior>
                 <MenuLink>DEALS & PROMOTION</MenuLink>
               </Link>
-            </Box>
+            </Box> */}
             <Box>
               <Link href={"/about-us"} legacyBehavior>
                 <MenuLink>ABOUT US</MenuLink>
@@ -115,11 +115,11 @@ const MenuBar = () => {
                 <MenuLink>CONTACT US</MenuLink>
               </Link>
             </Box>
-            <Box>
+            {/* <Box>
               <Link href={"/rma"} legacyBehavior>
                 <MenuLink>RMA</MenuLink>
               </Link>
-            </Box>
+            </Box> */}
           </Stack>
           <AppBar
             elevation={1}
