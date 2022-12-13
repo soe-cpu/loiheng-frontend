@@ -11,6 +11,10 @@ import Image from "next/image";
 import React from "react";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Link from "next/link";
+import { Session } from "next-auth";
+import wishlistStore, { Product } from "@stores/wishlist.store";
+import { useSession } from "next-auth/react";
+import Router from "next/router";
 
 interface ProductInterface {
 	id: number;
@@ -18,13 +22,27 @@ interface ProductInterface {
 	name: string;
 	price: string;
 	category: string;
+	data?: Product;
 }
 
 const myLoader = ({ src, width, quality }: any) => {
 	return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
 };
 
+const addToWishlist = (session: Session | null, product: Product) => {
+	if (session) {
+		const { getState } = wishlistStore;
+
+		const addWishlist = getState().addWishlist;
+		addWishlist(session, product);
+	} else {
+		Router.push("auth/login");
+	}
+};
+
 const ProductCard = (props: ProductInterface) => {
+	const { data } = useSession();
+
 	return (
 		<Box
 			sx={{
@@ -99,7 +117,14 @@ const ProductCard = (props: ProductInterface) => {
 			</Link>
 			<Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
 				<AddtoCartButton size="small">Add to Cart</AddtoCartButton>
-				<FavButton size={"small"}>
+				<FavButton
+					size={"small"}
+					onClick={() => {
+						if (props.data) {
+							addToWishlist(data, props.data);
+						}
+					}}
+				>
 					<FavoriteBorderOutlinedIcon />
 				</FavButton>
 			</Box>
