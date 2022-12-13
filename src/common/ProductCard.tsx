@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
 import Link from "next/link";
 import { Session } from "next-auth";
 import wishlistStore, { Product } from "@stores/wishlist.store";
@@ -30,19 +31,42 @@ const myLoader = ({ src, width, quality }: any) => {
   return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
 };
 
-const addToWishlist = (session: Session | null, product: Product) => {
+const addToWishlist = (session: Session | null, product?: Product) => {
   if (session) {
     const { getState } = wishlistStore;
-
+    const wishlists = getState().wishlists;
     const addWishlist = getState().addWishlist;
-    addWishlist(session, product);
+    const removeWishlist = getState().removeWishlist;
+    if (product)
+      if (wishlists?.find((p) => p.id === product.id)) {
+        removeWishlist(session, product);
+      } else {
+        addWishlist(session, product);
+      }
   } else {
     Router.push("auth/login");
   }
 };
 
+const isInWishlist = (
+  product: ProductInterface["data"],
+  products?: Product[]
+) => {
+  const result = products ? products.find((p) => p?.id === product?.id) : [];
+
+  if (result === undefined) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const ProductCard = (props: ProductInterface) => {
   const { data } = useSession();
+
+  const wishlists = wishlistStore((store) => store.wishlists);
+
+  const check = isInWishlist(props.data, wishlists);
 
   const addCart = cartStore((store) => store.addToCart);
   const addToCartClick = (session: Session | null, product_id: number) => {
@@ -144,7 +168,11 @@ const ProductCard = (props: ProductInterface) => {
             }
           }}
         >
-          <FavoriteBorderOutlinedIcon />
+          {check ? (
+            <FavoriteSharpIcon sx={{ color: colors.pink[500] }} />
+          ) : (
+            <FavoriteBorderOutlinedIcon />
+          )}
         </FavButton>
       </Box>
     </Box>
@@ -166,16 +194,18 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
   "&:hover": {
     backgroundColor: colors.blue[700],
   },
+  borderRadius: "5px",
 }));
+
 const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
   color: colors.blue[500],
-  borderRadius: "50%",
+  borderRadius: "5px",
   border: `1px solid ${colors.blue[500]}`,
   transition: "0.3s",
-  "&:hover": {
-    color: "#fff",
-    backgroundColor: colors.blue[500],
-  },
+  // "&:hover": {
+  // 	color: "#fff",
+  // 	backgroundColor: colors.blue[500],
+  // },
 }));
 
 const StyledLink = styled("a")(({ theme }) => ({
