@@ -3,6 +3,8 @@ import { Session } from "next-auth";
 import create from "zustand";
 import createVanilla from "zustand/vanilla";
 
+const url = process.env.API_URL;
+
 export interface WishlistResponse {
 	success: boolean;
 	data: Data;
@@ -158,7 +160,7 @@ export interface Pagination {
 	total: number;
 }
 
-export interface WishlistAddedResponse {
+export interface WishlistActionResponse {
 	success: boolean;
 	message: string;
 	status: number;
@@ -168,6 +170,7 @@ export interface WishlistStoreInterface {
 	wishlists?: Product[];
 	fetch: (session: Session) => void;
 	addWishlist: (session: Session, product: Product) => void;
+	removeWishlist: (session: Session, product: Product) => void;
 }
 
 function removeDuplicateObjects(arr: Product[]) {
@@ -214,9 +217,8 @@ const store = createVanilla<WishlistStoreInterface>((set, get) => ({
 			});
 	},
 	addWishlist: async (session, product) => {
-		const url = process.env.API_URL;
 		const res = await axios
-			.post<WishlistAddedResponse>(
+			.post<WishlistActionResponse>(
 				url + "wishlist-create",
 				{
 					user_id: session.user?.id,
@@ -235,6 +237,24 @@ const store = createVanilla<WishlistStoreInterface>((set, get) => ({
 					const wishlists = get().wishlists ?? [];
 					const rr = [...wishlists, product];
 					const list = removeDuplicateObjects(rr);
+					set({ wishlists: list });
+				}
+			});
+	},
+	removeWishlist: async (session: Session, product: Product) => {
+		const res = await axios
+			.delete<WishlistActionResponse>(url + `wishlist-remove/${product.id}`, {
+				headers: {
+					Authorization: session.token,
+				},
+			})
+			.then((res) => {
+				const { data } = res;
+
+				if (data.success === true) {
+					const wishlists = get().wishlists ?? [];
+					const result = wishlists.filter((p) => p.id !== product.id);
+					const list = removeDuplicateObjects(result);
 					set({ wishlists: list });
 				}
 			});
