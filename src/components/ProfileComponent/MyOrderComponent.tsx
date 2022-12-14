@@ -15,8 +15,17 @@ import {
 } from "@mui/material";
 import React from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useSession } from "next-auth/react";
+import orderStore from "@stores/order.store";
 
 const MyOrderComponent = () => {
+  const { data: session } = useSession();
+  const fetch = orderStore((store) => store.fetch);
+  React.useEffect(() => {
+    if (session) {
+      fetch(session);
+    }
+  }, [session, fetch]);
   return (
     <Box
       sx={{
