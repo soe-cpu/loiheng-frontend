@@ -58,14 +58,14 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
                     </MenuLink>
                   </Link>
                 </ActiveBox>
-                {/* <ActiveBox path="/profile/my-orders">
+                <ActiveBox path="/profile/my-orders">
                   <Link href={"/profile/my-orders"} legacyBehavior>
                     <MenuLink>
                       <ShoppingCartOutlinedIcon /> My Orders
                     </MenuLink>
                   </Link>
                 </ActiveBox>
-                <ActiveBox path="/profile/my-pre-orders">
+                {/* <ActiveBox path="/profile/my-pre-orders">
                   <Link href={"/profile/my-pre-orders"} legacyBehavior>
                     <MenuLink>
                       <AccessTimeIcon /> My Pre-Orders

@@ -9,12 +9,17 @@ import {
 	Grid,
 	styled,
 } from "@mui/material";
-import { Address } from "@stores/addressStore";
+import addressStore, { Address } from "@stores/addressStore";
+import { useSession } from "next-auth/react";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
 import { ImBin } from "react-icons/im";
 
 export const AddressCard = (props: Address) => {
+	const removeAddress = addressStore((store) => store.removeAddress);
+
+	const { data } = useSession();
+
 	const add = props;
 	return (
 		<Grid item xs={12} md={6} lg={4}>
@@ -51,7 +56,7 @@ export const AddressCard = (props: Address) => {
 				<Divider />
 				<Box sx={{ p: 2, display: "flex", justifyContent: "end" }}>
 					<Stack direction={"row"} spacing={1}>
-						<Tooltip title={"Edit Address"} arrow placement="top">
+						{/* <Tooltip title={"Edit Address"} arrow placement="top">
 							<IconButton
 								sx={{
 									border: `1px solid ${colors.blue[600]}`,
@@ -65,7 +70,7 @@ export const AddressCard = (props: Address) => {
 							>
 								<BiEdit style={{ fontSize: 16 }} />
 							</IconButton>
-						</Tooltip>
+						</Tooltip> */}
 						<Tooltip title={"Delete Address"} arrow placement="top">
 							<IconButton
 								sx={{
@@ -76,6 +81,9 @@ export const AddressCard = (props: Address) => {
 										backgroundColor: colors.red[600],
 										color: "#fff",
 									},
+								}}
+								onClick={() => {
+									if (data) removeAddress(data, props.id);
 								}}
 							>
 								<ImBin style={{ fontSize: 16 }} />
