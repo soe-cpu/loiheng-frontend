@@ -147,7 +147,7 @@ const MenuBar = () => {
                     <Box
                       sx={{
                         position: "relative",
-                        width: "160px",
+                        width: "140px",
                         height: "40px",
                       }}
                     >
@@ -235,7 +235,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: colors.grey[300],
   },
-  width: "250px",
+  width: "200px",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
