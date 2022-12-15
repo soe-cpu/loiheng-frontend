@@ -100,11 +100,11 @@ const MenuBar = () => {
                 </Grid>
               </Box>
             </Box>
-            <Box>
+            {/* <Box>
               <Link href={"/product"} legacyBehavior>
                 <MenuLink>DEALS & PROMOTION</MenuLink>
               </Link>
-            </Box>
+            </Box> */}
             <Box>
               <Link href={"/about-us"} legacyBehavior>
                 <MenuLink>ABOUT US</MenuLink>
@@ -115,11 +115,11 @@ const MenuBar = () => {
                 <MenuLink>CONTACT US</MenuLink>
               </Link>
             </Box>
-            <Box>
+            {/* <Box>
               <Link href={"/rma"} legacyBehavior>
                 <MenuLink>RMA</MenuLink>
               </Link>
-            </Box>
+            </Box> */}
           </Stack>
           <AppBar
             elevation={1}
@@ -147,7 +147,7 @@ const MenuBar = () => {
                     <Box
                       sx={{
                         position: "relative",
-                        width: "160px",
+                        width: "140px",
                         height: "40px",
                       }}
                     >
@@ -235,7 +235,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: colors.grey[300],
   },
-  width: "250px",
+  width: "200px",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({

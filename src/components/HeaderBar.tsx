@@ -30,6 +30,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useRouter } from "next/router";
 import wishlistStore from "@stores/wishlist.store";
 import { Logout } from "@mui/icons-material";
+import cartStore from "@stores/cart.store";
 
 const HeaderBar = () => {
 	const theme = useTheme();
@@ -55,11 +56,14 @@ const HeaderBar = () => {
 	const wishlists = wishlistStore((store) => store.wishlists);
 	const fetch = wishlistStore((store) => store.fetch);
 
+	const carts = cartStore((store) => store.carts);
+
 	React.useEffect(() => {
 		if (data) {
 			fetch(data);
 		}
-	}, [data, fetch]);
+		carts;
+	}, [data, fetch, carts]);
 
 	return (
 		<Box sx={{ display: isMobile ? "none" : "block" }}>
@@ -96,7 +100,7 @@ const HeaderBar = () => {
 							<NotificationsNoneOutlinedIcon color="action" />
 						</Badge>
 						<Link href={"/addtocart"}>
-							<Badge badgeContent={4} color="primary">
+							<Badge badgeContent={carts?.length} color="primary">
 								<ShoppingCartOutlinedIcon color="action" />
 							</Badge>
 						</Link>
