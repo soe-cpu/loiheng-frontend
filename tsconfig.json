@@ -22,8 +22,8 @@
 			"@stores/*": ["src/stores/*"],
 			"@common/*": ["src/common/*"],
 			"@types/*": ["src/types/*"],
-      "@atoms/*": ["src/atoms/*"],
-      "@apis/*": ["src/utils/apis/*"]
+			"@atoms/*": ["src/atoms/*"],
+			"@apis/*": ["src/utils/apis/*"]
 		},
 		"typeRoots": ["@types"]
 	},

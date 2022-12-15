@@ -54,16 +54,15 @@ const HeaderBar = () => {
 	const router = useRouter();
 
 	const wishlists = wishlistStore((store) => store.wishlists);
-	const fetch = wishlistStore((store) => store.fetch);
-
-	const carts = cartStore((store) => store.carts);
+	const fetchWishlists = wishlistStore((store) => store.fetch);
+	const { fetch: fetchCarts, carts } = cartStore();
 
 	React.useEffect(() => {
 		if (data) {
-			fetch(data);
+			fetchWishlists(data);
+			fetchCarts(data);
 		}
-		carts;
-	}, [data, fetch, carts]);
+	}, [data, fetchWishlists, fetchCarts]);
 
 	return (
 		<Box sx={{ display: isMobile ? "none" : "block" }}>
