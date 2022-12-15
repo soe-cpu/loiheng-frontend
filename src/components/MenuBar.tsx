@@ -22,6 +22,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Image from "next/image";
 import { NextRouter, useRouter } from "next/router";
+import useAllCategory from "@apis/useAllCategory";
+import { GetCategoryResponse } from "@atoms/categoryListAtom";
 
 const MenuBar = () => {
   const theme = useTheme();
@@ -39,6 +41,24 @@ const MenuBar = () => {
   const toggleDrawer = () => {
     setDrawer(!drawer);
   };
+
+  const {
+    data,
+    error,
+    isValidating,
+  } = useAllCategory();
+
+  const [category, setCategory] =
+    React.useState<GetCategoryResponse["data"]>();
+
+    React.useEffect(() => {
+      if (data) {
+        setCategory(data.data);
+      }
+    }, [
+      data,
+      setCategory,
+    ]);
 
   return (
     <Box>
@@ -78,26 +98,52 @@ const MenuBar = () => {
               <Link href={"/product"} legacyBehavior>
                 <MenuLink>PRODUCT</MenuLink>
               </Link>
-              <Box
-                className="drop"
+              <Box 
+                className="drop" 
                 sx={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "#fff",
-                  position: "absolute",
-                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
                   zIndex: 1,
+                  position: "absolute",
+                  left: -100,
                   display: "none",
+                  }}>
+              <Box
+                sx={{
+                  minWidth: "800px",
+                  backgroundColor: "#fff",
+                  boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)",
+                  borderRadius: "4px",
+                  mt: 2,
                   p: 2,
                 }}
               >
                 <Grid container spacing={2}>
-                  <Grid item xs={3}>
-                    <Link href={"/"} legacyBehavior>
-                      <a>Hi</a>
-                    </Link>
-                  </Grid>
+                  {
+                    category?.categories.map((category, index) => {
+                      return (
+                      <Grid item xs={3} key={index}>
+                        <Box>
+                          <Box sx={{pb: 1}}>
+                            <Typography style={{ fontSize: 16, fontWeight: 500, color: "#000" }}>{category.name}</Typography>
+                          </Box>
+                          {
+                            category.sub_category.map((sub,index) => {
+                              return (
+                          <Box key={index} sx={{paddingY: "4px"}}>
+                          <Link href={"/"} legacyBehavior>
+                            <StyledCategoryLink >{sub.name}</StyledCategoryLink>
+                          </Link>
+                          </Box>
+
+                              )
+                            })
+                          }
+                        </Box>
+                      </Grid>
+                      )
+                    })
+                  }
                 </Grid>
+              </Box>
               </Box>
             </Box>
             {/* <Box>
@@ -218,6 +264,18 @@ const MenuBar = () => {
     </Box>
   );
 };
+
+const StyledCategoryLink = styled("a")(({ theme }) => ({
+  color: colors.grey[600],  
+  textDecoration: "none", 
+  fontSize: 14,
+  cursor: "pointer",
+
+  "&:hover": {
+    color: colors.blue[500],
+  }
+  
+}));
 const Offset = styled(Toolbar)(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
@@ -257,6 +315,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: "100%",
   },
 }));
+
 
 const StyledMenuLink = styled("a")<{
   path: string;
