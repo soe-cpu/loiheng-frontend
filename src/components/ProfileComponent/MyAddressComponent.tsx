@@ -80,6 +80,7 @@ const MyAddressComponent = () => {
 				is_default
 			).then((res) => {
 				if (res) {
+					fetch(session);
 					handleClose();
 				}
 			});
