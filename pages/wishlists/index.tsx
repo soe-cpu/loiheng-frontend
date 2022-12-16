@@ -9,37 +9,40 @@ import wishlistStore from "@stores/wishlist.store";
 import ProductCard from "@common/ProductCard";
 import { authOptions, Me } from "pages/api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import Router from "next/router";
+import { signIn } from "next-auth/react";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const session = await unstable_getServerSession(
-		context.req,
-		context.res,
-		authOptions
-	);
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+// 	const session = await unstable_getServerSession(
+// 		context.req,
+// 		context.res,
+// 		authOptions
+// 	);
 
-	if (!session) {
-		return {
-			redirect: {
-				destination: "/auth/login",
-				permanent: false,
-			},
-		};
-	}
+// 	if (!session) {
+// 		signIn();
+// 		return {
+// 			redirect: {
+// 				destination: "/auth/login?callbackUrl=" + context.req.url,
+// 				permanent: false,
+// 			},
+// 		};
+// 	}
 
-	const data = (await axios
-		.get(`${process.env.API_URL}auth/me`, {
-			headers: {
-				Authorization: `${session.token}`,
-			},
-		})
-		.then((res) => res.data)) as Me;
+// 	const data = (await axios
+// 		.get(`${process.env.API_URL}auth/me`, {
+// 			headers: {
+// 				Authorization: `${session.token}`,
+// 			},
+// 		})
+// 		.then((res) => res.data)) as Me;
 
-	return {
-		props: { data },
-	};
-};
+// 	return {
+// 		props: { data },
+// 	};
+// };
 
-const WishlistPage = (props: { data: Me }) => {
+const WishlistPage = () => {
 	const wishlists = wishlistStore((store) => store.wishlists);
 
 	return (

@@ -8,34 +8,34 @@ import Head from "next/head";
 import { authOptions, Me } from "pages/api/auth/[...nextauth]";
 import { ReactElement } from "react";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const session = await unstable_getServerSession(
-		context.req,
-		context.res,
-		authOptions
-	);
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+// 	const session = await unstable_getServerSession(
+// 		context.req,
+// 		context.res,
+// 		authOptions
+// 	);
 
-	if (!session) {
-		return {
-			redirect: {
-				destination: "/auth/login",
-				permanent: false,
-			},
-		};
-	}
+// 	if (!session) {
+// 		return {
+// 			redirect: {
+// 				destination: "/auth/login?callbackUrl=" + context.req.url,
+// 				permanent: false,
+// 			},
+// 		};
+// 	}
 
-	const data = (await axios
-		.get(`${process.env.API_URL}auth/me`, {
-			headers: {
-				Authorization: `${session.token}`,
-			},
-		})
-		.then((res) => res.data)) as Me;
+// 	const data = (await axios
+// 		.get(`${process.env.API_URL}auth/me`, {
+// 			headers: {
+// 				Authorization: `${session.token}`,
+// 			},
+// 		})
+// 		.then((res) => res.data)) as Me;
 
-	return {
-		props: { data },
-	};
-};
+// 	return {
+// 		props: { data },
+// 	};
+// };
 
 const AddToCart = () => {
 	return (
