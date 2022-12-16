@@ -9,6 +9,8 @@ import wishlistStore from "@stores/wishlist.store";
 import ProductCard from "@common/ProductCard";
 import { authOptions, Me } from "pages/api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import Router from "next/router";
+import { signIn } from "next-auth/react";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const session = await unstable_getServerSession(
@@ -18,9 +20,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	);
 
 	if (!session) {
+		signIn();
 		return {
 			redirect: {
-				destination: "/auth/login",
+				destination: "/auth/login?callbackUrl=" + context.req.url,
 				permanent: false,
 			},
 		};

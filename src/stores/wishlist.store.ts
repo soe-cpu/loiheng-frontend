@@ -51,7 +51,7 @@ export interface Product {
 	id: number;
 	product_code: string;
 	name: string;
-	price: string;
+	price: number;
 	cover_img: string;
 	description?: string;
 	short_description?: string;

@@ -125,7 +125,11 @@ const ProductCard = (props: ProductInterface) => {
 							fontWeight: 500,
 						}}
 					>
-						$ {props.price}
+						{new Intl.NumberFormat("mm-MM", {
+							style: "currency",
+							currency: "MMK",
+							currencyDisplay: "code",
+						}).format(props.price)}
 					</Typography>
 				</StyledLink>
 			</Link>
