@@ -2,6 +2,7 @@ import useProductDetails, { ProductDetails } from "@apis/useProductDetails";
 import { ProductDetailComponent } from "@components/ProductComponent";
 import MainLayout from "@layouts/MainLayout";
 import { Box } from "@mui/material";
+import { Product } from "@stores/wishlist.store";
 import axios from "axios";
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from "next";
 import Head from "next/head";
@@ -28,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 interface ProductPage {
-	data: ProductDetails["data"]["products"][0];
+	data: Product;
 }
 
 export default function ProductPage(props: ProductPage) {

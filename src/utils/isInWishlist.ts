@@ -6,13 +6,10 @@ export interface ProductInterface {
 	name: string;
 	price: number;
 	category: string;
-	data?: Product;
+	data: Product;
 }
 
-export const isInWishlist = (
-	product: ProductInterface["data"],
-	products?: Product[]
-) => {
+export const isInWishlist = (product: Product, products?: Product[]) => {
 	const result = products ? products.find((p) => p?.id === product?.id) : [];
 
 	if (result === undefined) {

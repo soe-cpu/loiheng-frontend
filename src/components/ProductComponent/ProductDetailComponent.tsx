@@ -40,7 +40,7 @@ import { ProductDetails } from "@apis/useProductDetails";
 import Link from "next/link";
 import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
-import wishlistStore from "@stores/wishlist.store";
+import wishlistStore, { Product } from "@stores/wishlist.store";
 import { useRouter } from "next/router";
 import useAllProduct from "@apis/useAllProduct";
 import { GetProductListResponse } from "@atoms/productListAtom";
@@ -98,9 +98,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 // Table Styled end //
 
-const ProductDetailComponent = (
-	props: ProductDetails["data"]["products"][0]
-) => {
+const ProductDetailComponent = (props: Product) => {
 	// states
 	const [value, setValue] = React.useState(0);
 	const [quantity, setQuantity] = React.useState(1);
@@ -291,9 +289,15 @@ const ProductDetailComponent = (
 								<Typography>Be The First Review</Typography>
 							</Box>
 							<Box sx={{ py: 2 }}>
-								<div
-									dangerouslySetInnerHTML={{ __html: props.short_description }}
-								/>
+								{props.short_description ? (
+									<div
+										dangerouslySetInnerHTML={{
+											__html: props.short_description,
+										}}
+									/>
+								) : (
+									"-"
+								)}
 							</Box>
 							<Box
 								sx={{ display: "flex", gap: 2, alignItems: "center", pb: 1 }}
@@ -545,7 +549,11 @@ const ProductDetailComponent = (
 					</Tabs>
 				</Box>
 				<TabPanel value={value} index={0}>
-					<div dangerouslySetInnerHTML={{ __html: props.description }} />
+					{props.description ? (
+						<div dangerouslySetInnerHTML={{ __html: props.description }} />
+					) : (
+						"-"
+					)}
 				</TabPanel>
 				<TabPanel value={value} index={1}>
 					-

@@ -19,6 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 const myLoader = ({ src, width, quality }: any) => {
 	return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
@@ -30,6 +31,18 @@ const myLoaderGif = ({ src, width, quality }: any) => {
 const AddToCartComponent = () => {
 	const [subtotal, setSubtotal] = useState<String>("");
 	const cartData = cartStore((store) => store.carts);
+	const removeCartItem = cartStore((store) => store.removeFromCart);
+
+	const { data: session } = useSession();
+
+	const removeItem = (product_id: number) => {
+		if (session) {
+			const res = removeCartItem(session, product_id);
+			res.then((d) => {
+				d.success ? toast.success(d.message) : toast.error(d.message);
+			});
+		}
+	};
 
 	return (
 		<Box sx={{ py: 2 }}>
@@ -157,6 +170,7 @@ const AddToCartComponent = () => {
 															backgroundColor: colors.red[100],
 														},
 													}}
+													onClick={() => removeItem(cart.id)}
 												>
 													<DeleteIcon />
 												</IconButton>
