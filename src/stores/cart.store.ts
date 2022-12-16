@@ -169,17 +169,28 @@ export interface AddToCartResponse {
 	status: number;
 }
 
-export interface AddressStoreInterface {
+export interface RemoveFromResponse {
+	success: boolean;
+	message: string;
+	status: number;
+}
+
+export interface CartStoreInterface {
 	carts?: Cart[];
 	fetch: (session: Session) => void;
 	addToCart: (session: Session, product_id: number) => void;
+	removeFromCart: (
+		session: Session,
+		product_id: number
+	) => Promise<RemoveFromResponse>;
 }
 
-const cartStore = create<AddressStoreInterface>((set, get) => ({
+const url = process.env.API_URL;
+
+const cartStore = create<CartStoreInterface>((set, get) => ({
 	carts: [],
 	isSaving: false,
 	fetch: async (session: Session) => {
-		const url = process.env.API_URL;
 		const res = await axios
 			.get<CartResponse>(url + `carts`, {
 				headers: {
@@ -195,7 +206,6 @@ const cartStore = create<AddressStoreInterface>((set, get) => ({
 			});
 	},
 	addToCart: async (session: Session, product_id: number) => {
-		const url = process.env.API_URL;
 		const res = await axios
 			.post<AddToCartResponse>(
 				url + "cart-create",
@@ -213,10 +223,30 @@ const cartStore = create<AddressStoreInterface>((set, get) => ({
 				const { data } = res;
 				const refresh = get().fetch;
 
-				if (data.success === true) {
+				if (data.success) {
 					refresh(session);
 				}
 			});
+	},
+	removeFromCart: async (session, product_id) => {
+		const res = await axios
+			.delete<RemoveFromResponse>(url + "remove-cart-item/" + product_id, {
+				headers: {
+					Authorization: session.token,
+				},
+			})
+			.then((res) => {
+				const { data } = res;
+				const refresh = get().fetch;
+				refresh(session);
+
+				return data;
+			})
+			.catch((e) => {
+				return e.response.data as RemoveFromResponse;
+			});
+
+		return res;
 	},
 }));
 

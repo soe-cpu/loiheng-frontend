@@ -29,7 +29,7 @@ function MyApp({
 			>
 				{/* <ToastContainer /> */}
 				<StyledEngineProvider injectFirst>
-					<Toaster position="top-center" reverseOrder={false} />
+					<Toaster position="bottom-right" reverseOrder={false} />
 					<ThemeWrapper>{getLayout(<Component {...pageProps} />)}</ThemeWrapper>
 				</StyledEngineProvider>
 			</SessionProvider>
