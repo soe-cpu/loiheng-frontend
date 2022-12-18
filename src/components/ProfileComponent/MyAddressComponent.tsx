@@ -27,6 +27,7 @@ import StyledModalBox from "@common/StyledModalBox";
 import addressStore from "@stores/addressStore";
 import { useSession } from "next-auth/react";
 import { AddressCard } from "./AddressCard";
+import toast from "react-hot-toast";
 
 const MyAddressComponent = () => {
 	const theme = useTheme();
@@ -82,6 +83,7 @@ const MyAddressComponent = () => {
 				if (res) {
 					fetch(session);
 					handleClose();
+					toast.success("Address created successfully!")
 				}
 			});
 		} else {
@@ -123,7 +125,7 @@ const MyAddressComponent = () => {
 				>
 					Add Address
 				</Button>
-				{/* Note Modal start */}
+				{/* Add Address Modal start */}
 				<StyledModalBox open={open} handleClose={handleOpen}>
 					<Box
 						sx={{
@@ -243,7 +245,8 @@ const MyAddressComponent = () => {
 						</Stack>
 					</Box>
 				</StyledModalBox>
-				{/* Note Modal end */}
+				{/* Add Address Modal end */}
+				
 			</Stack>
 			<Divider />
 			<Box sx={{ p: 2 }}>

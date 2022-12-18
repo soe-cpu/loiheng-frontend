@@ -7,6 +7,7 @@ import {
 	Grid,
 	IconButton,
 	InputBase,
+	Stack,
 	Tooltip,
 	Typography,
 } from "@mui/material";
@@ -53,7 +54,8 @@ const AddToCartComponent = () => {
 						<Typography>{cartData?.length} items</Typography>
 					</Box>
 					<Divider />
-					<Box sx={{ p: 2 }}>
+					{cartData && (
+						<Box sx={{ p: 2 }}>
 						{cartData?.map((cart, index) => {
 							return (
 								<Grid container spacing={4} key={index}>
@@ -180,7 +182,23 @@ const AddToCartComponent = () => {
 								</Grid>
 							);
 						})}
-					</Box>
+						</Box>
+					)}
+					{cartData?.length ? ("") : (
+						<Stack  justifyContent={"center"} alignItems={"center"} spacing={4} sx={{p: 6}}>
+							<Box sx={{position: "relative", width: "300px", height: "300px"}}>
+								<Image
+									src={"/cart.gif"}
+									alt="Cart Gif"
+									loader={myLoaderGif}
+									fill
+									sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+								/>
+							</Box>
+							<Typography variant="h5"><span style={{color: colors.blue[500]}}>Expre More</span> - with - <span style={{color: colors.red[500]}}>LOI HENG</span></Typography>
+						</Stack>
+					)}
+					
 				</Box>
 				<Grid container sx={{ mt: 4 }} spacing={4}>
 					<Grid item xs={12} md={6}>
