@@ -1,5 +1,6 @@
 import {
 	AppBar,
+	Badge,
 	Box,
 	Button,
 	colors,
@@ -25,6 +26,12 @@ import { NextRouter, useRouter } from "next/router";
 import useAllCategory from "@apis/useAllCategory";
 import { GetCategoryResponse } from "@atoms/categoryListAtom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useSession } from "next-auth/react";
+import cartStore from "@stores/cart.store";
+import wishlistStore from "@stores/wishlist.store";
 
 const MenuBar = () => {
 	const theme = useTheme();
@@ -46,6 +53,18 @@ const MenuBar = () => {
 	const { data, error, isValidating } = useAllCategory();
 
 	const [category, setCategory] = React.useState<GetCategoryResponse["data"]>();
+
+	const { data: session } = useSession();
+	const wishlists = wishlistStore((store) => store.wishlists);
+	const fetchWishlists = wishlistStore((store) => store.fetch);
+	const { fetch: fetchCarts, carts } = cartStore();
+
+	React.useEffect(() => {
+		if (session) {
+			fetchWishlists(session);
+			fetchCarts(session);
+		}
+	}, [data, fetchWishlists, fetchCarts]);
 
 	React.useEffect(() => {
 		if (data) {
@@ -182,7 +201,7 @@ const MenuBar = () => {
 								{!drawer && <MenuIcon />}
 							</IconButton>
 							<Box sx={{ flexGrow: 1 }} />
-							<Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+							<Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
 								<Search>
 									<SearchIconWrapper>
 										<SearchIcon sx={{ color: "gray" }} />
@@ -192,12 +211,22 @@ const MenuBar = () => {
 										inputProps={{ "aria-label": "search" }}
 									/>
 								</Search>
+								<Link href={"/addtocart"}>
+									<Badge badgeContent={carts?.length} color="primary">
+										<ShoppingCartOutlinedIcon color="action" />
+									</Badge>
+								</Link>
+								<Link href={"/wishlists"}>
+									<Badge badgeContent={wishlists?.length} color="primary">
+										<FavoriteBorderOutlinedIcon color="action" />
+									</Badge>
+								</Link>
 								<Box sx={{ position: "relative" }}>
 									<Link href={"/"}>
 										<Box
 											sx={{
 												position: "relative",
-												width: "140px",
+												width: "120px",
 												height: "40px",
 											}}
 										>
@@ -245,9 +274,9 @@ const MenuBar = () => {
 					<Link href={"/product"} legacyBehavior>
 						<StyledMenuLink path="/product">PRODUCT</StyledMenuLink>
 					</Link>
-					<Link href={"/product"} legacyBehavior>
+					{/* <Link href={"/product"} legacyBehavior>
 						<StyledMenuLink path="/product">DEALS & PROMOTION</StyledMenuLink>
-					</Link>
+					</Link> */}
 					<Link href={"/about-us"} legacyBehavior>
 						<StyledMenuLink path="/about-us">ABOUT US</StyledMenuLink>
 					</Link>
@@ -257,12 +286,21 @@ const MenuBar = () => {
 					<Link href={"/rma"} legacyBehavior>
 						<StyledMenuLink path="/rma">RMA</StyledMenuLink>
 					</Link>
+					{session?.user && (
+					<Link href={"/rma"} legacyBehavior>
+						<StyledMenuLink path="/profile">Profile</StyledMenuLink>
+					</Link>
+					)}
+					{!session?.user && (
 					<Link href={"/auth/login"} legacyBehavior>
 						<StyledMenuLink path="/auth/login">Login</StyledMenuLink>
 					</Link>
+					)}
+					{!session?.user && (
 					<Link href={"/auth/register"} legacyBehavior>
 						<StyledMenuLink path="/auth/register">Register</StyledMenuLink>
 					</Link>
+					)}
 				</Box>
 			</Drawer>
 		</Box>
