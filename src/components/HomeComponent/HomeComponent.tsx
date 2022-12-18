@@ -318,7 +318,7 @@ const HomeComponent = () => {
                     <Box
                       sx={{
                         width: "100%",
-                        height: "120px",
+                        height: isMobile ? "140px" : "120px",
                         position: "relative",
                         border: `1px solid ${colors.grey[300]}`,
                       }}

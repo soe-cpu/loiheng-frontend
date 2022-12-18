@@ -1,7 +1,7 @@
 import useAllFeatureProduct from "@apis/useAllFeatureProduct";
 import { GetProductListResponse } from "@atoms/productListAtom";
 import ProductCard from "@common/ProductCard";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React from "react";
 
 const FeaturedProductComponent = () => {
@@ -15,6 +15,8 @@ const FeaturedProductComponent = () => {
 			setFeatured(data.data);
 		}
 	}, [data, setFeatured]);
+
+	
 	return (
 		<Box sx={{ py: 2 }}>
 			<Container maxWidth={"lg"}>
@@ -26,7 +28,7 @@ const FeaturedProductComponent = () => {
 				<Grid container spacing={2} sx={{ py: 2 }} columns={15}>
 					{featured?.products.map((product, index) => {
 						return (
-							<Grid item xs={7} md={3} key={index}>
+							<Grid item xs={12} md={3} key={index}>
 								<ProductCard
 									id={product.id}
 									name={product.name}

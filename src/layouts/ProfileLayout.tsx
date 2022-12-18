@@ -44,6 +44,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
 							<Box
 								sx={{
 									border: `1px solid ${colors.grey[300]}`,
+									borderRadius: "6px",
 									p: 2,
 									display: "flex",
 									flexDirection: "column",
@@ -157,7 +158,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
 							</Box>
 						</Grid>
 						<Grid item xs={12} lg={8}>
-							<Box sx={{ backgroundColor: "#fff" }}>{children}</Box>
+							<Box sx={{ backgroundColor: "#fff", border: `1px solid ${colors.grey[300]}`, borderRadius: "6px", }}>{children}</Box>
 						</Grid>
 					</Grid>
 				</Container>

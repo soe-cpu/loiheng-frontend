@@ -31,6 +31,10 @@ import { MdOutlineSecurity } from "react-icons/md";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ProductCard from "@common/ProductCard";
+import {
+	IoIosArrowDropleftCircle,
+	IoIosArrowDroprightCircle,
+  } from "react-icons/io";
 
 import Slider from "react-slick";
 
@@ -77,6 +81,7 @@ function a11yProps(index: number) {
 }
 // Tab end //
 
+
 // Table Styled start //
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -97,6 +102,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 	},
 }));
 // Table Styled end //
+
+// Stick Slide start //
+function NextArrow(props: any) {
+	const { style, onClick } = props;
+	return (
+	  <div style={{ ...style, display: "block" }} onClick={onClick}>
+		<IoIosArrowDroprightCircle className="slick-arrow-icon-right" />
+	  </div>
+	);
+  }
+  
+  function PrevArrow(props: any) {
+	const { style, onClick } = props;
+	return (
+	  <div
+		style={{ ...style, display: "block" }}
+		className="test"
+		onClick={onClick}
+	  >
+		<IoIosArrowDropleftCircle className="slick-arrow-icon-left" />
+	  </div>
+	);
+  }
+// Stick Slide end //
 
 const ProductDetailComponent = (props: Product) => {
 	// states
@@ -161,7 +190,9 @@ const ProductDetailComponent = (props: Product) => {
 		speed: 500,
 		slidesToShow: 5,
 		swipeToSlide: true,
-		arrows: false,
+		
+		nextArrow: <NextArrow />,
+    	prevArrow: <PrevArrow />,
 		responsive: [
 			{
 				breakpoint: 1024,
@@ -176,6 +207,7 @@ const ProductDetailComponent = (props: Product) => {
 				settings: {
 					slidesToShow: 2,
 					initialSlide: 2,
+					arrows: false,
 				},
 			},
 			{
