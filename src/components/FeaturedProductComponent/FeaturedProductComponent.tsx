@@ -28,7 +28,7 @@ const FeaturedProductComponent = () => {
 				<Grid container spacing={2} sx={{ py: 2 }} columns={15}>
 					{featured?.products.map((product, index) => {
 						return (
-							<Grid item xs={12} md={3} key={index}>
+							<Grid item xs={15} md={3} key={index}>
 								<ProductCard
 									id={product.id}
 									name={product.name}
