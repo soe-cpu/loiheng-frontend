@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Session } from "next-auth";
+import { removeDuplicateObjects } from "src/utils/removeDuplicateObjects";
 import create from "zustand";
 import createVanilla from "zustand/vanilla";
 
@@ -50,12 +51,12 @@ export interface Product {
 	id: number;
 	product_code: string;
 	name: string;
-	price: string;
+	price: number;
 	cover_img: string;
 	description?: string;
 	short_description?: string;
 	sku: string;
-	stock?: string;
+	stock?: any;
 	desc_file: string;
 	approved_by: any;
 	approved_when: any;
@@ -171,25 +172,6 @@ export interface WishlistStoreInterface {
 	fetch: (session: Session) => void;
 	addWishlist: (session: Session, product: Product) => void;
 	removeWishlist: (session: Session, product: Product) => void;
-}
-
-function removeDuplicateObjects(arr: Product[]) {
-	// Create a new empty array
-	let uniqueObjects = [];
-
-	// Loop through the original array
-	for (let i = 0; i < arr.length; i++) {
-		// Check if the current object is already present in the new array
-		let isDuplicate = uniqueObjects.some((obj) => obj.id === arr[i].id);
-
-		// If it is not a duplicate, add it to the new array
-		if (!isDuplicate) {
-			uniqueObjects.push(arr[i]);
-		}
-	}
-
-	// Return the new array of unique objects
-	return uniqueObjects;
 }
 
 const store = createVanilla<WishlistStoreInterface>((set, get) => ({

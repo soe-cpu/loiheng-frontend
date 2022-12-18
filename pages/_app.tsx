@@ -6,6 +6,7 @@ import React, { ReactElement, ReactNode } from "react";
 import { SWRConfig } from "swr";
 import "../styles/globals.css";
 import { StyledEngineProvider } from "@mui/material";
+import { Toaster } from "react-hot-toast";
 
 export type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -28,6 +29,7 @@ function MyApp({
 			>
 				{/* <ToastContainer /> */}
 				<StyledEngineProvider injectFirst>
+					<Toaster position="bottom-right" reverseOrder={false} />
 					<ThemeWrapper>{getLayout(<Component {...pageProps} />)}</ThemeWrapper>
 				</StyledEngineProvider>
 			</SessionProvider>

@@ -270,7 +270,7 @@ const ProductComponent = () => {
             <Grid container spacing={2}>
               {product?.products.map((prod, index) => {
                 return (
-                  <Grid item xs={6} md={4} key={index}>
+                  <Grid item xs={12} md={4} key={index}>
                     <ProductCard
                       id={prod.id}
                       name={prod.name}

@@ -21,11 +21,7 @@ interface ProfileComponentProps {
 const ProfileComponent = (props: ProfileComponentProps) => {
 	const { me } = props;
 	return (
-		<Box
-			sx={{
-				border: `1px solid ${colors.grey[300]}`,
-			}}
-		>
+		<Box>
 			<Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
 				<AccountCircleOutlinedIcon />
 				<Typography variant="h6">My Profile</Typography>
