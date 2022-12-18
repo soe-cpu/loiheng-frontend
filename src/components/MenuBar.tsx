@@ -338,7 +338,7 @@ const Search = styled("div")(({ theme }) => ({
 	"&:hover": {
 		backgroundColor: colors.grey[300],
 	},
-	width: "200px",
+	width: "160px",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
