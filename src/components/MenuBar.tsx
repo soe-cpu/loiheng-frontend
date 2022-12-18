@@ -287,7 +287,7 @@ const MenuBar = () => {
 						<StyledMenuLink path="/rma">RMA</StyledMenuLink>
 					</Link>
 					{session?.user && (
-					<Link href={"/rma"} legacyBehavior>
+					<Link href={"/profile"} legacyBehavior>
 						<StyledMenuLink path="/profile">Profile</StyledMenuLink>
 					</Link>
 					)}
