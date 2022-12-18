@@ -102,7 +102,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
 											<LogoutOutlinedIcon /> Logout
 										</MenuLink>
 									</Button>
-									{/* Note Modal start */}
+									{/* Logout Modal start */}
 									<StyledModalBox open={open} handleClose={handleOpen}>
 										<Box
 											sx={{
@@ -153,7 +153,7 @@ const ProfileLayout = ({ children }: { children: React.ReactNode }) => {
 											</Stack>
 										</Box>
 									</StyledModalBox>
-									{/* Note Modal end */}
+									{/* Logout Modal end */}
 								</Box>
 							</Box>
 						</Grid>

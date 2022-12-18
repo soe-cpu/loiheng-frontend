@@ -1,3 +1,4 @@
+import StyledModalBox from "@common/StyledModalBox";
 import {
 	Box,
 	colors,
@@ -8,19 +9,26 @@ import {
 	IconButton,
 	Grid,
 	styled,
+	Button,
+	useTheme,
 } from "@mui/material";
 import addressStore, { Address } from "@stores/addressStore";
 import { useSession } from "next-auth/react";
 import React from "react";
+import toast from "react-hot-toast";
 import { BiEdit } from "react-icons/bi";
 import { ImBin } from "react-icons/im";
 
 export const AddressCard = (props: Address) => {
+	const theme = useTheme();
 	const removeAddress = addressStore((store) => store.removeAddress);
 
 	const { data } = useSession();
 
 	const add = props;
+	const [openDelete, setOpenDelete] = React.useState(false);
+	const handleOpenDelete = () => setOpenDelete(true);
+	const handleCloseDelete = () => setOpenDelete(false);
 	return (
 		<Grid item xs={12} md={6} lg={4}>
 			<Box sx={{ border: `1px solid ${colors.grey[300]}` }}>
@@ -56,21 +64,6 @@ export const AddressCard = (props: Address) => {
 				<Divider />
 				<Box sx={{ p: 2, display: "flex", justifyContent: "end" }}>
 					<Stack direction={"row"} spacing={1}>
-						{/* <Tooltip title={"Edit Address"} arrow placement="top">
-							<IconButton
-								sx={{
-									border: `1px solid ${colors.blue[600]}`,
-									color: colors.blue[600],
-									transition: "0.4s",
-									"&:hover": {
-										backgroundColor: colors.blue[600],
-										color: "#fff",
-									},
-								}}
-							>
-								<BiEdit style={{ fontSize: 16 }} />
-							</IconButton>
-						</Tooltip> */}
 						<Tooltip title={"Delete Address"} arrow placement="top">
 							<IconButton
 								sx={{
@@ -82,13 +75,60 @@ export const AddressCard = (props: Address) => {
 										color: "#fff",
 									},
 								}}
-								onClick={() => {
-									if (data) removeAddress(data, props.id);
-								}}
+								onClick={handleOpenDelete}
 							>
 								<ImBin style={{ fontSize: 16 }} />
 							</IconButton>
 						</Tooltip>
+						{/* Delete Addresss Modal start */}
+						<StyledModalBox open={openDelete} handleClose={handleOpenDelete}>
+							<Box
+								sx={{
+									width: 350,
+									display: "flex",
+									flexDirection: "column",
+									gap: 2,
+								}}
+							>
+								<Typography variant="h6">Address Remove Confrim</Typography>
+								<Divider />
+								<Typography>Are you sure you want to delete it?</Typography>
+								<Divider />
+								<Stack
+									direction={"row"}
+									spacing={2}
+									justifyContent={"end"}
+								>
+									<Button
+										variant="contained"
+										color="error"
+										onClick={handleCloseDelete}
+										sx={{ boxShadow: "0px 0px 0px #fff" }}
+									>
+										NO
+									</Button>
+									<Button
+										variant="contained"
+										sx={{
+											color: "#fff",
+											backgroundColor: theme.palette.primary.main,
+											boxShadow: "0px 0px 0px #fff",
+											"&:hover": {
+												backgroundColor: theme.palette.primary.main,
+											},
+										}}
+										onClick={() => {
+											if (data) removeAddress(data, props.id).then(() => {
+												toast.success("Successfully deleted!");
+											});
+										}}
+									>
+										YES
+									</Button>
+								</Stack>
+							</Box>
+						</StyledModalBox>
+						{/* Delete Addresss Modal end */}
 					</Stack>
 				</Box>
 			</Box>

@@ -31,6 +31,7 @@ import { useRouter } from "next/router";
 import wishlistStore from "@stores/wishlist.store";
 import { Logout } from "@mui/icons-material";
 import cartStore from "@stores/cart.store";
+import toast from "react-hot-toast";
 
 const HeaderBar = () => {
 	const theme = useTheme();
@@ -48,7 +49,9 @@ const HeaderBar = () => {
 	};
 
 	const handleLogout = () => {
-		signOut();
+		signOut().then(() => {
+			toast.success("Successfully logout!");
+		});
 	};
 
 	const router = useRouter();
