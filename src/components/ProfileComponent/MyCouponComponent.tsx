@@ -18,11 +18,7 @@ import PercentOutlinedIcon from "@mui/icons-material/PercentOutlined";
 
 const MyCouponComponent = () => {
   return (
-    <Box
-      sx={{
-        border: `1px solid ${colors.grey[300]}`,
-      }}
-    >
+    <Box>
       <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
         <PercentOutlinedIcon />
         <Typography variant="h6">My Coupon</Typography>

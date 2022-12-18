@@ -6,6 +6,8 @@ import {
 	IconButton,
 	styled,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import Image from "next/image";
 import React from "react";
@@ -57,6 +59,9 @@ const ProductCard = (props: ProductInterface) => {
 		}
 	};
 
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
 	return (
 		<Box
 			sx={{
@@ -75,10 +80,10 @@ const ProductCard = (props: ProductInterface) => {
 						sx={{
 							position: "relative",
 							width: "100%",
-							height: "180px",
+							height: isMobile ? "250px" : "180px",
 							transition: "transform 0.3s",
 							"&:hover": {
-								transform: " scale(1.05)",
+								transform: "scale(1.05)",
 							},
 						}}
 					>
@@ -134,7 +139,18 @@ const ProductCard = (props: ProductInterface) => {
 				</StyledLink>
 			</Link>
 			<Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
-				<AddtoCartButton
+				{
+					props.data.stock <= 0 ? (
+				<Button
+					size="small"
+					disabled
+					variant="contained"
+					fullWidth
+				>
+					Out Of Stock
+				</Button>
+					) : (
+						<AddtoCartButton
 					size="small"
 					onClick={() => {
 						if (props.data) {
@@ -144,6 +160,9 @@ const ProductCard = (props: ProductInterface) => {
 				>
 					Add to Cart
 				</AddtoCartButton>
+					)
+				}
+				
 				<FavButton
 					size={"small"}
 					onClick={() => {

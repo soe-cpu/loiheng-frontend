@@ -98,9 +98,6 @@ const MyAddressComponent = () => {
 
 	return (
 		<Box
-			sx={{
-				border: `1px solid ${colors.grey[300]}`,
-			}}
 		>
 			<Stack
 				direction={"row"}

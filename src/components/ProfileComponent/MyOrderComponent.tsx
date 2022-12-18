@@ -27,11 +27,7 @@ const MyOrderComponent = () => {
     }
   }, [session, fetch]);
   return (
-    <Box
-      sx={{
-        border: `1px solid ${colors.grey[300]}`,
-      }}
-    >
+    <Box>
       <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
         <ShoppingCartOutlinedIcon />
         <Typography variant="h6">My Orders</Typography>
