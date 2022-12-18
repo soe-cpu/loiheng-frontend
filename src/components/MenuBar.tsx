@@ -200,8 +200,8 @@ const MenuBar = () => {
 								{drawer && <CloseIcon />}
 								{!drawer && <MenuIcon />}
 							</IconButton>
-							<Box sx={{ flexGrow: 1 }} />
-							<Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+							{/* <Box sx={{ flexGrow: 1 }} /> */}
+							<Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 								<Search>
 									<SearchIconWrapper>
 										<SearchIcon sx={{ color: "gray" }} />
@@ -338,7 +338,7 @@ const Search = styled("div")(({ theme }) => ({
 	"&:hover": {
 		backgroundColor: colors.grey[300],
 	},
-	width: "160px",
+	width: "140px",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
