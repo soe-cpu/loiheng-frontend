@@ -25,7 +25,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AppsIcon from "@mui/icons-material/Apps";
 import ListIcon from "@mui/icons-material/List";
 import ProductCard from "@common/ProductCard";
-import useAllPromoProduct from "@apis/useAllPromoProduct";
 import { GetProductListResponse } from "@atoms/productListAtom";
 import useAllProduct from "@apis/useAllProduct";
 import { Product } from "@stores/wishlist.store";
