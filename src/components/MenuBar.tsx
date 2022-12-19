@@ -274,8 +274,10 @@ const MenuBar = () => {
           <Link href={"/product"} legacyBehavior>
             <StyledMenuLink path="/product">PRODUCT</StyledMenuLink>
           </Link>
-          <Link href={"/deals-and-promotion"} legacyBehavior>
-            <StyledMenuLink path="/product">DEALS & PROMOTION</StyledMenuLink>
+          <Link href={"/deals-and-promotions"} legacyBehavior>
+            <StyledMenuLink path="/deals-and-promotions">
+              DEALS & PROMOTION
+            </StyledMenuLink>
           </Link>
           <Link href={"/about-us"} legacyBehavior>
             <StyledMenuLink path="/about-us">ABOUT US</StyledMenuLink>
