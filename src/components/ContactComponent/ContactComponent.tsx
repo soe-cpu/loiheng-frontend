@@ -16,7 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import { GrMail } from "react-icons/gr";
@@ -28,6 +28,9 @@ import {
   BsFillCalendarXFill,
 } from "react-icons/bs";
 import Link from "next/link";
+import contactStore from "@stores/contact.store";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,11 +70,31 @@ const ContactComponent = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const contact = contactStore((store) => store.createContact);
+  const isSaving = contactStore((store) => store.isSaving);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneNoRef = useRef<HTMLInputElement>(null);
   const subjectRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const save = () => {
+    const name = nameRef.current?.value;
+    const email = emailRef.current?.value;
+    const phone = phoneNoRef.current?.value;
+    const subject = subjectRef.current?.value;
+    const description = descriptionRef.current?.value;
+
+    const res = contact(name, email, phone, subject, description).then(
+      (res) => {
+        if (res) {
+          toast.success("Address created successfully!");
+          router.refresh();
+        }
+      }
+    );
+  };
 
   return (
     <Box>
@@ -257,6 +280,7 @@ const ContactComponent = () => {
                 <Typography sx={{ color: colors.grey[600] }}>
                   If you know more about the information, contact us !
                 </Typography>
+
                 <TextField
                   id="outlined-basic"
                   label="Name"
@@ -302,6 +326,8 @@ const ContactComponent = () => {
                     color: "#fff",
                     "&:hover": { backgroundColor: colors.blue[600] },
                   }}
+                  onClick={save}
+                  disabled={isSaving}
                 >
                   Submit
                 </Button>
