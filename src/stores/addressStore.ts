@@ -77,6 +77,7 @@ export interface AddressStoreInterface {
     is_default?: boolean
   ) => Promise<boolean>;
   removeAddress: (session: Session, id: number) => Promise<boolean>;
+  setAsDefaultAddress: (session: Session, id: number) => Promise<boolean>;
   successMsg: {};
 }
 
@@ -155,6 +156,26 @@ const addressStore = create<AddressStoreInterface>((set, get) => ({
       const address = get().address;
       const filtered = address?.filter((a) => a.id !== id);
       set({ address: filtered });
+      return true;
+    } else {
+      return false;
+    }
+  },
+  setAsDefaultAddress: async (session: Session, id: number) => {
+    const res = axios.put<AddressActionResponse>(
+      url + "default-address/" + id,
+      {},
+      {
+        headers: {
+          Authorization: session.token,
+        },
+      }
+    );
+
+    if ((await res).data.success) {
+      const address = get().address;
+      // const filtered = address?.filter((a) => a.id !== id);
+      set({ address });
       return true;
     } else {
       return false;
