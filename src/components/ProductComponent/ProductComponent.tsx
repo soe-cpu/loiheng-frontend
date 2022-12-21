@@ -67,9 +67,9 @@ const ProductComponent = (props: {
 		const { value, checked } = e.target;
 		const id = value as unknown as number;
 		if (checked) {
-			setSelectedCategories([...selectedBrands, id]);
+			setSelectedCategories([...selectedCategories, id]);
 		} else {
-			setSelectedCategories(selectedBrands.filter((val) => val !== id));
+			setSelectedCategories(selectedCategories.filter((val) => val !== id));
 		}
 	};
 
