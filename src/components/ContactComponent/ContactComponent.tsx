@@ -16,7 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import { GrMail } from "react-icons/gr";
@@ -66,6 +66,13 @@ const ContactComponent = () => {
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneNoRef = useRef<HTMLInputElement>(null);
+  const subjectRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
+
   return (
     <Box>
       <Box
@@ -255,24 +262,28 @@ const ContactComponent = () => {
                   label="Name"
                   variant="outlined"
                   fullWidth
+                  inputRef={nameRef}
                 />
                 <TextField
                   id="outlined-basic"
                   label="Email Address"
                   variant="outlined"
                   fullWidth
+                  inputRef={emailRef}
                 />
                 <TextField
                   id="outlined-basic"
                   label="Contact Number"
                   variant="outlined"
                   fullWidth
+                  inputRef={phoneNoRef}
                 />
                 <TextField
                   id="outlined-basic"
                   label="Subject"
                   variant="outlined"
                   fullWidth
+                  inputRef={subjectRef}
                 />
                 <TextField
                   id="outlined-basic"
@@ -281,6 +292,7 @@ const ContactComponent = () => {
                   rows={5}
                   variant="outlined"
                   fullWidth
+                  inputRef={descriptionRef}
                 />
                 <Button
                   fullWidth

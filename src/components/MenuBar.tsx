@@ -37,6 +37,10 @@ const MenuBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const myLoaderGif = ({ src, width, quality }: any) => {
+    return `${src}?q=${quality || 75}`;
+  };
+
   const [drawer, setDrawer] = React.useState(false);
   const open = Boolean(drawer);
   const handleClickDrawer = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -226,11 +230,17 @@ const MenuBar = () => {
                     <Box
                       sx={{
                         position: "relative",
-                        width: "120px",
-                        height: "40px",
+                        width: "100px",
+                        height: "30px",
                       }}
                     >
-                      <Image src={"/loi-heng-logo.png"} alt={"logo"} fill />
+                      <Image
+                        src={"/loi-heng-logo.png"}
+                        alt={"logo"}
+                        loader={myLoaderGif}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
                     </Box>
                   </Link>
                 </Box>

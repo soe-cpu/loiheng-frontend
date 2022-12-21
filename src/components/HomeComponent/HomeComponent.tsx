@@ -137,6 +137,7 @@ const HomeComponent = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
+          arrows: false,
         },
       },
     ],
@@ -190,6 +191,10 @@ const HomeComponent = () => {
     featureProductData,
     setFeatureProduct,
   ]);
+
+  const myLoaderGif = ({ src, width, quality }: any) => {
+    return `${src}?q=${quality || 75}`;
+  };
 
   return (
     <Box sx={{ py: 1 }}>
@@ -365,7 +370,13 @@ const HomeComponent = () => {
                     height: "100%",
                   }}
                 >
-                  <Image src={"/ec.gif"} alt={"logo"} fill />
+                  <Image
+                    src={"/ec.gif"}
+                    alt={"logo"}
+                    loader={myLoaderGif}
+                    fill
+                    sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  />
                 </Box>
               </Grid>
               <Grid item xs={12} md={6}>
