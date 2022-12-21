@@ -23,7 +23,8 @@
 			"@common/*": ["src/common/*"],
 			"@types/*": ["src/types/*"],
 			"@atoms/*": ["src/atoms/*"],
-			"@apis/*": ["src/utils/apis/*"]
+			"@apis/*": ["src/utils/apis/*"],
+			"@interfaces/*": ["src/interfaces/*"]
 		},
 		"typeRoots": ["@types"]
 	},
