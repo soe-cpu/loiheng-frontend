@@ -14,11 +14,13 @@ import {
 	IconButton,
 	InputLabel,
 	MenuItem,
+	Pagination,
 	Select,
 	SelectChangeEvent,
 	Slider,
 	Stack,
 	Typography,
+	useMediaQuery,
 	useTheme,
 } from "@mui/material";
 import React from "react";
@@ -41,15 +43,20 @@ const ProductComponent = (props: {
 
 	const [selectedBrands, setSelectedBrands] = useState<number[]>([]);
 	const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+	const [total, setTotal] = useState<number>(0);
+	const [page, setPage] = useState<number>(1);
 
 	const { data, error, isValidating } = useAllProduct(
 		selectedCategories,
-		selectedBrands
+		selectedBrands,
+		page
 	);
 	const [product, setProduct] =
 		React.useState<GetProductListResponse["data"]>();
 
 	const theme = useTheme();
+
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	const handleBrandsSelection = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = e.target;
@@ -81,6 +88,10 @@ const ProductComponent = (props: {
 		setPrices(value);
 	};
 
+	const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
+		setPage(value);
+	};
+
 	React.useEffect(() => {
 		if (data) {
 			const min = Math.min(...data.data.products.map((data) => data.price));
@@ -88,6 +99,8 @@ const ProductComponent = (props: {
 			setProduct(data.data);
 			setMinMaxPrices([min, max]);
 			setPrices([min, max]);
+			setTotal(data.data.pagination.last_page);
+			setPage(data.data.pagination.current_page);
 		}
 	}, [data, setProduct]);
 
@@ -193,7 +206,7 @@ const ProductComponent = (props: {
 							</Box>
 						</Stack>
 					</Grid>
-					<Grid item xs={12} lg={9} sx={{ paddingBottom: theme.spacing(5) }}>
+					<Grid item xs={12} lg={9}>
 						<Stack
 							direction={"row"}
 							justifyContent={"space-between"}
@@ -252,6 +265,22 @@ const ProductComponent = (props: {
 								);
 							})}
 						</Grid>
+						<Stack
+							sx={{ paddingY: theme.spacing(5), marginTop: theme.spacing(5) }}
+							justifyContent={"center"}
+							alignItems={"center"}
+						>
+							<Pagination
+								count={total}
+								page={page}
+								onChange={handlePage}
+								variant="outlined"
+								shape="rounded"
+								showFirstButton
+								showLastButton
+								size={isMobile ? "medium" : "large"}
+							/>
+						</Stack>
 					</Grid>
 				</Grid>
 			</Container>
