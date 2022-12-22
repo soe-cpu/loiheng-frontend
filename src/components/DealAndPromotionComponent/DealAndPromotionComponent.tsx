@@ -32,7 +32,10 @@ import useAllProduct from "@apis/useAllProduct";
 import { GetProductListResponse } from "@atoms/productListAtom";
 import { GetAllBrands, GetAllCategories } from "pages/product";
 import { useState } from "react";
-import { Product } from "@stores/wishlist.store";
+import useAllPromoProduct from "@apis/useAllPromoProduct";
+import { Category } from "@interfaces/category.interface";
+import { SubCategory } from "@interfaces/sub-category.interface.";
+import { lstat } from "fs";
 
 const ProductComponent = (props: {
 	brands: GetAllBrands;
@@ -46,14 +49,15 @@ const ProductComponent = (props: {
 	const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [page, setPage] = useState<number>(1);
+	const [categories, setCategories] = useState<SubCategory[]>([]);
 
-	const { data, error, isValidating } = useAllProduct(
+	const { data, error, isValidating } = useAllPromoProduct(
 		selectedCategories,
 		selectedBrands,
-		page,
-		30
+		page
 	);
-	const [product, setProduct] = React.useState<Product[]>();
+	const [product, setProduct] =
+		React.useState<GetProductListResponse["data"]>();
 
 	const theme = useTheme();
 
@@ -95,16 +99,22 @@ const ProductComponent = (props: {
 
 	React.useEffect(() => {
 		if (data) {
-			const filtered = data.data.products.filter((p) => p.discount.length > 0);
-			const min = Math.min(...filtered.map((data) => data.price));
-			const max = Math.max(...filtered.map((data) => data.price));
-			setProduct(filtered);
+			const min = Math.min(...data.data.products.map((data) => data.price));
+			const max = Math.max(...data.data.products.map((data) => data.price));
+			setProduct(data.data);
 			setMinMaxPrices([min, max]);
 			setPrices([min, max]);
 			setTotal(data.data.pagination.last_page);
 			setPage(data.data.pagination.current_page);
 		}
-	}, [data, setProduct]);
+
+		if (props.categories) {
+			const list = props.categories.data.categories
+				.map((category) => category.sub_category)
+				.flat();
+			setCategories(list);
+		}
+	}, [data, setProduct, props]);
 
 	return (
 		<Box sx={{ py: 2 }}>
@@ -132,7 +142,7 @@ const ProductComponent = (props: {
 												overflow: "scroll",
 											}}
 										>
-											{props.categories.data.categories.map((category) => {
+											{categories.map((category) => {
 												return (
 													<FormGroup key={category.id}>
 														<FormControlLabel
@@ -252,7 +262,7 @@ const ProductComponent = (props: {
 							</Box>
 						</Stack>
 						<Grid container spacing={2}>
-							{product?.map((prod, index) => {
+							{product?.products.map((prod, index) => {
 								return (
 									<Grid item xs={12} md={4} key={index}>
 										<ProductCard
