@@ -59,7 +59,9 @@ const Login = () => {
 			}).then((res) => {
 				const callbackUrl = router.query.callbackUrl as string;
 
-				if (res?.ok) {
+				console.log(res);
+
+				if (!res?.error) {
 					toast.success("Successfully logged in!");
 					setTimeout(() => {
 						if (callbackUrl) {
@@ -69,7 +71,7 @@ const Login = () => {
 						}
 					});
 				} else {
-					toast.error(res?.error?.toString() ?? "Something wrong!");
+					toast.error("Something wrong!");
 				}
 			});
 		else if (!email) emailRef.current?.focus();
