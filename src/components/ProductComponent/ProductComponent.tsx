@@ -32,6 +32,7 @@ import useAllProduct from "@apis/useAllProduct";
 import { GetProductListResponse } from "@atoms/productListAtom";
 import { GetAllBrands, GetAllCategories } from "pages/product";
 import { useState } from "react";
+import { SubCategory } from "@interfaces/sub-category.interface.";
 
 const ProductComponent = (props: {
 	brands: GetAllBrands;
@@ -45,6 +46,7 @@ const ProductComponent = (props: {
 	const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [page, setPage] = useState<number>(1);
+	const [categories, setCategories] = useState<SubCategory[]>([]);
 
 	const { data, error, isValidating } = useAllProduct(
 		selectedCategories,
@@ -102,7 +104,14 @@ const ProductComponent = (props: {
 			setTotal(data.data.pagination.last_page);
 			setPage(data.data.pagination.current_page);
 		}
-	}, [data, setProduct]);
+
+		if (props.categories) {
+			const list = props.categories.data.categories
+				.map((category) => category.sub_category)
+				.flat();
+			setCategories(list);
+		}
+	}, [data, setProduct, props]);
 
 	return (
 		<Box sx={{ py: 2 }}>
@@ -130,7 +139,7 @@ const ProductComponent = (props: {
 												overflow: "scroll",
 											}}
 										>
-											{props.categories.data.categories.map((category) => {
+											{categories.map((category) => {
 												return (
 													<FormGroup key={category.id}>
 														<FormControlLabel
