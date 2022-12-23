@@ -126,9 +126,30 @@ const AddToCartComponent = () => {
                   gap: 1,
                 }}
               >
-                <Typography>{cartData?.subtotal} MMK</Typography>
+                {cartData ? (
+                  <Typography>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(cartData.subtotal)}
+                  </Typography>
+                ) : (
+                  <Typography></Typography>
+                )}
+
                 <Typography>0 MMK</Typography>
-                <Typography>{cartData?.subtotal} MMK</Typography>
+                {cartData ? (
+                  <Typography>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(cartData.subtotal)}
+                  </Typography>
+                ) : (
+                  <Typography></Typography>
+                )}
               </Box>
             </Box>
             <Divider />
@@ -157,7 +178,7 @@ const AddToCartComponent = () => {
                 </Link>
               </Box>
               <Box>
-                <Link href={"/checkout/test"} legacyBehavior>
+                <Link href={"/checkout"} legacyBehavior>
                   <a style={{ textDecoration: "none" }}>
                     <Button
                       sx={{

@@ -29,12 +29,15 @@ import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import cartStore from "@stores/cart.store";
 
 const myLoader = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
 const CheckoutComponent = () => {
+  const cartData = cartStore((store) => store.cart);
+
   const [addressType, setAddressType] = React.useState("");
 
   const handleChangeAddress = (event: SelectChangeEvent) => {
@@ -336,33 +339,56 @@ const CheckoutComponent = () => {
             <TableContainer>
               <Table aria-label="simple table">
                 <TableBody>
-                  <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                        borderBottom: `1px solid ${colors.grey[300]}`,
-                      },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      11
-                    </TableCell>
-                    <TableCell>ID 984980634</TableCell>
-                    <TableCell>
-                      Ubiquiti UniFi Cloud Key Gen2 Plus (UCK-G2-PLUS)
-                    </TableCell>
-                    <TableCell>Ks 805,980</TableCell>
-                    <TableCell>11</TableCell>
-                  </TableRow>
+                  {cartData?.cart_item.map((cart, index) => {
+                    return (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          "&:last-child td, &:last-child th": {
+                            border: 0,
+                            borderBottom: `1px solid ${colors.grey[300]}`,
+                          },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {(index = index + 1)}
+                        </TableCell>
+                        <TableCell>{cart.product[0].name}</TableCell>
+                        <TableCell>
+                          {new Intl.NumberFormat("mm-MM", {
+                            style: "currency",
+                            currency: "MMK",
+                            currencyDisplay: "code",
+                          }).format(
+                            cart.product[0].discount.length > 0
+                              ? cart.product[0].discount[0].promo_price
+                              : cart.product[0].price
+                          )}
+                        </TableCell>
+                        <TableCell>{cart.qty}</TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
-            <Typography sx={{ py: 2, fontSize: 14 }}>Quantity: </Typography>
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", pb: 2 }}
+              sx={{ display: "flex", justifyContent: "space-between", py: 2 }}
             >
-              <Typography sx={{ fontSize: 14 }}>Subtotal: </Typography>
-              <Typography sx={{ fontSize: 14 }}>3,269,370 Ks </Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+                Subtotal:{" "}
+              </Typography>
+              {cartData ? (
+                <Typography sx={{ fontSize: 14 }}>
+                  {new Intl.NumberFormat("mm-MM", {
+                    style: "currency",
+                    currency: "MMK",
+                    currencyDisplay: "code",
+                  }).format(cartData.subtotal)}
+                </Typography>
+              ) : (
+                <Typography></Typography>
+              )}
             </Box>
             <Box
               sx={{
@@ -373,7 +399,9 @@ const CheckoutComponent = () => {
                 alignItems: "center",
               }}
             >
-              <Typography sx={{ fontSize: 14 }}>Standard Delivery: </Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+                Standard Delivery:{" "}
+              </Typography>
               <Typography sx={{ fontSize: 14 }}>3,269,370 Ks </Typography>
             </Box>
             <Box
