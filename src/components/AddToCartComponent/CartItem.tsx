@@ -41,7 +41,7 @@ export const CartItemComponent = (props: CartItem) => {
 		if (session) {
 			setTimeout(() => {
 				changeQty(session, props.product[0].id, q);
-			}, 1000);
+			}, 2000);
 		} else {
 			signIn();
 		}
