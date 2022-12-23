@@ -90,7 +90,7 @@ const ContactComponent = () => {
       (res) => {
         if (res) {
           toast.success("Address created successfully!");
-          router.refresh();
+          // router.refresh();
         }
       }
     );
