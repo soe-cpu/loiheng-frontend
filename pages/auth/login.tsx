@@ -59,7 +59,9 @@ const Login = () => {
 			}).then((res) => {
 				const callbackUrl = router.query.callbackUrl as string;
 
-				if (res?.ok) {
+				console.log(res);
+
+				if (!res?.error) {
 					toast.success("Successfully logged in!");
 					setTimeout(() => {
 						if (callbackUrl) {
@@ -69,7 +71,7 @@ const Login = () => {
 						}
 					});
 				} else {
-					toast.error(res?.error?.toString() ?? "Something wrong!");
+					toast.error("Something wrong!");
 				}
 			});
 		else if (!email) emailRef.current?.focus();
@@ -97,82 +99,89 @@ const Login = () => {
 						borderRadius: "4px",
 					}}
 				>
-					<Box
-						minWidth={isMobile ? 350 : 500}
-						sx={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-						}}
-					>
-						<Box sx={{ position: "relative", width: 110, height: 100 }}>
-							<Image fill src="/logo-only.png" alt="" />
-						</Box>
-						<Typography variant="h5">Loi Heng International</Typography>
+					<form action="javascript:void(0);">
 						<Box
+							minWidth={isMobile ? 300 : 500}
 							sx={{
 								display: "flex",
 								flexDirection: "column",
-								gap: 4,
-								width: "100%",
-								mt: 4,
+								alignItems: "center",
 							}}
 						>
-							<TextField
-								type={"text"}
-								id="outlined-basic"
-								label="Email or Phone"
-								variant="outlined"
-								inputRef={emailRef}
-							/>
-							<TextField
-								type={showPassword ? "text" : "password"}
-								label="Password"
-								id="fullWidth"
-								inputRef={passwordRef}
-								InputProps={{
-									endAdornment: (
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={handleClickShowPassword}
-												onMouseDown={handleMouseDownPassword}
-												edge="end"
-											>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									),
+							<Box sx={{ position: "relative", width: 110, height: 100 }}>
+								<Image fill src="/logo-only.png" alt="" />
+							</Box>
+							<Typography variant="h5">Loi Heng International</Typography>
+							<Box
+								sx={{
+									display: "flex",
+									flexDirection: "column",
+									gap: 4,
+									width: "100%",
+									mt: 4,
 								}}
-							/>
-						</Box>
-					</Box>
-					<Box
-						sx={{
-							display: "flex",
-							justifyContent: "space-between",
-							alignItems: "center",
-						}}
-					>
-						<Box>
-							<FormGroup>
-								<FormControlLabel
-									control={<Checkbox defaultChecked />}
-									label="Remember me"
+							>
+								<TextField
+									type={"text"}
+									id="outlined-basic"
+									label="Email or Phone"
+									variant="outlined"
+									inputRef={emailRef}
 								/>
-							</FormGroup>
+								<TextField
+									type={showPassword ? "text" : "password"}
+									label="Password"
+									id="fullWidth"
+									inputRef={passwordRef}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={handleClickShowPassword}
+													onMouseDown={handleMouseDownPassword}
+													edge="end"
+												>
+													{showPassword ? <VisibilityOff /> : <Visibility />}
+												</IconButton>
+											</InputAdornment>
+										),
+									}}
+								/>
+							</Box>
 						</Box>
-						<Box>
-							<Typography>Forgot password?</Typography>
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "space-between",
+								alignItems: "center",
+							}}
+						>
+							<Box>
+								<FormGroup>
+									<FormControlLabel
+										control={<Checkbox defaultChecked />}
+										label="Remember me"
+									/>
+								</FormGroup>
+							</Box>
+							<Box>
+								<Typography>Forgot password?</Typography>
+							</Box>
 						</Box>
-					</Box>
-					<Box sx={{ display: "flex", justifyContent: "center" }}>
-						<Box sx={{ width: "300px" }}>
-							<Button variant={"contained"} onClick={() => login()} fullWidth>
-								Login
-							</Button>
+						<Box sx={{ display: "flex", justifyContent: "center" }}>
+							<Box sx={{ width: "300px" }}>
+								<Button
+									variant={"contained"}
+									type={"submit"}
+									onClick={() => login()}
+									fullWidth
+								>
+									Login
+								</Button>
+							</Box>
 						</Box>
-					</Box>
+					</form>
 					<Box
 						sx={{
 							display: "flex",

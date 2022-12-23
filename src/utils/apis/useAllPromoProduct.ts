@@ -2,7 +2,7 @@ import { GetProductListResponse } from "@atoms/productListAtom";
 import useSWR from "swr";
 import fetcher from "../fetcher";
 
-const useAllProduct = (
+const useAllPromoProduct = (
 	categories?: number[],
 	brands?: number[],
 	page = 1,
@@ -11,7 +11,7 @@ const useAllProduct = (
 	const url = process.env.API_URL;
 	const res = useSWR<GetProductListResponse>(
 		[
-			`${url}products?category_id=${categories?.join(
+			`${url}promotions?category_id=${categories?.join(
 				","
 			)}&brand_id=${brands?.join(",")}&limit=${limit}&page=${page}`,
 		],
@@ -20,4 +20,4 @@ const useAllProduct = (
 	return res;
 };
 
-export default useAllProduct;
+export default useAllPromoProduct;
