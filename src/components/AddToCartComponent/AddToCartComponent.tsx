@@ -12,38 +12,36 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Link from "next/link";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { CartItemComponent } from "./CartItem";
 
-const myLoader = ({ src, width, quality }: any) => {
-  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
-};
 const myLoaderGif = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
 const AddToCartComponent = () => {
-  const [subtotal, setSubtotal] = useState<String>("");
-  const cartData = cartStore((store) => store.carts);
+  const [subtotal, setSubtotal] = useState<number>();
+  const cartData = cartStore((store) => store.cart);
   const removeCartItem = cartStore((store) => store.removeFromCart);
 
   const { data: session } = useSession();
 
-  const removeItem = (product_id: number) => {
+  const removeItem = (cart_item_id: number) => {
     if (session) {
-      const res = removeCartItem(session, product_id);
+      const res = removeCartItem(session, cart_item_id);
       res.then((d) => {
         d.success ? toast.success(d.message) : toast.error(d.message);
       });
     }
   };
+
+  console.log(subtotal);
 
   return (
     <Box sx={{ py: 2 }}>
@@ -51,138 +49,17 @@ const AddToCartComponent = () => {
         <Box sx={{ border: `1px solid ${colors.grey[300]}` }}>
           <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
             <Typography sx={{ fontWeight: 500 }}>Shopping Cart</Typography>
-            <Typography>{cartData?.length} items</Typography>
+            <Typography>{cartData?.cart_item?.length} items</Typography>
           </Box>
           <Divider />
           {cartData && (
-            <Box sx={{ p: 2 }}>
-              {cartData?.map((cart, index) => {
-                return (
-                  <Grid container spacing={4} key={index}>
-                    <Grid item xs={12} md={4}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                          <Box
-                            sx={{
-                              position: "relative",
-                              width: "100%",
-                              height: "120px",
-                            }}
-                          >
-                            <Image
-                              src={cart.product[0].cover_img}
-                              alt="Add to cart Img"
-                              loader={myLoader}
-                              fill
-                              sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={8}>
-                          <Box>
-                            <Typography
-                              sx={{ fontSize: 12, color: colors.grey[700] }}
-                            >
-                              {cart.product[0].name}
-                            </Typography>
-                            <Typography
-                              sx={{ fontSize: 10, color: colors.grey[600] }}
-                            >
-                              Sold By {cart.product[0].brand[0].name}
-                            </Typography>
-                            <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
-                              Ks {cart.product[0].price}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            color:
-                              cart.product[0].stock <= 0
-                                ? colors.red[800]
-                                : colors.green[800],
-                            fontWeight: 600,
-                          }}
-                        >
-                          {cart.product[0].stock <= 0
-                            ? "Out of stock"
-                            : "In Stock"}
-                        </Typography>
-                        <Box
-                          sx={{ display: "flex", gap: 1, alignItems: "center" }}
-                        >
-                          <IconButton
-                            sx={{
-                              color: colors.red[500],
-                              backgroundColor: colors.grey[100],
-                            }}
-                          >
-                            <RemoveIcon />
-                          </IconButton>
-                          <InputBase
-                            sx={{
-                              border: `2px solid ${colors.blue[500]}`,
-                              width: "50px",
-                              height: "50px",
-                              borderRadius: "4px",
-                              px: 2,
-                            }}
-                            value={cart.qty}
-                          ></InputBase>
-                          <IconButton
-                            sx={{
-                              color: colors.green[500],
-                              backgroundColor: colors.grey[100],
-                            }}
-                          >
-                            <AddIcon />
-                          </IconButton>
-                        </Box>
-                      </Box>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      >
-                        <Typography>Ks {cart.product[0].price}</Typography>
-                        <Tooltip title={"Remove Item"} arrow placement="top">
-                          <IconButton
-                            color="error"
-                            sx={{
-                              border: `1px solid ${colors.red[500]}`,
-                              "&:hover": {
-                                backgroundColor: colors.red[100],
-                              },
-                            }}
-                            onClick={() => removeItem(cart.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </Grid>
-                  </Grid>
-                );
+            <Box>
+              {cartData.cart_item?.map((cart_item, index) => {
+                return <CartItemComponent key={cart_item.id} {...cart_item} />;
               })}
             </Box>
           )}
-          {cartData?.length ? (
+          {cartData?.cart_item?.length ? (
             ""
           ) : (
             <Stack
@@ -233,17 +110,25 @@ const AddToCartComponent = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Box>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 <Typography sx={{ fontWeight: 500 }}>Sub Total:</Typography>
                 <Typography sx={{ fontWeight: 500 }}>
                   Promocode discount:
                 </Typography>
                 <Typography sx={{ fontWeight: 500 }}>Total:</Typography>
               </Box>
-              <Box>
-                <Typography>{subtotal} MMK</Typography>
-                <Typography>3,269,370 MMK</Typography>
-                <Typography>3,269,370 MMK</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "end",
+                  alignItems: "end",
+                  flexDirection: "column",
+                  gap: 1,
+                }}
+              >
+                <Typography>{cartData?.subtotal} MMK</Typography>
+                <Typography>0 MMK</Typography>
+                <Typography>{cartData?.subtotal} MMK</Typography>
               </Box>
             </Box>
             <Divider />
