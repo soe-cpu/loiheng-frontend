@@ -77,13 +77,34 @@ export const CartItemComponent = (props: CartItem) => {
                 <Typography sx={{ fontSize: 10, color: colors.grey[600] }}>
                   Sold By {props.product[0].brand[0].name}
                 </Typography>
-                <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
-                  {new Intl.NumberFormat("mm-MM", {
-                    style: "currency",
-                    currency: "MMK",
-                    currencyDisplay: "code",
-                  }).format(props.product[0].price)}
-                </Typography>
+                {props.product[0].discount.length > 0 ? (
+                  <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                    <del
+                      style={{ color: colors.red[500], paddingRight: "6px" }}
+                    >
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(props.product[0].price)}
+                    </del>
+                    <span>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(props.product[0].discount[0].promo_price)}
+                    </span>
+                  </Typography>
+                ) : (
+                  <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(props.product[0].price)}
+                  </Typography>
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -174,13 +195,33 @@ export const CartItemComponent = (props: CartItem) => {
               height: "100%",
             }}
           >
-            <Typography>
-              {new Intl.NumberFormat("mm-MM", {
-                style: "currency",
-                currency: "MMK",
-                currencyDisplay: "code",
-              }).format(props.product[0].price)}
-            </Typography>
+            {props.product[0].discount.length > 0 ? (
+              <Typography>
+                <del style={{ color: colors.red[500], paddingRight: "6px" }}>
+                  {new Intl.NumberFormat("mm-MM", {
+                    style: "currency",
+                    currency: "MMK",
+                    currencyDisplay: "code",
+                  }).format(props.product[0].price)}
+                </del>
+                <br />
+                <span>
+                  {new Intl.NumberFormat("mm-MM", {
+                    style: "currency",
+                    currency: "MMK",
+                    currencyDisplay: "code",
+                  }).format(props.product[0].discount[0].promo_price)}
+                </span>
+              </Typography>
+            ) : (
+              <Typography sx={{ textAlign: "center" }}>
+                {new Intl.NumberFormat("mm-MM", {
+                  style: "currency",
+                  currency: "MMK",
+                  currencyDisplay: "code",
+                }).format(props.product[0].price)}
+              </Typography>
+            )}
             <Tooltip title={"Remove Item"} arrow placement="top">
               <IconButton
                 color="error"
