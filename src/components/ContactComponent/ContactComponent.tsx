@@ -16,7 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { GoLocation } from "react-icons/go";
 import { GrMail } from "react-icons/gr";
@@ -28,6 +28,11 @@ import {
   BsFillCalendarXFill,
 } from "react-icons/bs";
 import Link from "next/link";
+import contactStore from "@stores/contact.store";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import useAllSetting from "@apis/useAllSetting";
+import { GetSettingResponse } from "@atoms/settingListAtom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,11 +72,118 @@ const ContactComponent = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
+  const contact = contactStore((store) => store.createContact);
+  const isSaving = contactStore((store) => store.isSaving);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneNoRef = useRef<HTMLInputElement>(null);
   const subjectRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const save = () => {
+    const name = nameRef.current?.value;
+    const email = emailRef.current?.value;
+    const phone = phoneNoRef.current?.value;
+    const subject = subjectRef.current?.value;
+    const description = descriptionRef.current?.value;
+
+    const res = contact(name, email, phone, subject, description).then(
+      (res) => {
+        if (res) {
+          toast.success("Address created successfully!");
+          // router.refresh();
+        }
+      }
+    );
+  };
+
+  const {
+    data: singaporeAdd,
+    error: singaporeAddError,
+    isValidating: singaporeAddIsValidating,
+  } = useAllSetting("singapore_address");
+  const {
+    data: singaporePh,
+    error: singaporePhError,
+    isValidating: singaporePhIsvalidating,
+  } = useAllSetting("singapore_phone");
+  const {
+    data: yangonAdd,
+    error: yangonAddError,
+    isValidating: yangonAddIsValidating,
+  } = useAllSetting("yangon_address");
+  const {
+    data: yangonPh,
+    error: yangonPhError,
+    isValidating: yangonPhIsvalidating,
+  } = useAllSetting("yangon_phone");
+
+  const {
+    data: mdyAdd,
+    error: mdyAddError,
+    isValidating: mdyAddIsValidating,
+  } = useAllSetting("mandalay_address");
+  const {
+    data: mdyPh,
+    error: mdyPhError,
+    isValidating: mdyPhIsvalidating,
+  } = useAllSetting("mandalay_phone");
+  const {
+    data: openHr,
+    error: openHrError,
+    isValidating: openHrIsvalidating,
+  } = useAllSetting("opening_hour");
+
+  const [singaporeAddress, setSingaporeAddress] =
+    React.useState<GetSettingResponse>();
+  const [singaporePhone, setSingaporePhone] =
+    React.useState<GetSettingResponse>();
+  const [yangonAddress, setYangonAddress] =
+    React.useState<GetSettingResponse>();
+  const [yangonPhone, setYangonPhone] = React.useState<GetSettingResponse>();
+  const [mdyAddress, setmdyAddress] = React.useState<GetSettingResponse>();
+  const [mdyPhone, setmdyPhone] = React.useState<GetSettingResponse>();
+  const [openHour, setOpenHour] = React.useState<GetSettingResponse>();
+
+  React.useEffect(() => {
+    if (singaporeAdd) {
+      setSingaporeAddress(singaporeAdd);
+    }
+    if (singaporePh) {
+      setSingaporePhone(singaporePh);
+    }
+    if (yangonAdd) {
+      setYangonAddress(yangonAdd);
+    }
+    if (yangonPh) {
+      setYangonPhone(yangonPh);
+    }
+    if (mdyAdd) {
+      setmdyAddress(mdyAdd);
+    }
+    if (mdyPh) {
+      setmdyPhone(mdyPh);
+    }
+    if (openHr) {
+      setOpenHour(openHr);
+    }
+  }, [
+    singaporeAdd,
+    setSingaporeAddress,
+    singaporePh,
+    setSingaporePhone,
+    yangonAdd,
+    yangonPh,
+    setYangonAddress,
+    setYangonPhone,
+    mdyAdd,
+    mdyPh,
+    setmdyAddress,
+    setmdyPhone,
+    openHr,
+    setOpenHour,
+  ]);
 
   return (
     <Box>
@@ -110,7 +222,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      21, Bukit Batok Crescent, #22-78, WCEGA Tower, S 658 065
+                      {singaporeAddress?.data.value}
                     </Typography>
                   </Box>
                   <Box
@@ -120,7 +232,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      (65) 6336 4548
+                      {singaporePhone?.data.value}
                     </Typography>
                   </Box>
                 </Box>
@@ -143,8 +255,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      No.10, Nanthar Street, Ahlone Township, Yangon , Myanmar
-                      (Burma).
+                      {yangonAddress?.data.value}
                     </Typography>
                   </Box>
                   <Box
@@ -154,7 +265,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      (09) 96 444 0531, 96 444 0532, 96 444 0535, 964 440 536.
+                      {yangonPhone?.data.value}
                     </Typography>
                   </Box>
                 </Box>
@@ -169,7 +280,7 @@ const ContactComponent = () => {
                     height: "210px",
                   }}
                 >
-                  <Typography variant="h6">Singapore</Typography>
+                  <Typography variant="h6">Mandalay</Typography>
                   <Box
                     sx={{ display: "flex", gap: 2, alignItems: "start", pt: 2 }}
                   >
@@ -177,7 +288,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      21, Bukit Batok Crescent, #22-78, WCEGA Tower, S 658 065
+                      {mdyAddress?.data.value}
                     </Typography>
                   </Box>
                   <Box
@@ -187,7 +298,7 @@ const ContactComponent = () => {
                       style={{ fontSize: 24, color: colors.blue[500] }}
                     />
                     <Typography sx={{ fontSize: 14 }}>
-                      (65) 6336 4548
+                      {mdyPhone?.data.value}
                     </Typography>
                   </Box>
                 </Box>
@@ -257,6 +368,7 @@ const ContactComponent = () => {
                 <Typography sx={{ color: colors.grey[600] }}>
                   If you know more about the information, contact us !
                 </Typography>
+
                 <TextField
                   id="outlined-basic"
                   label="Name"
@@ -302,6 +414,8 @@ const ContactComponent = () => {
                     color: "#fff",
                     "&:hover": { backgroundColor: colors.blue[600] },
                   }}
+                  onClick={save}
+                  disabled={isSaving}
                 >
                   Submit
                 </Button>
@@ -350,7 +464,7 @@ const ContactComponent = () => {
                           style={{ fontSize: 24, color: colors.blue[500] }}
                         />
                         <Typography sx={{ fontSize: 14 }}>
-                          Monday ~ Saturday: 9:00 AM - 5:30 PM
+                          {openHour?.data.value}
                         </Typography>
                       </Box>
                       <Box
@@ -400,7 +514,7 @@ const ContactComponent = () => {
                           style={{ fontSize: 24, color: colors.blue[500] }}
                         />
                         <Typography sx={{ fontSize: 14 }}>
-                          Monday ~ Saturday: 9:00 AM - 5:30 PM
+                          {openHour?.data.value}
                         </Typography>
                       </Box>
                       <Box
@@ -450,7 +564,7 @@ const ContactComponent = () => {
                           style={{ fontSize: 24, color: colors.blue[500] }}
                         />
                         <Typography sx={{ fontSize: 14 }}>
-                          Monday ~ Saturday: 9:00 AM - 5:30 PM
+                          {openHour?.data.value}
                         </Typography>
                       </Box>
                       <Box
