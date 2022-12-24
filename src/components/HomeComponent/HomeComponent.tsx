@@ -252,14 +252,7 @@ const HomeComponent = () => {
               {newProduct?.products.map((product, index) => {
                 return (
                   <Box sx={{ pr: 1 }} key={index}>
-                    <ProductCard
-                      id={product.id}
-                      name={product.name}
-                      price={product.price}
-                      image={product.cover_img}
-                      category={product.category[0].name}
-                      data={product}
-                    />
+                    <ProductCard data={product} />
                   </Box>
                 );
               })}
@@ -286,14 +279,7 @@ const HomeComponent = () => {
               {featureProduct?.products.map((featured, index) => {
                 return (
                   <Box sx={{ pr: 1 }} key={index}>
-                    <ProductCard
-                      id={featured.id}
-                      name={featured.name}
-                      price={featured.price}
-                      image={featured.cover_img}
-                      category={featured.category[0].name}
-                      data={featured}
-                    />
+                    <ProductCard data={featured} />
                   </Box>
                 );
               })}
