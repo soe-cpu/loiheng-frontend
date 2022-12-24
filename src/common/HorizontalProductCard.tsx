@@ -70,7 +70,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <Link href={`/product/${props.data.id}`} legacyBehavior>
             <StyledLink>
               <Box
@@ -95,7 +95,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
             </StyledLink>
           </Link>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={4}>
           <Box>
             <Box
               sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
