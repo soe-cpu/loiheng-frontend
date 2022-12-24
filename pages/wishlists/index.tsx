@@ -61,14 +61,7 @@ const WishlistPage = () => {
             {wishlists?.map((product) => {
               return (
                 <Grid item key={product.id} xs={12} lg={3} md={3} sm={6}>
-                  <ProductCard
-                    id={product.id}
-                    image={product.cover_img}
-                    price={product.price}
-                    name={product.name}
-                    category={product.category[0].name}
-                    data={product}
-                  />
+                  <ProductCard data={product} />
                 </Grid>
               );
             })}
