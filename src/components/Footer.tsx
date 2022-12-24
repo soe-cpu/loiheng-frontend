@@ -12,8 +12,49 @@ import React from "react";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import useAllSetting from "@apis/useAllSetting";
+import { GetSettingResponse } from "@atoms/settingListAtom";
+import Link from "next/link";
 
 const Footer = () => {
+  const {
+    data: footerM,
+    error: foterMError,
+    isValidating: footerMIsValidating,
+  } = useAllSetting("footer_mail");
+  const {
+    data: footerPh,
+    error: foterPhError,
+    isValidating: footerPhIsValidating,
+  } = useAllSetting("footer_phone");
+  const {
+    data: footerAdd,
+    error: foterAddError,
+    isValidating: footerAddIsValidating,
+  } = useAllSetting("footer_address");
+  const [footerMail, setFooterMail] = React.useState<GetSettingResponse>();
+  const [footerPhone, setFooterPhone] = React.useState<GetSettingResponse>();
+  const [footerAddress, setFooterAddress] =
+    React.useState<GetSettingResponse>();
+
+  React.useEffect(() => {
+    if (footerM) {
+      setFooterMail(footerM);
+    }
+    if (footerPh) {
+      setFooterPhone(footerPh);
+    }
+    if (footerAdd) {
+      setFooterAddress(footerAdd);
+    }
+  }, [
+    footerM,
+    setFooterMail,
+    footerAdd,
+    setFooterAddress,
+    footerPh,
+    setFooterPhone,
+  ]);
   return (
     <Box
       sx={{
@@ -25,23 +66,24 @@ const Footer = () => {
         <Container maxWidth={"lg"} sx={{ py: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={3}>
-              <Stack spacing={3}>
+              <Stack spacing={2}>
                 <Typography variant="h6">Get In Touch</Typography>
                 <Stack direction={"row"} spacing={1} alignItems={"start"}>
                   <LocationOnIcon sx={{ color: colors.blue[500] }} />
                   <Typography variant="subtitle2">
-                    No.10, Nant Thar Street, Ahlone Township, Yangon , Myanmar
-                    (Burma).
+                    {footerAddress?.data.value}
                   </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems={"start"}>
                   <EmailIcon sx={{ color: colors.blue[500] }} />
-                  <Typography variant="subtitle2">sales@loiheng.com</Typography>
+                  <Typography variant="subtitle2">
+                    {footerMail?.data.value}
+                  </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={1} alignItems={"start"}>
                   <PhoneAndroidIcon sx={{ color: colors.blue[500] }} />
                   <Typography variant="subtitle2">
-                    (09) 96 444 0531, 96 444 0532, 96 444 0535, 964 440 536.
+                    {footerPhone?.data.value}
                   </Typography>
                 </Stack>
               </Stack>
@@ -50,12 +92,31 @@ const Footer = () => {
               <Stack spacing={3}>
                 <Typography variant="h6">Footer Menu</Typography>
                 <Box>
-                  <Typography variant="body1">Our Products</Typography>
-                  <Typography variant="body1">Brands</Typography>
+                  <Typography variant="body1">
+                    <Link href={"/product"} legacyBehavior>
+                      <a style={{ textDecoration: "none", color: "#000" }}>
+                        Our Products
+                      </a>
+                    </Link>
+                  </Typography>
+                  <Typography variant="body1">
+                    <Link href={"/brands"} legacyBehavior>
+                      <a style={{ textDecoration: "none", color: "#000" }}>
+                        Brands
+                      </a>
+                    </Link>
+                  </Typography>
                   <Typography variant="body1">Your Account</Typography>
                   <Typography variant="body1">Your Orders</Typography>
                   <Typography variant="body1">Returns & Refunds</Typography>
-                  <Typography variant="body1">Find Us On Map</Typography>
+                  <Typography variant="body1">
+                    <Link href={"/contact-us"} legacyBehavior>
+                      <a style={{ textDecoration: "none", color: "#000" }}>
+                        {" "}
+                        Find Us On Map
+                      </a>
+                    </Link>
+                  </Typography>
                   <Typography variant="body1">Terms & Conditions</Typography>
                 </Box>
               </Stack>
