@@ -35,14 +35,7 @@ const FeaturedProductComponent = () => {
           {featured?.products.map((product, index) => {
             return (
               <Grid item xs={12} md={3} key={index}>
-                <ProductCard
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.cover_img}
-                  category={product.category[0].name}
-                  data={product}
-                />
+                <ProductCard data={product} />
               </Grid>
             );
           })}
