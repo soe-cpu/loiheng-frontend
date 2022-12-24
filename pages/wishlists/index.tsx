@@ -4,7 +4,6 @@ import Head from "next/head";
 import { GetServerSideProps } from "next";
 import { ReactElement } from "react";
 import axios from "axios";
-import { SettingResponse } from "@atoms/settingResponse";
 import wishlistStore from "@stores/wishlist.store";
 import ProductCard from "@common/ProductCard";
 import { authOptions, Me } from "pages/api/auth/[...nextauth]";
