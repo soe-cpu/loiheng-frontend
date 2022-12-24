@@ -36,16 +36,16 @@ export const CartItemComponent = (props: CartItem) => {
     }
   };
 
-  const updateQty = (q: number) => {
-    setQty(q);
-    if (session) {
-      setTimeout(() => {
-        changeQty(session, props.product[0].id, q);
-      }, 1000);
-    } else {
-      signIn();
-    }
-  };
+	const updateQty = (q: number) => {
+		setQty(q);
+		if (session) {
+			setTimeout(() => {
+				changeQty(session, props.product[0].id, q);
+			}, 2000);
+		} else {
+			signIn();
+		}
+	};
 
   return (
     <Box sx={{ p: 2, borderBottom: `1px solid ${colors.grey[300]}` }}>
