@@ -1,0 +1,242 @@
+import {
+  Box,
+  colors,
+  Typography,
+  Chip,
+  Grid,
+  useMediaQuery,
+  useTheme,
+  Button,
+  ButtonProps,
+  IconButton,
+  styled,
+} from "@mui/material";
+import React from "react";
+import { isInWishlist, ProductInterface } from "src/utils/isInWishlist";
+import Image from "next/image";
+import Link from "next/link";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
+import wishlistStore, { Product } from "@stores/wishlist.store";
+import cartStore from "@stores/cart.store";
+import { Session } from "next-auth";
+import { signIn, useSession } from "next-auth/react";
+
+const myLoader = ({ src, width, quality }: any) => {
+  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
+};
+const addToWishlist = (session: Session | null, product?: Product) => {
+  if (session) {
+    const { getState } = wishlistStore;
+    const wishlists = getState().wishlists;
+    const addWishlist = getState().addWishlist;
+    const removeWishlist = getState().removeWishlist;
+    if (product)
+      if (wishlists?.find((p) => p.id === product.id)) {
+        removeWishlist(session, product);
+      } else {
+        addWishlist(session, product);
+      }
+  } else {
+    signIn();
+  }
+};
+
+const HorizontalProductCard = (props: ProductInterface) => {
+  const { data } = useSession();
+
+  const wishlists = wishlistStore((store) => store.wishlists);
+
+  const check = isInWishlist(props.data, wishlists);
+
+  const addCart = cartStore((store) => store.addToCart);
+  const addToCartClick = (session: Session | null, product_id: number) => {
+    if (session) {
+      const data = props.data;
+      if (session && data) addCart(session, data.id, null);
+    } else {
+      signIn();
+    }
+  };
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  return (
+    <Box
+      sx={{
+        border: `1px solid ${colors.grey[300]}`,
+        borderRadius: "4px",
+        p: 1,
+      }}
+    >
+      <Link href={`/product/${props.data.id}`} legacyBehavior>
+        <StyledLink>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  height: isMobile ? "250px" : "180px",
+                  transition: "transform 0.3s",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
+                <Image
+                  src={props.data.cover_img}
+                  alt={"ProductImage"}
+                  fill
+                  loader={myLoader}
+                  sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={8}>
+              <Box>
+                <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+                  {props.data.name}
+                </Typography>
+                <Chip
+                  label={props.data.category[0].name}
+                  size={"small"}
+                  color={"primary"}
+                />
+                <Box sx={{ py: 2 }}>
+                  {props.data.discount.length > 0 ? (
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        color: colors.grey[700],
+                        py: 1,
+                        fontWeight: 600,
+                      }}
+                    >
+                      <del
+                        style={{
+                          fontSize: 12,
+                          color: colors.red[500],
+                          fontWeight: 400,
+                        }}
+                      >
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(props.data.price)}
+                      </del>
+                      <br />
+                      <span>
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(props.data.discount[0].promo_price)}
+                      </span>
+                    </Typography>
+                  ) : (
+                    <Typography
+                      sx={{
+                        fontSize: 13,
+                        color: colors.grey[700],
+                        py: 1,
+                        fontWeight: 500,
+                      }}
+                    >
+                      <span>
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(props.data.price)}
+                      </span>
+                    </Typography>
+                  )}
+                </Box>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  {props.data.stock <= 0 ? (
+                    <Button size="small" disabled variant="contained">
+                      Out Of Stock
+                    </Button>
+                  ) : (
+                    <AddtoCartButton
+                      size="small"
+                      onClick={() => {
+                        if (props.data) {
+                          addToCartClick(data, props.data.id);
+                        }
+                      }}
+                    >
+                      Add to Cart
+                    </AddtoCartButton>
+                  )}
+
+                  <FavButton
+                    size={"small"}
+                    onClick={() => {
+                      if (props.data) {
+                        addToWishlist(data, props.data);
+                      }
+                    }}
+                  >
+                    {check ? (
+                      <FavoriteSharpIcon sx={{ color: colors.pink[500] }} />
+                    ) : (
+                      <FavoriteBorderOutlinedIcon />
+                    )}
+                  </FavButton>
+                </Box>
+                {props.data.discount.length > 0 ? (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      right: 8,
+                      top: 8,
+                      backgroundColor: colors.red[500],
+                      borderRadius: "4px",
+                      color: "#fff",
+                      padding: "2px 6px",
+                    }}
+                  >
+                    <Typography>
+                      - {props.data.discount[0].percent} %
+                    </Typography>
+                  </Box>
+                ) : (
+                  ""
+                )}
+              </Box>
+            </Grid>
+          </Grid>
+        </StyledLink>
+      </Link>
+    </Box>
+  );
+};
+
+const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
+  color: theme.palette.getContrastText(colors.blue[500]),
+  backgroundColor: colors.blue[500],
+  "&:hover": {
+    backgroundColor: colors.blue[700],
+  },
+  borderRadius: "5px",
+}));
+
+const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
+  color: colors.blue[500],
+  borderRadius: "5px",
+  border: `1px solid ${colors.blue[500]}`,
+  transition: "0.3s",
+  // "&:hover": {
+  // 	color: "#fff",
+  // 	backgroundColor: colors.blue[500],
+  // },
+}));
+
+const StyledLink = styled("a")(({ theme }) => ({
+  cursor: "pointer",
+}));
+
+export default HorizontalProductCard;
