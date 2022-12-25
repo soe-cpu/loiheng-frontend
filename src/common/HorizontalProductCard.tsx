@@ -11,7 +11,7 @@ import {
   IconButton,
   styled,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { isInWishlist, ProductInterface } from "src/utils/isInWishlist";
 import Image from "next/image";
 import Link from "next/link";
@@ -69,10 +69,10 @@ const HorizontalProductCard = (props: ProductInterface) => {
         p: 1,
       }}
     >
-      <Link href={`/product/${props.data.id}`} legacyBehavior>
-        <StyledLink>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={4}>
+          <Link href={`/product/${props.data.id}`} legacyBehavior>
+            <StyledLink>
               <Box
                 sx={{
                   position: "relative",
@@ -92,125 +92,132 @@ const HorizontalProductCard = (props: ProductInterface) => {
                   sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                 />
               </Box>
-            </Grid>
-            <Grid item xs={8}>
+            </StyledLink>
+          </Link>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Box>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
+            >
               <Box>
                 <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
                   {props.data.name}
                 </Typography>
-                <Chip
-                  label={props.data.category[0].name}
-                  size={"small"}
-                  color={"primary"}
-                />
-                <Box sx={{ py: 2 }}>
+              </Box>
+              <Box>
+                <Box
+                  sx={{
+                    backgroundColor: colors.red[500],
+                    color: "#fff",
+                    textAlign: "center",
+                    width: "60px",
+                    borderRadius: "4px",
+                  }}
+                >
                   {props.data.discount.length > 0 ? (
-                    <Typography
-                      sx={{
-                        fontSize: 14,
-                        color: colors.grey[700],
-                        py: 1,
-                        fontWeight: 600,
-                      }}
-                    >
-                      <del
-                        style={{
-                          fontSize: 12,
-                          color: colors.red[500],
-                          fontWeight: 400,
-                        }}
-                      >
-                        {new Intl.NumberFormat("mm-MM", {
-                          style: "currency",
-                          currency: "MMK",
-                          currencyDisplay: "code",
-                        }).format(props.data.price)}
-                      </del>
-                      <br />
-                      <span>
-                        {new Intl.NumberFormat("mm-MM", {
-                          style: "currency",
-                          currency: "MMK",
-                          currencyDisplay: "code",
-                        }).format(props.data.discount[0].promo_price)}
-                      </span>
-                    </Typography>
-                  ) : (
-                    <Typography
-                      sx={{
-                        fontSize: 13,
-                        color: colors.grey[700],
-                        py: 1,
-                        fontWeight: 500,
-                      }}
-                    >
-                      <span>
-                        {new Intl.NumberFormat("mm-MM", {
-                          style: "currency",
-                          currency: "MMK",
-                          currencyDisplay: "code",
-                        }).format(props.data.price)}
-                      </span>
-                    </Typography>
-                  )}
-                </Box>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  {props.data.stock <= 0 ? (
-                    <Button size="small" disabled variant="contained">
-                      Out Of Stock
-                    </Button>
-                  ) : (
-                    <AddtoCartButton
-                      size="small"
-                      onClick={() => {
-                        if (props.data) {
-                          addToCartClick(data, props.data.id);
-                        }
-                      }}
-                    >
-                      Add to Cart
-                    </AddtoCartButton>
-                  )}
-
-                  <FavButton
-                    size={"small"}
-                    onClick={() => {
-                      if (props.data) {
-                        addToWishlist(data, props.data);
-                      }
-                    }}
-                  >
-                    {check ? (
-                      <FavoriteSharpIcon sx={{ color: colors.pink[500] }} />
-                    ) : (
-                      <FavoriteBorderOutlinedIcon />
-                    )}
-                  </FavButton>
-                </Box>
-                {props.data.discount.length > 0 ? (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      right: 8,
-                      top: 8,
-                      backgroundColor: colors.red[500],
-                      borderRadius: "4px",
-                      color: "#fff",
-                      padding: "2px 6px",
-                    }}
-                  >
                     <Typography>
                       - {props.data.discount[0].percent} %
                     </Typography>
-                  </Box>
-                ) : (
-                  ""
-                )}
+                  ) : (
+                    ""
+                  )}
+                </Box>
               </Box>
-            </Grid>
-          </Grid>
-        </StyledLink>
-      </Link>
+            </Box>
+
+            <Chip
+              label={props.data.category[0].name}
+              size={"small"}
+              color={"primary"}
+            />
+            <Box sx={{ py: 2 }}>
+              {props.data.discount.length > 0 ? (
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    color: colors.grey[700],
+                    py: 1,
+                    fontWeight: 600,
+                  }}
+                >
+                  <del
+                    style={{
+                      fontSize: 12,
+                      color: colors.red[500],
+                      fontWeight: 400,
+                    }}
+                  >
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(props.data.price)}
+                  </del>
+                  <br />
+                  <span>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(props.data.discount[0].promo_price)}
+                  </span>
+                </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    fontSize: 13,
+                    color: colors.grey[700],
+                    py: 1,
+                    fontWeight: 500,
+                  }}
+                >
+                  <span>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(props.data.price)}
+                  </span>
+                </Typography>
+              )}
+            </Box>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              {props.data.stock <= 0 ? (
+                <Button size="small" disabled variant="contained">
+                  Out Of Stock
+                </Button>
+              ) : (
+                <AddtoCartButton
+                  size="small"
+                  onClick={() => {
+                    if (props.data) {
+                      addToCartClick(data, props.data.id);
+                    }
+                  }}
+                >
+                  Add to Cart
+                </AddtoCartButton>
+              )}
+
+              <FavButton
+                size={"small"}
+                onClick={() => {
+                  if (props.data) {
+                    addToWishlist(data, props.data);
+                  }
+                }}
+              >
+                {check ? (
+                  <FavoriteSharpIcon sx={{ color: colors.pink[500] }} />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )}
+              </FavButton>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
@@ -218,6 +225,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
 const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
   color: theme.palette.getContrastText(colors.blue[500]),
   backgroundColor: colors.blue[500],
+  padding: "0px 10px",
   "&:hover": {
     backgroundColor: colors.blue[700],
   },
