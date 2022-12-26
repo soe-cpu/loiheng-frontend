@@ -139,6 +139,7 @@ const ProductComponent = (props: {
               <Box>
                 <Accordion
                   elevation={0}
+                  defaultExpanded={true}
                   sx={{ border: `1px solid ${colors.grey[300]}`, p: 0 }}
                 >
                   <AccordionSummary
@@ -178,6 +179,7 @@ const ProductComponent = (props: {
               <Box>
                 <Accordion
                   elevation={0}
+                  defaultExpanded={true}
                   sx={{ border: `1px solid ${colors.grey[300]}` }}
                 >
                   <AccordionSummary
