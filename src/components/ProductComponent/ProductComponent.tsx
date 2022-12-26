@@ -132,7 +132,7 @@ const ProductComponent = (props: {
   return (
     <Box sx={{ py: 2 }}>
       <Container maxWidth={"lg"}>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           <Grid item xs={12} lg={3}>
             <Stack spacing={2}>
               <Box>
@@ -275,10 +275,10 @@ const ProductComponent = (props: {
               </Box>
             </Stack>
             <Box sx={{ display: show == true ? "block" : "none" }}>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 {product?.products.map((prod, index) => {
                   return (
-                    <Grid item xs={12} md={4} key={index}>
+                    <Grid item xs={12} md={3} key={index}>
                       <ProductCard data={prod} />
                     </Grid>
                   );
@@ -286,7 +286,7 @@ const ProductComponent = (props: {
               </Grid>
             </Box>
             <Box sx={{ display: show == false ? "block" : "none" }}>
-              <Stack spacing={2}>
+              <Stack spacing={1}>
                 {product?.products.map((prod, index) => {
                   return (
                     <Box key={index}>
