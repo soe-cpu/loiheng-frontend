@@ -59,8 +59,6 @@ const Login = () => {
 			}).then((res) => {
 				const callbackUrl = router.query.callbackUrl as string;
 
-				console.log(res);
-
 				if (!res?.error) {
 					toast.success("Successfully logged in!");
 					setTimeout(() => {

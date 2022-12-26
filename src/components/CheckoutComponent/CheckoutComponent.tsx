@@ -23,6 +23,7 @@ import {
   TableHead,
   TableRow,
   Button,
+  useTheme,
 } from "@mui/material";
 import Link from "next/link";
 import React from "react";
@@ -49,6 +50,9 @@ const CheckoutComponent = () => {
     setCountry(event.target.value as string);
   };
   const router = useRouter();
+
+  const theme = useTheme();
+
   return (
     <Box>
       <Container maxWidth={"lg"}>
@@ -373,7 +377,12 @@ const CheckoutComponent = () => {
               </Table>
             </TableContainer>
             <Box
-              sx={{ display: "flex", justifyContent: "space-between", py: 2 }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                py: 2,
+                px: 1,
+              }}
             >
               <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
                 Subtotal:{" "}
@@ -387,7 +396,7 @@ const CheckoutComponent = () => {
                   }).format(cartData.subtotal)}
                 </Typography>
               ) : (
-                <Typography></Typography>
+                ""
               )}
             </Box>
             <Box
@@ -397,12 +406,13 @@ const CheckoutComponent = () => {
                 py: 2,
                 backgroundColor: colors.grey[100],
                 alignItems: "center",
+                px: 1,
               }}
             >
               <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
                 Standard Delivery:{" "}
               </Typography>
-              <Typography sx={{ fontSize: 14 }}>3,269,370 Ks </Typography>
+              <Typography sx={{ fontSize: 14 }}>0 Ks </Typography>
             </Box>
             <Box
               sx={{
@@ -410,13 +420,24 @@ const CheckoutComponent = () => {
                 justifyContent: "space-between",
                 py: 2,
                 alignItems: "center",
+                px: 1,
               }}
             >
               <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
                 Total:{" "}
               </Typography>
               <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
-                3,269,370 Ks{" "}
+                {cartData ? (
+                  <Typography sx={{ fontSize: 14 }}>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(cartData.subtotal)}
+                  </Typography>
+                ) : (
+                  ""
+                )}
               </Typography>
             </Box>
             <Box
@@ -425,6 +446,7 @@ const CheckoutComponent = () => {
                 alignItems: "center",
                 gap: 2,
                 color: colors.blue[500],
+                marginTop: theme.spacing(3),
               }}
             >
               <ArrowBackIcon />

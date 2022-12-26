@@ -8,6 +8,7 @@ import {
   colors,
   Container,
   Divider,
+  Fade,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -45,6 +46,7 @@ const ProductComponent = (props: {
   brands: GetAllBrands;
   categories: GetAllCategories;
 }) => {
+  const [show, setShow] = useState<boolean>(true);
   const [age, setAge] = React.useState("");
   const [prices, setPrices] = React.useState<number | number[]>([0, 1000]);
   const [minMaxPrices, setMinMaxPrices] = React.useState<number[]>([0, 1000]);
@@ -99,6 +101,13 @@ const ProductComponent = (props: {
 
   const handlePage = (e: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
+  };
+
+  const handleClickGrid = () => {
+    setShow(true);
+  };
+  const handleClickList = () => {
+    setShow(false);
   };
 
   React.useEffect(() => {
@@ -255,34 +264,38 @@ const ProductComponent = (props: {
                 <Stack direction={"row"} alignItems={"center"}>
                   <Typography>View: </Typography>
                   <Box sx={{ display: "flex" }}>
-                    <IconButton>
+                    <IconButton onClick={handleClickGrid}>
                       <AppsIcon fontSize="small" />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={handleClickList}>
                       <ListIcon fontSize="small" />
                     </IconButton>
                   </Box>
                 </Stack>
               </Box>
             </Stack>
-            <Grid container spacing={2}>
-              {product?.products.map((prod, index) => {
-                return (
-                  <Grid item xs={12} md={4} key={index}>
-                    <ProductCard data={prod} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-            <Stack spacing={2}>
-              {product?.products.map((prod, index) => {
-                return (
-                  <Box key={index}>
-                    <HorizontalProductCard data={prod} />
-                  </Box>
-                );
-              })}
-            </Stack>
+            <Box sx={{ display: show == true ? "block" : "none" }}>
+              <Grid container spacing={2}>
+                {product?.products.map((prod, index) => {
+                  return (
+                    <Grid item xs={12} md={4} key={index}>
+                      <ProductCard data={prod} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+            <Box sx={{ display: show == false ? "block" : "none" }}>
+              <Stack spacing={2}>
+                {product?.products.map((prod, index) => {
+                  return (
+                    <Box key={index}>
+                      <HorizontalProductCard data={prod} />
+                    </Box>
+                  );
+                })}
+              </Stack>
+            </Box>
             <Stack
               sx={{ paddingY: theme.spacing(5), marginTop: theme.spacing(5) }}
               justifyContent={"center"}
