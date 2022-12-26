@@ -119,7 +119,7 @@ const MenuBar = () => {
 							<Box
 								className="drop"
 								sx={{
-									zIndex: 1,
+									zIndex: 100000,
 									position: "absolute",
 									left: -100,
 									display: "none",

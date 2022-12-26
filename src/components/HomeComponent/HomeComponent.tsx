@@ -38,6 +38,13 @@ import useAllFeatureProduct from "@apis/useAllFeatureProduct";
 import { useSession } from "next-auth/react";
 import wishlistStore, { Product } from "@stores/wishlist.store";
 import useAllPromoProduct from "@apis/useAllPromoProduct";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
+import { Banner } from "./Banner";
 
 function NextArrow(props: any) {
 	const { style, onClick } = props;
@@ -206,41 +213,9 @@ const HomeComponent = () => {
 	};
 
 	return (
-		<Box sx={{ py: 1 }}>
+		<Box sx={{ py: 0 }}>
+			<Banner banners={banner?.banner_sliders} />
 			<Container maxWidth="lg">
-				<div>
-					<Slider {...homeSlide}>
-						{banner?.banner_sliders.map((ban, index) => {
-							return (
-								<Box
-									key={index}
-									sx={{
-										position: "relative",
-										width: "100%",
-										height: isMobile ? "250px" : "400px",
-									}}
-								>
-									{!ban.image ? (
-										<Skeleton
-											variant="rectangular"
-											animation={"wave"}
-											width={"100%"}
-											height={"400px"}
-										/>
-									) : (
-										<Image
-											loader={myLoader}
-											src={ban.image}
-											alt="Banner Slider"
-											fill
-											sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-										/>
-									)}
-								</Box>
-							);
-						})}
-					</Slider>
-				</div>
 				<Box sx={{ py: 4 }}>
 					<Stack
 						justifyContent={"space-between"}
