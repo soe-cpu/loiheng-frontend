@@ -76,7 +76,7 @@ const ProductCard = (props: ProductInterface) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: "370px",
+        minHeight: "340px",
       }}
     >
       <Link href={`/product/${props.data.id}`} legacyBehavior>
@@ -85,7 +85,7 @@ const ProductCard = (props: ProductInterface) => {
             sx={{
               position: "relative",
               width: "100%",
-              height: isMobile ? "250px" : "180px",
+              height: isMobile ? "250px" : "150px",
               transition: "transform 0.3s",
               "&:hover": {
                 transform: "scale(1.05)",
@@ -114,7 +114,7 @@ const ProductCard = (props: ProductInterface) => {
           <Typography
             sx={{
               textAlign: "center",
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: 500,
               overflow: "hidden",
               textOverflow: "ellipsis",
