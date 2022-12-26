@@ -57,10 +57,10 @@ const WishlistPage = () => {
           <Typography variant="body2">
             Show all ({wishlists?.length}) results.
           </Typography>
-          <Grid container spacing={2} paddingY={2}>
+          <Grid container spacing={1} paddingY={2} columns={15}>
             {wishlists?.map((product) => {
               return (
-                <Grid item key={product.id} xs={12} lg={3} md={3} sm={6}>
+                <Grid item key={product.id} xs={15} lg={3} md={3} sm={6}>
                   <ProductCard data={product} />
                 </Grid>
               );
