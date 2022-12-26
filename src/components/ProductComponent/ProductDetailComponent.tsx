@@ -330,7 +330,13 @@ const ProductDetailComponent = (props: Product) => {
                   color: colors.blue[500],
                 }}
               >
-                <Typography>Ks {props.price}</Typography>
+                <Typography>
+                  {new Intl.NumberFormat("mm-MM", {
+                    style: "currency",
+                    currency: "MMK",
+                    currencyDisplay: "code",
+                  }).format(props.price)}
+                </Typography>
                 <Typography>Be The First Review</Typography>
               </Box>
               <Box sx={{ py: 2 }}>
@@ -471,11 +477,14 @@ const ProductDetailComponent = (props: Product) => {
                 props.stock > 0 ? (
                   <Box sx={{ display: "flex", gap: 2 }}>
                     <Button
+                      size="small"
+                      variant="contained"
                       sx={{
-                        boxShadow: "0px",
                         backgroundColor: colors.blue[500],
+                        boxShadow: 0,
                         color: "#fff",
                         "&:hover": {
+                          boxShadow: 0,
                           backgroundColor: colors.blue[700],
                         },
                       }}
@@ -484,11 +493,14 @@ const ProductDetailComponent = (props: Product) => {
                       Add to cart
                     </Button>
                     <Button
+                      size="small"
+                      variant="contained"
                       sx={{
-                        boxShadow: "0px",
                         backgroundColor: colors.blue[500],
+                        boxShadow: 0,
                         color: "#fff",
                         "&:hover": {
+                          boxShadow: 0,
                           backgroundColor: colors.blue[700],
                         },
                       }}
@@ -582,7 +594,13 @@ const ProductDetailComponent = (props: Product) => {
             </Stack>
           </Grid>
         </Grid>
-        <Box sx={{ borderBottom: 1, marginTop: 10, borderColor: "divider" }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            marginTop: 10,
+            borderColor: "divider",
+          }}
+        >
           <Tabs
             value={value}
             onChange={handleChange}
@@ -595,11 +613,13 @@ const ProductDetailComponent = (props: Product) => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          {props.description ? (
-            <div dangerouslySetInnerHTML={{ __html: props.description }} />
-          ) : (
-            "-"
-          )}
+          <Box sx={{ overflowX: "scroll" }}>
+            {props.description ? (
+              <div dangerouslySetInnerHTML={{ __html: props.description }} />
+            ) : (
+              "-"
+            )}
+          </Box>
         </TabPanel>
         <TabPanel value={value} index={1}>
           -
