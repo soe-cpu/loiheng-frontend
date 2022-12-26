@@ -22,11 +22,11 @@ const ProductByCategoryComponent = (props: ProductByCategory) => {
           Show all ({props.data.products.length}) results.
         </Typography>
 
-        <Grid container spacing={2} sx={{ py: 2 }} columns={15}>
+        <Grid container spacing={1} sx={{ py: 2 }} columns={15}>
           {products.length > 0 ? (
             products.map((product, index) => {
               return (
-                <Grid item xs={7} md={3} key={index}>
+                <Grid item xs={15} md={3} key={index}>
                   <ProductCard data={product} />
                 </Grid>
               );

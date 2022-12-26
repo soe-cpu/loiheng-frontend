@@ -239,7 +239,7 @@ const HomeComponent = () => {
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">New Arrivals</Typography>
+              <Typography variant="h6">New Arrivals</Typography>
             </Box>
             <Box>
               <Link href={"/new-arrivals"} legacyBehavior>
@@ -259,14 +259,14 @@ const HomeComponent = () => {
             </Slider>
           </Box>
         </Box>
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ pb: 4 }}>
           <Stack
             justifyContent={"space-between"}
             direction={"row"}
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Featured Products</Typography>
+              <Typography variant="h6">Featured Products</Typography>
             </Box>
             <Box>
               <Link href={"/featured-products"} legacyBehavior>
@@ -286,14 +286,14 @@ const HomeComponent = () => {
             </Slider>
           </Box>
         </Box>
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ pb: 4 }}>
           <Stack
             justifyContent={"space-between"}
             direction={"row"}
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Featured Brand Store</Typography>
+              <Typography variant="h6">Featured Brand Store</Typography>
             </Box>
             <Box>
               <Link href={"/brands"} legacyBehavior>
@@ -330,14 +330,14 @@ const HomeComponent = () => {
             </Slider>
           </Box>
         </Box>
-        <Box sx={{ py: 4 }}>
+        <Box sx={{ pb: 4 }}>
           <Stack
             justifyContent={"space-between"}
             direction={"row"}
             sx={{ pb: 4 }}
           >
             <Box>
-              <Typography variant="h5">Company Profile</Typography>
+              <Typography variant="h6">Company Profile</Typography>
             </Box>
           </Stack>
           <Box
