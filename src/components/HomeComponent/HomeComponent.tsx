@@ -93,7 +93,9 @@ const HomeComponent = () => {
 		speed: 500,
 		slidesToShow: 5,
 		swipeToSlide: true,
-		arrows: false,
+		arrows: true,
+		nextArrow: <NextArrow />,
+		prevArrow: <PrevArrow />,
 		responsive: [
 			{
 				breakpoint: 1024,
@@ -106,7 +108,7 @@ const HomeComponent = () => {
 				settings: {
 					slidesToShow: 2,
 					initialSlide: 2,
-					arrows: false,
+					arrows: true,
 				},
 			},
 			{
@@ -168,7 +170,7 @@ const HomeComponent = () => {
 		isValidating: brandIsValidating,
 	} = useAllBrand();
 
-	const { data: promotionProducts } = useAllPromoProduct([], [], 1);
+	const { data: promotionProducts } = useAllPromoProduct([], [], 1, 20);
 
 	const [banner, setBanner] =
 		React.useState<GetHomePageBannerListResponse["data"]>();
