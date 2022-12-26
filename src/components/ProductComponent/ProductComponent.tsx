@@ -38,8 +38,8 @@ import { useState } from "react";
 import { SubCategory } from "@interfaces/sub-category.interface.";
 import HorizontalProductCard from "@common/HorizontalProductCard";
 
-const myLoader = ({ src, width, quality }: any) => {
-  return `https://api.loiheng.duckdns.org${src}?q=${quality || 75}`;
+const myLoaderGif = ({ src, width, quality }: any) => {
+  return `${src}?q=${quality || 75}`;
 };
 
 const ProductComponent = (props: {
@@ -138,6 +138,7 @@ const ProductComponent = (props: {
               <Box>
                 <Accordion
                   elevation={0}
+                  defaultExpanded={true}
                   sx={{ border: `1px solid ${colors.grey[300]}`, p: 0 }}
                 >
                   <AccordionSummary
@@ -177,6 +178,7 @@ const ProductComponent = (props: {
               <Box>
                 <Accordion
                   elevation={0}
+                  defaultExpanded={true}
                   sx={{ border: `1px solid ${colors.grey[300]}` }}
                 >
                   <AccordionSummary
@@ -276,25 +278,91 @@ const ProductComponent = (props: {
             </Stack>
             <Box sx={{ display: show == true ? "block" : "none" }}>
               <Grid container spacing={1}>
-                {product?.products.map((prod, index) => {
-                  return (
-                    <Grid item xs={12} md={3} key={index}>
-                      <ProductCard data={prod} />
-                    </Grid>
-                  );
-                })}
+                {product ? (
+                  product.products.length <= 0 ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "300px",
+                          height: "300px",
+                        }}
+                      >
+                        <Image
+                          src={"/no-prod.gif"}
+                          alt="Shipping Gif"
+                          loader={myLoaderGif}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </Box>
+                      <Typography>No product found!</Typography>
+                    </Box>
+                  ) : (
+                    product.products.map((prod, index) => {
+                      return (
+                        <Grid item xs={12} md={3} key={index}>
+                          <ProductCard data={prod} />
+                        </Grid>
+                      );
+                    })
+                  )
+                ) : (
+                  ""
+                )}
               </Grid>
             </Box>
             <Box sx={{ display: show == false ? "block" : "none" }}>
-              <Stack spacing={1}>
-                {product?.products.map((prod, index) => {
-                  return (
-                    <Box key={index}>
-                      <HorizontalProductCard data={prod} />
+              {product ? (
+                product.products.length <= 0 ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "300px",
+                        height: "300px",
+                      }}
+                    >
+                      <Image
+                        src={"/no-prod.gif"}
+                        alt="Shipping Gif"
+                        loader={myLoaderGif}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
                     </Box>
-                  );
-                })}
-              </Stack>
+                    <Typography>No product found!</Typography>
+                  </Box>
+                ) : (
+                  <Stack spacing={1}>
+                    {product?.products.map((prod, index) => {
+                      return (
+                        <Box key={index}>
+                          <HorizontalProductCard data={prod} />
+                        </Box>
+                      );
+                    })}
+                  </Stack>
+                )
+              ) : (
+                ""
+              )}
             </Box>
             <Stack
               sx={{ paddingY: theme.spacing(5), marginTop: theme.spacing(5) }}
