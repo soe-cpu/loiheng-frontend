@@ -76,7 +76,7 @@ const ProductCard = (props: ProductInterface) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: "370px",
+        minHeight: "320px",
       }}
     >
       <Link href={`/product/${props.data.id}`} legacyBehavior>
@@ -85,7 +85,7 @@ const ProductCard = (props: ProductInterface) => {
             sx={{
               position: "relative",
               width: "100%",
-              height: isMobile ? "250px" : "180px",
+              height: isMobile ? "250px" : "150px",
               transition: "transform 0.3s",
               "&:hover": {
                 transform: "scale(1.05)",
@@ -106,7 +106,7 @@ const ProductCard = (props: ProductInterface) => {
               fontSize: 12,
               color: colors.grey[600],
               fontWeight: 500,
-              py: 1,
+              py: "6px",
             }}
           >
             {props.data.category[0].name}
@@ -114,7 +114,7 @@ const ProductCard = (props: ProductInterface) => {
           <Typography
             sx={{
               textAlign: "center",
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: 500,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -132,7 +132,7 @@ const ProductCard = (props: ProductInterface) => {
                 textAlign: "center",
                 fontSize: 14,
                 color: colors.grey[700],
-                py: 1,
+                py: "4px",
                 fontWeight: 600,
               }}
             >
@@ -162,9 +162,9 @@ const ProductCard = (props: ProductInterface) => {
             <Typography
               sx={{
                 textAlign: "center",
-                fontSize: 13,
+                fontSize: 14,
                 color: colors.grey[700],
-                py: 1,
+                py: "4px",
                 fontWeight: 500,
               }}
             >
@@ -181,12 +181,31 @@ const ProductCard = (props: ProductInterface) => {
       </Link>
       <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
         {props.data.stock <= 0 ? (
-          <Button size="small" disabled variant="contained" fullWidth>
+          <Button
+            size="small"
+            disabled
+            variant="contained"
+            fullWidth
+            sx={{ height: "30px" }}
+          >
             Out Of Stock
           </Button>
         ) : (
-          <AddtoCartButton
+          <Button
             size="small"
+            variant="contained"
+            color="inherit"
+            fullWidth
+            sx={{
+              boxShadow: 0,
+              backgroundColor: colors.blue[500],
+              color: "#fff",
+              height: "30px",
+              "&:hover": {
+                boxShadow: 0,
+                backgroundColor: colors.blue[700],
+              },
+            }}
             onClick={() => {
               if (props.data) {
                 addToCartClick(data, props.data.id);
@@ -194,7 +213,7 @@ const ProductCard = (props: ProductInterface) => {
             }}
           >
             Add to Cart
-          </AddtoCartButton>
+          </Button>
         )}
 
         <FavButton
@@ -241,19 +260,18 @@ const ProductCard = (props: ProductInterface) => {
 //     transform: " scale(1.1)",
 //   },
 // }));
-const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  color: theme.palette.getContrastText(colors.blue[500]),
-  width: "100%",
-  backgroundColor: colors.blue[500],
-  "&:hover": {
-    backgroundColor: colors.blue[700],
-  },
-  borderRadius: "5px",
-}));
+// const AddtoCartButton = styled(Button)(({ theme }) => ({
+//   color: theme.palette.getContrastText(colors.blue[500]),
+//   backgroundColor: colors.blue[500],
+//   "&:hover": {
+//     backgroundColor: colors.blue[700],
+//   },
+// }));
 
 const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
   color: colors.blue[500],
   borderRadius: "5px",
+  height: "30px",
   border: `1px solid ${colors.blue[500]}`,
   transition: "0.3s",
   // "&:hover": {
