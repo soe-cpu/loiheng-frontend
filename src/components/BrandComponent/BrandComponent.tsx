@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const myLoader = ({ src, width, quality }: any) => {
@@ -55,13 +56,15 @@ const BrandComponent = () => {
                       height={"400px"}
                     />
                   ) : (
-                    <Image
-                      loader={myLoader}
-                      src={brand.picture}
-                      alt="Brand Image"
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
+                    <Link href={`/brands/${brand.id}`}>
+                      <Image
+                        loader={myLoader}
+                        src={brand.picture}
+                        alt="Brand Image"
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Link>
                   )}
                 </Box>
               </Grid>

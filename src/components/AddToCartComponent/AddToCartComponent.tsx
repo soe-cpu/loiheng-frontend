@@ -95,11 +95,14 @@ const AddToCartComponent = () => {
                 fullWidth
               ></InputBase>
               <Button
+                variant="contained"
+                size="small"
                 sx={{
-                  boxShadow: "0px",
+                  boxShadow: 0,
                   backgroundColor: colors.blue[500],
                   color: "#fff",
                   "&:hover": {
+                    boxShadow: 0,
                     backgroundColor: colors.blue[700],
                   },
                 }}
@@ -181,11 +184,14 @@ const AddToCartComponent = () => {
                 <Link href={"/checkout"} legacyBehavior>
                   <a style={{ textDecoration: "none" }}>
                     <Button
+                      variant="contained"
+                      size="small"
                       sx={{
-                        boxShadow: "0px",
+                        boxShadow: 0,
                         backgroundColor: colors.blue[500],
                         color: "#fff",
                         "&:hover": {
+                          boxShadow: 0,
                           backgroundColor: colors.blue[700],
                         },
                       }}
