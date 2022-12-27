@@ -66,7 +66,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
       sx={{
         border: `1px solid ${colors.grey[300]}`,
         borderRadius: "4px",
-        p: 1,
+        p: 2,
       }}
     >
       <Grid container spacing={2}>
@@ -95,101 +95,130 @@ const HorizontalProductCard = (props: ProductInterface) => {
             </StyledLink>
           </Link>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Box>
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
-            >
-              <Box>
-                <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
-                  {props.data.name}
-                </Typography>
-              </Box>
-              <Box>
-                <Box
-                  sx={{
-                    backgroundColor: colors.red[500],
-                    color: "#fff",
-                    textAlign: "center",
-                    width: "60px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  {props.data.discount.length > 0 ? (
-                    <Typography>
-                      - {props.data.discount[0].percent} %
-                    </Typography>
-                  ) : (
-                    ""
-                  )}
+        <Grid item xs={12} md={8}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+            }}
+          >
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 2,
+                }}
+              >
+                <Box>
+                  <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+                    {props.data.name}
+                  </Typography>
                 </Box>
-              </Box>
-            </Box>
-
-            <Chip
-              label={props.data.category[0].name}
-              size={"small"}
-              color={"primary"}
-            />
-            <Box sx={{ py: 2 }}>
-              {props.data.discount.length > 0 ? (
-                <Typography
-                  sx={{
-                    fontSize: 14,
-                    color: colors.grey[700],
-                    py: 1,
-                    fontWeight: 600,
-                  }}
-                >
-                  <del
-                    style={{
-                      fontSize: 12,
-                      color: colors.red[500],
-                      fontWeight: 400,
+                <Box>
+                  <Box
+                    sx={{
+                      backgroundColor: colors.red[500],
+                      color: "#fff",
+                      textAlign: "center",
+                      width: "60px",
+                      borderRadius: "4px",
                     }}
                   >
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(props.data.price)}
-                  </del>
-                  <br />
-                  <span>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(props.data.discount[0].promo_price)}
-                  </span>
-                </Typography>
-              ) : (
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    color: colors.grey[700],
-                    py: 1,
-                    fontWeight: 500,
-                  }}
-                >
-                  <span>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(props.data.price)}
-                  </span>
-                </Typography>
-              )}
+                    {props.data.discount.length > 0 ? (
+                      <Typography>
+                        - {props.data.discount[0].percent} %
+                      </Typography>
+                    ) : (
+                      ""
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+              <Chip
+                label={props.data.category[0].name}
+                size={"small"}
+                sx={{ backgroundColor: colors.grey[400], fontWeight: 500 }}
+              />
+              <Box sx={{ py: 2 }}>
+                {props.data.discount.length > 0 ? (
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      color: colors.grey[700],
+                      py: 1,
+                      fontWeight: 600,
+                    }}
+                  >
+                    <del
+                      style={{
+                        fontSize: 12,
+                        color: colors.red[500],
+                        fontWeight: 400,
+                      }}
+                    >
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(props.data.price)}
+                    </del>
+                    <br />
+                    <span>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(props.data.discount[0].promo_price)}
+                    </span>
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      color: colors.grey[700],
+                      py: 1,
+                      fontWeight: 500,
+                    }}
+                  >
+                    <span>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(props.data.price)}
+                    </span>
+                  </Typography>
+                )}
+              </Box>
             </Box>
             <Box sx={{ display: "flex", gap: 2 }}>
               {props.data.stock <= 0 ? (
-                <Button size="small" disabled variant="contained">
+                <Button
+                  size="small"
+                  disabled
+                  variant="contained"
+                  sx={{ height: "30px" }}
+                >
                   Out Of Stock
                 </Button>
               ) : (
-                <AddtoCartButton
+                <Button
                   size="small"
+                  variant="contained"
+                  color="inherit"
+                  sx={{
+                    boxShadow: 0,
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    height: "30px",
+                    "&:hover": {
+                      boxShadow: 0,
+                      backgroundColor: colors.blue[700],
+                    },
+                  }}
                   onClick={() => {
                     if (props.data) {
                       addToCartClick(data, props.data.id);
@@ -197,7 +226,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
                   }}
                 >
                   Add to Cart
-                </AddtoCartButton>
+                </Button>
               )}
 
               <FavButton
@@ -234,6 +263,7 @@ const AddtoCartButton = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
   color: colors.blue[500],
+  height: "30px",
   borderRadius: "5px",
   border: `1px solid ${colors.blue[500]}`,
   transition: "0.3s",
