@@ -117,7 +117,14 @@ const Footer = () => {
                       </a>
                     </Link>
                   </Typography>
-                  <Typography variant="body1">Terms & Conditions</Typography>
+                  <Typography variant="body1">
+                    <Link href={"/term-and-condition"} legacyBehavior>
+                      <a style={{ textDecoration: "none", color: "#000" }}>
+                        {" "}
+                        Terms & Conditions
+                      </a>
+                    </Link>
+                  </Typography>
                 </Box>
               </Stack>
             </Grid>
