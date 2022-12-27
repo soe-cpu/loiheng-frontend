@@ -92,3 +92,105 @@ body::-webkit-scrollbar {
   background: #fff !important;
   color: #fff !important;
 } */
+
+.swiper-button-next,
+.swiper-button-prev {
+	color: #000 !important;
+	background-color: #fff;
+	/* padding: 3px 10px 3px 10px; */
+	border-radius: 50%;
+	width: 44px !important;
+	height: 44px !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+	color: #000 !important;
+	background-color: #fff;
+	border-radius: 50%;
+	font-size: 16px !important;
+	font-weight: 1000;
+}
+
+.swiper-pagination-bullet-active {
+	background-color: #fff !important;
+}
+
+.swiper-pagination-bullet {
+	width: 15px !important;
+	height: 15px !important;
+	background-color: #f1f1f1 !important;
+}
+
+/* Small Phones */
+@media only screen and (min-width: 200px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		border-radius: 50%;
+		width: 40px !important;
+		height: 40px !important;
+	}
+
+	.swiper-button-next::after,
+	.swiper-button-prev::after {
+		font-size: 14px !important;
+		font-weight: 1000;
+	}
+
+	.swiper-pagination-bullet {
+		width: 10px !important;
+		height: 10px !important;
+	}
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		border-radius: 50%;
+		width: 44px !important;
+		height: 44px !important;
+	}
+
+	.swiper-button-next::after,
+	.swiper-button-prev::after {
+		font-size: 16px !important;
+		font-weight: 1000;
+	}
+}
+
+/* Laptop */
+@media only screen and (min-width: 1200px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		border-radius: 50%;
+		width: 50px !important;
+		height: 50px !important;
+	}
+
+	.swiper-button-next::after,
+	.swiper-button-prev::after {
+		font-size: 24px !important;
+		font-weight: 1000 !important;
+	}
+	.swiper-pagination-bullet {
+		width: 15px !important;
+		height: 15px !important;
+	}
+}
+
+/* Deskop */
+@media only screen and (min-width: 1600px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		border-radius: 50%;
+		width: 55px !important;
+		height: 55px !important;
+	}
+
+	.swiper-button-next::after,
+	.swiper-button-prev::after {
+		font-size: 28px !important;
+		font-weight: 1000 !important;
+	}
+}
