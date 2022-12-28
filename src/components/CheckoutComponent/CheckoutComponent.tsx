@@ -24,6 +24,7 @@ import {
   TableRow,
   Button,
   useTheme,
+  Divider,
 } from "@mui/material";
 import Link from "next/link";
 import React from "react";
@@ -31,27 +32,41 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
+import addressStore, { Address } from "@stores/addressStore";
 
 const myLoader = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
 const CheckoutComponent = () => {
+  const router = useRouter();
+  const theme = useTheme();
+
   const cartData = cartStore((store) => store.cart);
-
+  const [address, setAddress] = React.useState("0");
+  const [country, setCountry] = React.useState("");
   const [addressType, setAddressType] = React.useState("");
+  const [showAddress, setShowAddress] = React.useState<Address>();
 
-  const handleChangeAddress = (event: SelectChangeEvent) => {
+  const handleChangeAddressType = (event: SelectChangeEvent) => {
     setAddressType(event.target.value as string);
   };
-  const [country, setCountry] = React.useState("");
-
+  const handleChangeAddress = (event: SelectChangeEvent) => {
+    setAddress(event.target.value as string);
+  };
   const handleChangeCountry = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);
   };
-  const router = useRouter();
 
-  const theme = useTheme();
+  // Api get Address start //
+  const addressData = addressStore((store) => store.address);
+
+  React.useEffect(() => {
+    if (address) {
+      const addr = addressData?.find((data) => data.id == Number(address));
+      setShowAddress(addr);
+    }
+  }, [address, addressData]);
 
   return (
     <Box>
@@ -73,101 +88,180 @@ const CheckoutComponent = () => {
             >
               Shopping Information
             </Typography>
-            <Box sx={{ border: `1px solid ${colors.grey[300]}`, p: 2 }}>
-              <Grid container spacing={4}>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Full Name"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Email Address"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Phone Number"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Billing Address"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    id="outlined-basic"
-                    label="City"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    id="outlined-basic"
-                    label="Region"
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label">
-                      Address Type
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={addressType}
-                      label="Age"
-                      onChange={handleChangeAddress}
-                    >
-                      <MenuItem value={10}>Work</MenuItem>
-                      <MenuItem value={20}>Home</MenuItem>
-                      <MenuItem value={30}>Address 1</MenuItem>
-                      <MenuItem value={30}>Address 2</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel id="demo-simple-select-label-country">
-                      Country
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label-country"
-                      id="demo-simple-select-country"
-                      value={country}
-                      label="Age"
-                      onChange={handleChangeCountry}
-                    >
-                      <MenuItem value={10}>Myanmar</MenuItem>
-                      <MenuItem value={20}>Singapore</MenuItem>
-                      <MenuItem value={30}>Japan</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
+            <Box sx={{ pb: 2 }}>
+              <label>Your Address</label>
+              <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                <InputLabel id="demo-simple-select-label-country">
+                  Address
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label-country"
+                  id="demo-simple-select-country"
+                  value={address}
+                  label="Address"
+                  onChange={handleChangeAddress}
+                >
+                  <MenuItem value="0">Create New</MenuItem>
+                  {addressData?.map((data, index) => {
+                    return (
+                      <MenuItem value={data.id} key={index}>
+                        {data.full_name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </Box>
+
+            {showAddress ? (
+              <Box sx={{ border: `1px solid ${colors.blue[300]}` }}>
+                <Typography sx={{ p: 2, fontWeight: 500 }}>
+                  {showAddress.full_name}
+                </Typography>
+                <Divider />
+                <Box
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Name:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.full_name}
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Address Type:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.address_type}
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    City:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.city}
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Township:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.township}
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Region:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.region}
+                    </span>
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Phone No:{" "}
+                    <span style={{ color: colors.grey[600] }}>
+                      {showAddress.phone}
+                    </span>
+                  </Typography>
+                </Box>
+              </Box>
+            ) : (
+              <Box sx={{ border: `1px solid ${colors.blue[300]}`, p: 2 }}>
+                <Grid container spacing={4}>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Full Name"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Email Address"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Phone Number"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Billing Address"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      id="outlined-basic"
+                      label="City"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Region"
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormControl fullWidth size="small">
+                      <InputLabel id="demo-simple-select-label">
+                        Address Type
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={addressType}
+                        label="Age"
+                        onChange={handleChangeAddressType}
+                      >
+                        <MenuItem value={10}>Work</MenuItem>
+                        <MenuItem value={20}>Home</MenuItem>
+                        <MenuItem value={30}>Address 1</MenuItem>
+                        <MenuItem value={30}>Address 2</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl fullWidth size="small">
+                      <InputLabel id="demo-simple-select-label-country">
+                        Country
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label-country"
+                        id="demo-simple-select-country"
+                        value={country}
+                        label="Age"
+                        onChange={handleChangeCountry}
+                      >
+                        <MenuItem value={10}>Myanmar</MenuItem>
+                        <MenuItem value={20}>Singapore</MenuItem>
+                        <MenuItem value={30}>Japan</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Box>
+            )}
             <Box
               sx={{
                 display: "flex",
@@ -200,139 +294,158 @@ const CheckoutComponent = () => {
               Choose a payment method
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Box
-                  sx={{
-                    border: `1px solid ${colors.grey[300]}`,
-                    py: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    flexDirection: "column",
-                    borderRadius: "4px",
-                    boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                  }}
-                >
+              <Grid item xs={6} md={4}>
+                <label>
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="banaccount"
+                    checked
+                  />
                   <Box
                     sx={{
-                      position: "relative",
-                      width: "80px",
-                      height: "80px",
+                      border: `1px solid ${colors.grey[300]}`,
+                      py: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "column",
+                      borderRadius: "4px",
+                      boxShadow: `1px 1px 5px ${colors.grey[100]}`,
                     }}
                   >
-                    <Image
-                      src={"/bank.gif"}
-                      alt="Bank Gif"
-                      loader={myLoader}
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "80px",
+                        height: "80px",
+                      }}
+                    >
+                      <Image
+                        src={"/bank.gif"}
+                        alt="Bank Gif"
+                        loader={myLoader}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Box>
+                    <Typography sx={{ color: colors.blue[500] }}>
+                      Bank Account
+                    </Typography>
                   </Box>
-                  <Typography sx={{ color: colors.blue[500] }}>
-                    Bank Account
-                  </Typography>
-                </Box>
+                </label>
               </Grid>
-              <Grid item xs={4}>
-                <Box
-                  sx={{
-                    border: `1px solid ${colors.grey[300]}`,
-                    py: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    flexDirection: "column",
-                    borderRadius: "4px",
-                    boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                  }}
-                >
+              <Grid item xs={6} md={4}>
+                <label>
+                  <input type="radio" name="payment" value="pickup" />
                   <Box
                     sx={{
-                      position: "relative",
-                      width: "80px",
-                      height: "80px",
+                      border: `1px solid ${colors.grey[300]}`,
+                      py: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "column",
+                      borderRadius: "4px",
+                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                     }}
                   >
-                    <Image
-                      src={"/pickup.gif"}
-                      alt="Pickup Gif"
-                      loader={myLoader}
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "80px",
+                        height: "80px",
+                      }}
+                    >
+                      <Image
+                        src={"/pickup.gif"}
+                        alt="Pickup Gif"
+                        loader={myLoader}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Box>
+                    <Typography sx={{ color: colors.blue[500] }}>
+                      Pickup By Myself
+                    </Typography>
                   </Box>
-                  <Typography sx={{ color: colors.blue[500] }}>
-                    Pickup By Myself
-                  </Typography>
-                </Box>
+                </label>
               </Grid>
-              <Grid item xs={4}>
-                <Box
-                  sx={{
-                    border: `1px solid ${colors.grey[300]}`,
-                    py: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    flexDirection: "column",
-                    borderRadius: "4px",
-                    boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                  }}
-                >
+              <Grid item xs={6} md={4}>
+                <label>
+                  <input type="radio" name="payment" value="cash" />
                   <Box
                     sx={{
-                      position: "relative",
-                      width: "80px",
-                      height: "80px",
+                      border: `1px solid ${colors.grey[300]}`,
+                      py: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "column",
+                      borderRadius: "4px",
+                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                     }}
                   >
-                    <Image
-                      src={"/cod.gif"}
-                      alt="Cod Gif"
-                      loader={myLoader}
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "80px",
+                        height: "80px",
+                      }}
+                    >
+                      <Image
+                        src={"/cod.gif"}
+                        alt="Cod Gif"
+                        loader={myLoader}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Box>
+                    <Typography sx={{ color: colors.blue[500] }}>
+                      Cash On Delivery(COD)
+                    </Typography>
                   </Box>
-                  <Typography sx={{ color: colors.blue[500] }}>
-                    Cash On Delivery(COD)
-                  </Typography>
-                </Box>
+                </label>
               </Grid>
-              <Grid item xs={4}>
-                <Box
-                  sx={{
-                    border: `1px solid ${colors.grey[300]}`,
-                    py: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    flexDirection: "column",
-                    borderRadius: "4px",
-                    boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                  }}
-                >
+              <Grid item xs={6} md={4}>
+                <label>
+                  <input type="radio" name="payment" value="2c2p" />
                   <Box
                     sx={{
-                      position: "relative",
-                      width: "80px",
-                      height: "80px",
+                      border: `1px solid ${colors.grey[300]}`,
+                      py: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      flexDirection: "column",
+                      borderRadius: "4px",
+                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
                     }}
                   >
-                    <Image
-                      src={"/2c2p.png"}
-                      alt="2c2p Gif"
-                      loader={myLoader}
-                      fill
-                      sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                    />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "80px",
+                        height: "80px",
+                      }}
+                    >
+                      <Image
+                        src={"/2c2p.png"}
+                        alt="2c2p Gif"
+                        loader={myLoader}
+                        fill
+                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Box>
+                    <Typography sx={{ color: colors.blue[500] }}>
+                      2C2P
+                    </Typography>
                   </Box>
-                  <Typography sx={{ color: colors.blue[500] }}>2C2P</Typography>
-                </Box>
+                </label>
               </Grid>
             </Grid>
             <Typography
