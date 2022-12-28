@@ -37,6 +37,7 @@ import useAllSetting from "@apis/useAllSetting";
 import { GetSettingResponse } from "@atoms/settingListAtom";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import addressStore from "@stores/addressStore";
 
 const HeaderBar = () => {
   const theme = useTheme();
@@ -66,6 +67,7 @@ const HeaderBar = () => {
   const router = useRouter();
 
   const wishlists = wishlistStore((store) => store.wishlists);
+  const fetchAddress = addressStore((store) => store.fetch);
   const fetchWishlists = wishlistStore((store) => store.fetch);
   const { fetch: fetchCarts, cart } = cartStore();
 
@@ -73,11 +75,12 @@ const HeaderBar = () => {
     if (data) {
       fetchWishlists(data);
       fetchCarts(data);
+      fetchAddress(data);
     }
     if (topHead) {
       setTopHeader(topHead);
     }
-  }, [data, fetchWishlists, fetchCarts, topHead, setTopHeader]);
+  }, [data, fetchWishlists, fetchCarts, topHead, setTopHeader, fetchAddress]);
 
   return (
     <Box sx={{ display: isMobile ? "none" : "block" }}>
