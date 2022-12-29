@@ -319,7 +319,7 @@ const ProductDetailComponent = (props: Product) => {
 						<Stack>
 							<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 								<Typography sx={{ fontWeight: 500, fontSize: 16 }}>
-									{props.name}
+									{props.name ?? "Name"}
 								</Typography>
 								<BsShare />
 							</Box>
@@ -337,7 +337,7 @@ const ProductDetailComponent = (props: Product) => {
 												style: "currency",
 												currency: "MMK",
 												currencyDisplay: "code",
-											}).format(props.price)}
+											}).format(props.price ?? 1000)}
 										</del>
 										<span style={{ paddingLeft: "6px" }}>
 											{new Intl.NumberFormat("mm-MM", {
@@ -353,7 +353,7 @@ const ProductDetailComponent = (props: Product) => {
 											style: "currency",
 											currency: "MMK",
 											currencyDisplay: "code",
-										}).format(props.price)}
+										}).format(props.price ?? 1000)}
 									</Typography>
 								)}
 
@@ -377,7 +377,7 @@ const ProductDetailComponent = (props: Product) => {
 								<Typography sx={{ fontSize: 14 }}>
 									{props.brand.map((b) => {
 										return (
-											<Link href={"/brands/" + b.id} key={b.id}>
+											<Link href={"/product?brands=" + b.id} key={b.id}>
 												<span>{b.name}</span>
 												{", "}
 											</Link>
@@ -392,7 +392,7 @@ const ProductDetailComponent = (props: Product) => {
 								<Typography sx={{ fontSize: 14 }}>
 									{props.category.map((c) => {
 										return (
-											<Link href={"/categories/" + c.id} key={c.id}>
+											<Link href={"/product?categories=" + c.id} key={c.id}>
 												<span>{c.name}</span>
 												{", "}
 											</Link>

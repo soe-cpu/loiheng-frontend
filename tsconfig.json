@@ -24,7 +24,8 @@
 			"@types/*": ["src/types/*"],
 			"@atoms/*": ["src/atoms/*"],
 			"@apis/*": ["src/utils/apis/*"],
-			"@interfaces/*": ["src/interfaces/*"]
+			"@interfaces/*": ["src/interfaces/*"],
+			"@hooks/*": ["src/hooks/*"]
 		},
 		"typeRoots": ["@types"]
 	},
