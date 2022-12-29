@@ -25,9 +25,10 @@ import {
   Button,
   useTheme,
   Divider,
+  styled,
 } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -58,6 +59,8 @@ const CheckoutComponent = () => {
     setCountry(event.target.value as string);
   };
 
+  const [payment, setPayment] = useState("");
+  console.log(payment);
   // Api get Address start //
   const addressData = addressStore((store) => store.address);
 
@@ -300,9 +303,10 @@ const CheckoutComponent = () => {
                     type="radio"
                     name="payment"
                     value="banaccount"
-                    checked
+                    onChange={(e) => setPayment(e.target.value)}
                   />
                   <Box
+                    className="radio_check"
                     sx={{
                       border: `1px solid ${colors.grey[300]}`,
                       py: 1,
@@ -330,7 +334,7 @@ const CheckoutComponent = () => {
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
                     </Box>
-                    <Typography sx={{ color: colors.blue[500] }}>
+                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Bank Account
                     </Typography>
                   </Box>
@@ -338,8 +342,14 @@ const CheckoutComponent = () => {
               </Grid>
               <Grid item xs={6} md={4}>
                 <label>
-                  <input type="radio" name="payment" value="pickup" />
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="pickup"
+                    onChange={(e) => setPayment(e.target.value)}
+                  />
                   <Box
+                    className="radio_check"
                     sx={{
                       border: `1px solid ${colors.grey[300]}`,
                       py: 1,
@@ -367,7 +377,7 @@ const CheckoutComponent = () => {
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
                     </Box>
-                    <Typography sx={{ color: colors.blue[500] }}>
+                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Pickup By Myself
                     </Typography>
                   </Box>
@@ -375,8 +385,14 @@ const CheckoutComponent = () => {
               </Grid>
               <Grid item xs={6} md={4}>
                 <label>
-                  <input type="radio" name="payment" value="cash" />
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="cash"
+                    onChange={(e) => setPayment(e.target.value)}
+                  />
                   <Box
+                    className="radio_check"
                     sx={{
                       border: `1px solid ${colors.grey[300]}`,
                       py: 1,
@@ -404,7 +420,7 @@ const CheckoutComponent = () => {
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
                     </Box>
-                    <Typography sx={{ color: colors.blue[500] }}>
+                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Cash On Delivery(COD)
                     </Typography>
                   </Box>
@@ -412,8 +428,14 @@ const CheckoutComponent = () => {
               </Grid>
               <Grid item xs={6} md={4}>
                 <label>
-                  <input type="radio" name="payment" value="2c2p" />
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="2c2p"
+                    onChange={(e) => setPayment(e.target.value)}
+                  />
                   <Box
+                    className="radio_check"
                     sx={{
                       border: `1px solid ${colors.grey[300]}`,
                       py: 1,
@@ -441,7 +463,7 @@ const CheckoutComponent = () => {
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
                     </Box>
-                    <Typography sx={{ color: colors.blue[500] }}>
+                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       2C2P
                     </Typography>
                   </Box>
