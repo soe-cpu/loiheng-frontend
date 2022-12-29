@@ -28,12 +28,16 @@ import {
   styled,
 } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
 import addressStore, { Address } from "@stores/addressStore";
+import orderStore from "@stores/order.store";
+import { Session } from "next-auth";
+import { signIn, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 const myLoader = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
@@ -61,8 +65,56 @@ const CheckoutComponent = () => {
 
   const [payment, setPayment] = useState("");
   console.log(payment);
+
+  const { data: session } = useSession();
   // Api get Address start //
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLInputElement>(null);
+  const cityRef = useRef<HTMLInputElement>(null);
+  const townshipRef = useRef<HTMLInputElement>(null);
+  const regionRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+
   const addressData = addressStore((store) => store.address);
+  const order = orderStore((store) => store.createOrder);
+  const isSaving = addressStore((store) => store.isSaving);
+
+  const createOrder = () => {
+    const address_id = Number(address);
+    const full_name = fullNameRef.current?.value;
+    const street_address = addressRef.current?.value;
+    const city = cityRef.current?.value;
+    const township = townshipRef.current?.value;
+    const region = regionRef.current?.value;
+    const phone = phoneRef.current?.value;
+    const address_type = Number(addressType);
+    const coupon_code = "";
+    const coupon_price = "";
+    if (session && cartData) {
+      const res = order(
+        session,
+        address_id,
+        full_name,
+        phone,
+        city,
+        township,
+        region,
+        address_type,
+        street_address,
+        cartData.id,
+        payment,
+        coupon_code,
+        coupon_price,
+        cartData.subtotal
+      ).then((res) => {
+        if (res) {
+          toast.success("Order successfully!");
+        }
+      });
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
 
   React.useEffect(() => {
     if (address) {
@@ -237,10 +289,11 @@ const CheckoutComponent = () => {
                         label="Age"
                         onChange={handleChangeAddressType}
                       >
-                        <MenuItem value={10}>Work</MenuItem>
-                        <MenuItem value={20}>Home</MenuItem>
-                        <MenuItem value={30}>Address 1</MenuItem>
-                        <MenuItem value={30}>Address 2</MenuItem>
+                        <MenuItem value={1}>Home</MenuItem>
+                        <MenuItem value={2}>Work</MenuItem>
+                        <MenuItem value={3}>Address 1</MenuItem>
+                        <MenuItem value={4}>Address 2</MenuItem>
+                        <MenuItem value={5}>Address 3</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
@@ -285,8 +338,10 @@ const CheckoutComponent = () => {
                     backgroundColor: colors.blue[700],
                   },
                 }}
+                onClick={createOrder}
+                disabled={isSaving}
               >
-                Continue
+                Order Now
               </Button>
             </Box>
           </Grid>

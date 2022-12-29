@@ -1,6 +1,14 @@
+import { Brand } from "@interfaces/brand.interface";
+import { Category } from "@interfaces/category.interface";
+import { CreatedBy } from "@interfaces/created-by.interface";
+import { ProductPicture } from "@interfaces/product-picture.interface";
+import { ProductSpec } from "@interfaces/product-spec.interface";
+import { ProductWarranty } from "@interfaces/product-warranty.interface";
 import axios from "axios";
 import { Session } from "next-auth";
+import toast from "react-hot-toast";
 import create from "zustand";
+import { Address } from "./addressStore";
 
 export interface OrderResponse {
   success: boolean;
@@ -90,96 +98,6 @@ export interface Product {
   updated_at: string;
 }
 
-export interface CreatedBy {
-  id: number;
-  fullname: string;
-  email: string;
-  email_verified_at: any;
-  phone_no: any;
-  is_admin: string;
-  is_active: number;
-  last_login: any;
-  role: any;
-  status: any;
-  dob: any;
-  gender: any;
-  profile_img: any;
-  provider: any;
-  provider_id: any;
-  provider_token: any;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Category {
-  id: number;
-  name: string;
-  description: string;
-  level: any;
-  picture: string;
-  picture_blob: any;
-  status: any;
-  created_by: number;
-  parent: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Brand {
-  id: number;
-  name: string;
-  description: string;
-  picture: string;
-  is_active: any;
-  created_by: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ProductSpec {
-  id: number;
-  product_id: number;
-  spec_key: string;
-  spec_value: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ProductWarranty {
-  id: number;
-  product_id: number;
-  service_key: string;
-  service_value: string;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface ProductPicture {
-  id: number;
-  image: string;
-  product_id: number;
-  display_order: number;
-  is_active: number;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface Address {
-  id: number;
-  user_id: number;
-  city: string;
-  township: string;
-  region: string;
-  phone: string;
-  full_name: string;
-  is_default: number;
-  address_type: string;
-  is_active: number;
-  street_address: string;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface Delivery {
   id: number;
   name: string;
@@ -191,13 +109,53 @@ export interface Delivery {
   updated_at: string;
 }
 
+export interface CreateOrderData {
+  user_id: number;
+  cart_id: string;
+  address_id: number;
+  delivery_id?: any;
+  payment_method: string;
+  coupon_code?: any;
+  coupon_price?: any;
+  total_price: string;
+  order_no: string;
+  updated_at: Date;
+  created_at: Date;
+  id: number;
+}
+
+export interface CreateOrderResponse {
+  success: boolean;
+  data: CreateOrderData;
+  message: string;
+  status: number;
+}
+
 export interface OrderStoreInterface {
   orders?: Order[];
+  isSaving: false;
   fetch: (session: Session) => void;
+  createOrder: (
+    session: Session,
+    address_id?: number,
+    full_name?: string,
+    phone?: string,
+    city?: string,
+    township?: string,
+    region?: string,
+    address_type?: number,
+    street_address?: string,
+    cart_id?: number,
+    payment_method?: string,
+    coupon_code?: string,
+    coupon_price?: string,
+    subtotal?: number
+  ) => Promise<boolean>;
 }
 
 const orderStore = create<OrderStoreInterface>((set, get) => ({
   orders: [],
+  isSaving: false,
   fetch: async (session: Session) => {
     const url = process.env.API_URL;
     const res = await axios
@@ -213,6 +171,54 @@ const orderStore = create<OrderStoreInterface>((set, get) => ({
           set({ orders: data.data });
         }
       });
+  },
+  createOrder: async (
+    session: Session,
+    address_id?: number,
+    full_name?: string,
+    phone?: string,
+    city?: string,
+    township?: string,
+    region?: string,
+    address_type?: number,
+    street_address?: string,
+    cart_id?: number,
+    payment_method?: string,
+    coupon_code?: string,
+    coupon_price?: string,
+    subtotal?: number
+  ) => {
+    const url = process.env.API_URL;
+    const res = axios.post<CreateOrderResponse>(
+      url + `order-create`,
+      {
+        address_id,
+        full_name,
+        phone,
+        city,
+        township,
+        region,
+        address_type,
+        street_address,
+        cart_id,
+        payment_method,
+        coupon_code,
+        coupon_price,
+        subtotal,
+      },
+      {
+        headers: {
+          Authorization: session.token,
+        },
+      }
+    );
+    if ((await res).data.success) {
+      const { data } = await res;
+      set({ isSaving: false });
+      return true;
+    } else {
+      return false;
+    }
   },
 }));
 
