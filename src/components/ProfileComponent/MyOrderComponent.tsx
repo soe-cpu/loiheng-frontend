@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useSession } from "next-auth/react";
 import orderStore from "@stores/order.store";
 import moment from "moment";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const MyOrderComponent = () => {
   const { data: session } = useSession();
@@ -96,7 +97,19 @@ const MyOrderComponent = () => {
                     </TableCell>
                     <TableCell>{order.total_price}</TableCell>
                     <TableCell>
-                      <Button variant="contained">View All</Button>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        sx={{
+                          boxShadow: 0,
+                          "&:hover": {
+                            boxShadow: 0,
+                          },
+                        }}
+                        startIcon={<VisibilityIcon />}
+                      >
+                        View All
+                      </Button>
                     </TableCell>
                   </StyledTableRow>
                 );
