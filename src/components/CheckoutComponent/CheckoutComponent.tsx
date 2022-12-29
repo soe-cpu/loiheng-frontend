@@ -108,6 +108,7 @@ const CheckoutComponent = () => {
         cartData.subtotal
       ).then((res) => {
         if (res) {
+          router.push("/profile/my-orders");
           toast.success("Order successfully!");
         }
       });
@@ -125,179 +126,180 @@ const CheckoutComponent = () => {
 
   return (
     <Box>
-      <Container maxWidth={"lg"}>
-        <Breadcrumb />
-        <Grid container spacing={3} sx={{ pb: 2 }}>
-          {/* Shooping information start */}
-          <Grid item xs={12} md={6}>
-            <Typography
-              sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
-            >
-              Shopping Information
-            </Typography>
-            <Box sx={{ pb: 2 }}>
-              <label>Your Address</label>
-              <FormControl fullWidth size="small" sx={{ mt: 2 }}>
-                <InputLabel id="demo-simple-select-label-country">
-                  Address
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label-country"
-                  id="demo-simple-select-country"
-                  value={address}
-                  label="Address"
-                  onChange={handleChangeAddress}
-                >
-                  <MenuItem value="0">Create New</MenuItem>
-                  {addressData?.map((data, index) => {
-                    return (
-                      <MenuItem value={data.id} key={index}>
-                        {data.full_name}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Box>
-
-            {showAddress ? (
-              <Box sx={{ border: `1px solid ${colors.blue[300]}` }}>
-                <Typography sx={{ p: 2, fontWeight: 500 }}>
-                  {showAddress.full_name}
-                </Typography>
-                <Divider />
-                <Box
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 500 }}>
-                    Name:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.full_name}
-                    </span>
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500 }}>
-                    Address Type:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.address_type}
-                    </span>
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500 }}>
-                    City:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.city}
-                    </span>
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500 }}>
-                    Township:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.township}
-                    </span>
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500 }}>
-                    Region:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.region}
-                    </span>
-                  </Typography>
-                  <Typography sx={{ fontWeight: 500 }}>
-                    Phone No:{" "}
-                    <span style={{ color: colors.grey[600] }}>
-                      {showAddress.phone}
-                    </span>
-                  </Typography>
-                </Box>
+      {cartData ? (
+        <Container maxWidth={"lg"}>
+          <Breadcrumb />
+          <Grid container spacing={3} sx={{ pb: 2 }}>
+            {/* Shooping information start */}
+            <Grid item xs={12} md={6}>
+              <Typography
+                sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
+              >
+                Shopping Information
+              </Typography>
+              <Box sx={{ pb: 2 }}>
+                <label>Your Address</label>
+                <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                  <InputLabel id="demo-simple-select-label-country">
+                    Address
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label-country"
+                    id="demo-simple-select-country"
+                    value={address}
+                    label="Address"
+                    onChange={handleChangeAddress}
+                  >
+                    <MenuItem value="0">Create New</MenuItem>
+                    {addressData?.map((data, index) => {
+                      return (
+                        <MenuItem value={data.id} key={index}>
+                          {data.full_name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
               </Box>
-            ) : (
-              <Box sx={{ border: `1px solid ${colors.blue[300]}`, p: 2 }}>
-                <Grid container spacing={4}>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Full Name"
-                      variant="outlined"
-                      inputRef={fullNameRef}
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Phone Number"
-                      inputRef={phoneRef}
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Township"
-                      variant="outlined"
-                      inputRef={townshipRef}
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="City"
-                      inputRef={cityRef}
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Region"
-                      inputRef={regionRef}
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl fullWidth size="small">
-                      <InputLabel id="demo-simple-select-label">
-                        Address Type
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={addressType}
-                        label="Age"
-                        onChange={handleChangeAddressType}
-                      >
-                        <MenuItem value={1}>Home</MenuItem>
-                        <MenuItem value={2}>Work</MenuItem>
-                        <MenuItem value={3}>Address 1</MenuItem>
-                        <MenuItem value={4}>Address 2</MenuItem>
-                        <MenuItem value={5}>Address 3</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Address"
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
-                      size="small"
-                      inputRef={addressRef}
-                    />
-                  </Grid>
-                  {/* <Grid item xs={6}>
+
+              {showAddress ? (
+                <Box sx={{ border: `1px solid ${colors.blue[300]}` }}>
+                  <Typography sx={{ p: 2, fontWeight: 500 }}>
+                    {showAddress.full_name}
+                  </Typography>
+                  <Divider />
+                  <Box
+                    sx={{
+                      p: 2,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 500 }}>
+                      Name:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.full_name}
+                      </span>
+                    </Typography>
+                    <Typography sx={{ fontWeight: 500 }}>
+                      Address Type:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.address_type}
+                      </span>
+                    </Typography>
+                    <Typography sx={{ fontWeight: 500 }}>
+                      City:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.city}
+                      </span>
+                    </Typography>
+                    <Typography sx={{ fontWeight: 500 }}>
+                      Township:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.township}
+                      </span>
+                    </Typography>
+                    <Typography sx={{ fontWeight: 500 }}>
+                      Region:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.region}
+                      </span>
+                    </Typography>
+                    <Typography sx={{ fontWeight: 500 }}>
+                      Phone No:{" "}
+                      <span style={{ color: colors.grey[600] }}>
+                        {showAddress.phone}
+                      </span>
+                    </Typography>
+                  </Box>
+                </Box>
+              ) : (
+                <Box sx={{ border: `1px solid ${colors.blue[300]}`, p: 2 }}>
+                  <Grid container spacing={4}>
+                    <Grid item xs={6}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Full Name"
+                        variant="outlined"
+                        inputRef={fullNameRef}
+                        fullWidth
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Phone Number"
+                        inputRef={phoneRef}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Township"
+                        variant="outlined"
+                        inputRef={townshipRef}
+                        fullWidth
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        id="outlined-basic"
+                        label="City"
+                        inputRef={cityRef}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Region"
+                        inputRef={regionRef}
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">
+                          Address Type
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={addressType}
+                          label="Age"
+                          onChange={handleChangeAddressType}
+                        >
+                          <MenuItem value={1}>Home</MenuItem>
+                          <MenuItem value={2}>Work</MenuItem>
+                          <MenuItem value={3}>Address 1</MenuItem>
+                          <MenuItem value={4}>Address 2</MenuItem>
+                          <MenuItem value={5}>Address 3</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        id="outlined-basic"
+                        label="Address"
+                        variant="outlined"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        size="small"
+                        inputRef={addressRef}
+                      />
+                    </Grid>
+                    {/* <Grid item xs={6}>
                     <FormControl fullWidth size="small">
                       <InputLabel id="demo-simple-select-label-country">
                         Country
@@ -315,161 +317,212 @@ const CheckoutComponent = () => {
                       </Select>
                     </FormControl>
                   </Grid> */}
-                </Grid>
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                py: 2,
-              }}
-            >
-              <Button
-                startIcon={<KeyboardDoubleArrowLeftIcon />}
-                size={"small"}
-                variant="outlined"
-                onClick={() => router.back()}
+                  </Grid>
+                </Box>
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  py: 2,
+                }}
               >
-                Back
-              </Button>
+                <Button
+                  startIcon={<KeyboardDoubleArrowLeftIcon />}
+                  size={"small"}
+                  variant="outlined"
+                  onClick={() => router.back()}
+                >
+                  Back
+                </Button>
+                <Button
+                  size="small"
+                  sx={{
+                    boxShadow: "0px",
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: colors.blue[700],
+                    },
+                  }}
+                  onClick={createOrder}
+                  disabled={isSaving}
+                >
+                  Order Now
+                </Button>
+              </Box>
+            </Grid>
+            {/* Shooping information end */}
+            <Grid item xs={12} md={6}>
+              {/* Choose Payment method start */}
+              <Typography
+                sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
+              >
+                Choose a payment method
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={6} md={4}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="banaccount"
+                      onChange={(e) => setPayment(e.target.value)}
+                    />
+                    <StyledRadioBox className="radio_check">
+                      <StyledImageBox>
+                        <Image
+                          src={"/bank.gif"}
+                          alt="Bank Gif"
+                          loader={myLoader}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </StyledImageBox>
+                      <Typography
+                        sx={{ color: colors.blue[500], fontSize: 14 }}
+                      >
+                        Bank Account
+                      </Typography>
+                    </StyledRadioBox>
+                  </label>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="pickup"
+                      onChange={(e) => setPayment(e.target.value)}
+                    />
+                    <StyledRadioBox className="radio_check">
+                      <StyledImageBox>
+                        <Image
+                          src={"/pickup.gif"}
+                          alt="Pickup Gif"
+                          loader={myLoader}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </StyledImageBox>
+                      <Typography
+                        sx={{ color: colors.blue[500], fontSize: 14 }}
+                      >
+                        Pickup By Myself
+                      </Typography>
+                    </StyledRadioBox>
+                  </label>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="cash"
+                      onChange={(e) => setPayment(e.target.value)}
+                    />
+                    <StyledRadioBox className="radio_check">
+                      <StyledImageBox>
+                        <Image
+                          src={"/cod.gif"}
+                          alt="Cod Gif"
+                          loader={myLoader}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </StyledImageBox>
+                      <Typography
+                        sx={{ color: colors.blue[500], fontSize: 14 }}
+                      >
+                        Cash On Delivery(COD)
+                      </Typography>
+                    </StyledRadioBox>
+                  </label>
+                </Grid>
+                <Grid item xs={6} md={4}>
+                  <label>
+                    <input
+                      type="radio"
+                      name="payment"
+                      value="2c2p"
+                      onChange={(e) => setPayment(e.target.value)}
+                    />
+                    <StyledRadioBox className="radio_check">
+                      <StyledImageBox>
+                        <Image
+                          src={"/2c2p.png"}
+                          alt="2c2p Gif"
+                          loader={myLoader}
+                          fill
+                          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                        />
+                      </StyledImageBox>
+                      <Typography
+                        sx={{ color: colors.blue[500], fontSize: 14 }}
+                      >
+                        2C2P
+                      </Typography>
+                    </StyledRadioBox>
+                  </label>
+                </Grid>
+              </Grid>
+              {/* Choose Payment method end */}
+
+              {/* Order Summary start */}
+              <Typography
+                sx={{ color: colors.blue[500], fontWeight: 500, py: 2 }}
+              >
+                Order Summary
+              </Typography>
+              <OrderSummary />
+              {/* Order Summary end */}
+            </Grid>
+          </Grid>
+        </Container>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              width: "300px",
+              height: "300px",
+            }}
+          >
+            <Image
+              src={"/no-prod.gif"}
+              alt="Shipping Gif"
+              loader={myLoader}
+              fill
+              sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+            />
+          </Box>
+          <Link href={"/product"} legacyBehavior>
+            <a style={{ textDecoration: "none" }}>
               <Button
+                variant="contained"
                 size="small"
                 sx={{
-                  boxShadow: "0px",
-                  backgroundColor: colors.blue[500],
-                  color: "#fff",
+                  boxShadow: 0,
                   "&:hover": {
-                    backgroundColor: colors.blue[700],
+                    boxShadow: 0,
                   },
                 }}
-                onClick={createOrder}
-                disabled={isSaving}
               >
-                Order Now
+                Go to Shopping
               </Button>
-            </Box>
-          </Grid>
-          {/* Shooping information end */}
-          <Grid item xs={12} md={6}>
-            {/* Choose Payment method start */}
-            <Typography
-              sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
-            >
-              Choose a payment method
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={6} md={4}>
-                <label>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="banaccount"
-                    onChange={(e) => setPayment(e.target.value)}
-                  />
-                  <StyledRadioBox className="radio_check">
-                    <StyledImageBox>
-                      <Image
-                        src={"/bank.gif"}
-                        alt="Bank Gif"
-                        loader={myLoader}
-                        fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                      />
-                    </StyledImageBox>
-                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
-                      Bank Account
-                    </Typography>
-                  </StyledRadioBox>
-                </label>
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <label>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="pickup"
-                    onChange={(e) => setPayment(e.target.value)}
-                  />
-                  <StyledRadioBox className="radio_check">
-                    <StyledImageBox>
-                      <Image
-                        src={"/pickup.gif"}
-                        alt="Pickup Gif"
-                        loader={myLoader}
-                        fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                      />
-                    </StyledImageBox>
-                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
-                      Pickup By Myself
-                    </Typography>
-                  </StyledRadioBox>
-                </label>
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <label>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="cash"
-                    onChange={(e) => setPayment(e.target.value)}
-                  />
-                  <StyledRadioBox className="radio_check">
-                    <StyledImageBox>
-                      <Image
-                        src={"/cod.gif"}
-                        alt="Cod Gif"
-                        loader={myLoader}
-                        fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                      />
-                    </StyledImageBox>
-                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
-                      Cash On Delivery(COD)
-                    </Typography>
-                  </StyledRadioBox>
-                </label>
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <label>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="2c2p"
-                    onChange={(e) => setPayment(e.target.value)}
-                  />
-                  <StyledRadioBox className="radio_check">
-                    <StyledImageBox>
-                      <Image
-                        src={"/2c2p.png"}
-                        alt="2c2p Gif"
-                        loader={myLoader}
-                        fill
-                        sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
-                      />
-                    </StyledImageBox>
-                    <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
-                      2C2P
-                    </Typography>
-                  </StyledRadioBox>
-                </label>
-              </Grid>
-            </Grid>
-            {/* Choose Payment method end */}
-
-            {/* Order Summary start */}
-            <Typography
-              sx={{ color: colors.blue[500], fontWeight: 500, py: 2 }}
-            >
-              Order Summary
-            </Typography>
-            <OrderSummary />
-            {/* Order Summary end */}
-          </Grid>
-        </Grid>
-      </Container>
+            </a>
+          </Link>
+        </Box>
+      )}
     </Box>
   );
 };
