@@ -42,7 +42,7 @@ const AddToCartComponent = () => {
     }
   };
 
-  console.log(subtotal);
+  // console.log(subtotal);
 
   return (
     <Box sx={{ py: 2 }}>
@@ -84,130 +84,158 @@ const AddToCartComponent = () => {
                 <span style={{ color: colors.blue[500] }}>Expre More</span> -
                 with - <span style={{ color: colors.red[500] }}>LOI HENG</span>
               </Typography>
-            </Stack>
-          )}
-        </Box>
-        <Grid container sx={{ mt: 4 }} spacing={4}>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ display: "flex", gap: 4 }}>
-              <Typography variant="h6">Promocode:</Typography>
-              <InputBase
-                sx={{ border: `1px solid ${colors.grey[300]}` }}
-                fullWidth
-              ></InputBase>
-              <Button
-                variant="contained"
-                size="small"
-                sx={{
-                  boxShadow: 0,
-                  backgroundColor: colors.blue[500],
-                  color: "#fff",
-                  "&:hover": {
-                    boxShadow: 0,
-                    backgroundColor: colors.blue[700],
-                  },
-                }}
-              >
-                Apply
-              </Button>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                <Typography sx={{ fontWeight: 500 }}>Sub Total:</Typography>
-                <Typography sx={{ fontWeight: 500 }}>
-                  Promocode discount:
-                </Typography>
-                <Typography sx={{ fontWeight: 500 }}>Total:</Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "end",
-                  alignItems: "end",
-                  flexDirection: "column",
-                  gap: 1,
-                }}
-              >
-                {cartData ? (
-                  <Typography>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(cartData.subtotal)}
-                  </Typography>
-                ) : (
-                  <Typography></Typography>
-                )}
-
-                <Typography>0 MMK</Typography>
-                {cartData ? (
-                  <Typography>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(cartData.subtotal)}
-                  </Typography>
-                ) : (
-                  <Typography></Typography>
-                )}
-              </Box>
-            </Box>
-            <Divider />
-            <Box
-              sx={{ py: 2, display: "flex", justifyContent: "space-between" }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  color: colors.blue[500],
-                }}
-              >
-                <ArrowBackIcon />
+              <Box>
                 <Link href={"/product"} legacyBehavior>
                   <a
                     style={{
                       textDecoration: "none",
-                      fontWeight: 500,
-                      color: colors.blue[500],
                     }}
                   >
-                    Continue Shopping
-                  </a>
-                </Link>
-              </Box>
-              <Box>
-                <Link href={"/checkout"} legacyBehavior>
-                  <a style={{ textDecoration: "none" }}>
                     <Button
+                      startIcon={<ShoppingCartCheckoutIcon />}
                       variant="contained"
                       size="small"
-                      startIcon={<ShoppingCartCheckoutIcon />}
                       sx={{
                         boxShadow: 0,
-                        backgroundColor: colors.blue[500],
-                        color: "#fff",
                         "&:hover": {
                           boxShadow: 0,
-                          backgroundColor: colors.blue[700],
                         },
                       }}
-                      fullWidth
                     >
-                      Checkout
+                      Go to Shopping
                     </Button>
                   </a>
                 </Link>
               </Box>
-            </Box>
-            <Divider />
+            </Stack>
+          )}
+        </Box>
+        {cartData ? (
+          <Grid container sx={{ mt: 4 }} spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", gap: 4 }}>
+                <Typography variant="h6">Promocode:</Typography>
+                <InputBase
+                  sx={{ border: `1px solid ${colors.grey[300]}` }}
+                  fullWidth
+                ></InputBase>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    boxShadow: 0,
+                    backgroundColor: colors.blue[500],
+                    color: "#fff",
+                    "&:hover": {
+                      boxShadow: 0,
+                      backgroundColor: colors.blue[700],
+                    },
+                  }}
+                >
+                  Apply
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Typography sx={{ fontWeight: 500 }}>Sub Total:</Typography>
+                  <Typography sx={{ fontWeight: 500 }}>
+                    Promocode discount:
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500 }}>Total:</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "end",
+                    alignItems: "end",
+                    flexDirection: "column",
+                    gap: 1,
+                  }}
+                >
+                  {cartData ? (
+                    <Typography>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(cartData.subtotal)}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+
+                  <Typography>0 MMK</Typography>
+                  {cartData ? (
+                    <Typography>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(cartData.subtotal)}
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+              </Box>
+              <Divider />
+              <Box
+                sx={{ py: 2, display: "flex", justifyContent: "space-between" }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    color: colors.blue[500],
+                  }}
+                >
+                  <ArrowBackIcon />
+                  <Link href={"/product"} legacyBehavior>
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        fontWeight: 500,
+                        color: colors.blue[500],
+                      }}
+                    >
+                      Continue Shopping
+                    </a>
+                  </Link>
+                </Box>
+                <Box>
+                  <Link href={"/checkout"} legacyBehavior>
+                    <a style={{ textDecoration: "none" }}>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        startIcon={<ShoppingCartCheckoutIcon />}
+                        sx={{
+                          boxShadow: 0,
+                          backgroundColor: colors.blue[500],
+                          color: "#fff",
+                          "&:hover": {
+                            boxShadow: 0,
+                            backgroundColor: colors.blue[700],
+                          },
+                        }}
+                        fullWidth
+                      >
+                        Checkout
+                      </Button>
+                    </a>
+                  </Link>
+                </Box>
+              </Box>
+              <Divider />
+            </Grid>
           </Grid>
-        </Grid>
+        ) : (
+          ""
+        )}
+
         <Box
           sx={{
             border: `1px solid ${colors.blue[500]}`,
