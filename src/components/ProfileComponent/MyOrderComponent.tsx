@@ -69,25 +69,21 @@ const MyOrderComponent = () => {
                     <TableCell>
                       {order.status == "pending" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
-                          color="primary"
+                          color="warning"
                         />
                       ) : order.status == "confirm" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
                           color="secondary"
                         />
                       ) : order.status == "ontheway" ? (
-                        <Chip
-                          label="Chip Filled"
-                          size="small"
-                          color="warning"
-                        />
+                        <Chip label={order.status} size="small" color="info" />
                       ) : order.status == "complete" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
                           color="success"
                         />
@@ -95,7 +91,13 @@ const MyOrderComponent = () => {
                         ""
                       )}
                     </TableCell>
-                    <TableCell>{order.total_price}</TableCell>
+                    <TableCell>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(Number(order.total_price))}
+                    </TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
