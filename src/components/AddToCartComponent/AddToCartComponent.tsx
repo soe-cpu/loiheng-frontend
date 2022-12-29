@@ -14,6 +14,7 @@ import {
 import React, { useState } from "react";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import Link from "next/link";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
@@ -186,6 +187,7 @@ const AddToCartComponent = () => {
                     <Button
                       variant="contained"
                       size="small"
+                      startIcon={<ShoppingCartCheckoutIcon />}
                       sx={{
                         boxShadow: 0,
                         backgroundColor: colors.blue[500],
