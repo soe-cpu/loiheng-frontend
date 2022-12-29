@@ -30,6 +30,7 @@ import {
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import cartStore from "@stores/cart.store";
@@ -45,7 +46,6 @@ const myLoader = ({ src, width, quality }: any) => {
 
 const CheckoutComponent = () => {
   const router = useRouter();
-  const theme = useTheme();
 
   const cartData = cartStore((store) => store.cart);
   const [address, setAddress] = React.useState("0");
@@ -126,17 +126,9 @@ const CheckoutComponent = () => {
   return (
     <Box>
       <Container maxWidth={"lg"}>
-        <Breadcrumbs aria-label="breadcrumb" sx={{ py: 2 }}>
-          <Link href="/" legacyBehavior>
-            <a style={{ textDecoration: "none" }}>Home</a>
-          </Link>
-          <Link href="/product" legacyBehavior>
-            <a style={{ textDecoration: "none" }}>Product</a>
-          </Link>
-          <Typography color="text.primary">Product Detail</Typography>
-          <Typography color="text.primary">Payment</Typography>
-        </Breadcrumbs>
+        <Breadcrumb />
         <Grid container spacing={3} sx={{ pb: 2 }}>
+          {/* Shooping information start */}
           <Grid item xs={12} md={6}>
             <Typography
               sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
@@ -326,10 +318,16 @@ const CheckoutComponent = () => {
                 py: 2,
               }}
             >
-              <Button variant="outlined" onClick={() => router.back()}>
+              <Button
+                startIcon={<KeyboardDoubleArrowLeftIcon />}
+                size={"small"}
+                variant="outlined"
+                onClick={() => router.back()}
+              >
                 Back
               </Button>
               <Button
+                size="small"
                 sx={{
                   boxShadow: "0px",
                   backgroundColor: colors.blue[500],
@@ -345,7 +343,9 @@ const CheckoutComponent = () => {
               </Button>
             </Box>
           </Grid>
+          {/* Shooping information end */}
           <Grid item xs={12} md={6}>
+            {/* Choose Payment method start */}
             <Typography
               sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
             >
@@ -360,27 +360,8 @@ const CheckoutComponent = () => {
                     value="banaccount"
                     onChange={(e) => setPayment(e.target.value)}
                   />
-                  <Box
-                    className="radio_check"
-                    sx={{
-                      border: `1px solid ${colors.grey[300]}`,
-                      py: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                      flexDirection: "column",
-                      borderRadius: "4px",
-                      boxShadow: `1px 1px 5px ${colors.grey[100]}`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "80px",
-                        height: "80px",
-                      }}
-                    >
+                  <StyledRadioBox className="radio_check">
+                    <StyledImageBox>
                       <Image
                         src={"/bank.gif"}
                         alt="Bank Gif"
@@ -388,11 +369,11 @@ const CheckoutComponent = () => {
                         fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
-                    </Box>
+                    </StyledImageBox>
                     <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Bank Account
                     </Typography>
-                  </Box>
+                  </StyledRadioBox>
                 </label>
               </Grid>
               <Grid item xs={6} md={4}>
@@ -403,27 +384,8 @@ const CheckoutComponent = () => {
                     value="pickup"
                     onChange={(e) => setPayment(e.target.value)}
                   />
-                  <Box
-                    className="radio_check"
-                    sx={{
-                      border: `1px solid ${colors.grey[300]}`,
-                      py: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                      flexDirection: "column",
-                      borderRadius: "4px",
-                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "80px",
-                        height: "80px",
-                      }}
-                    >
+                  <StyledRadioBox className="radio_check">
+                    <StyledImageBox>
                       <Image
                         src={"/pickup.gif"}
                         alt="Pickup Gif"
@@ -431,11 +393,11 @@ const CheckoutComponent = () => {
                         fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
-                    </Box>
+                    </StyledImageBox>
                     <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Pickup By Myself
                     </Typography>
-                  </Box>
+                  </StyledRadioBox>
                 </label>
               </Grid>
               <Grid item xs={6} md={4}>
@@ -446,27 +408,8 @@ const CheckoutComponent = () => {
                     value="cash"
                     onChange={(e) => setPayment(e.target.value)}
                   />
-                  <Box
-                    className="radio_check"
-                    sx={{
-                      border: `1px solid ${colors.grey[300]}`,
-                      py: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                      flexDirection: "column",
-                      borderRadius: "4px",
-                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "80px",
-                        height: "80px",
-                      }}
-                    >
+                  <StyledRadioBox className="radio_check">
+                    <StyledImageBox>
                       <Image
                         src={"/cod.gif"}
                         alt="Cod Gif"
@@ -474,11 +417,11 @@ const CheckoutComponent = () => {
                         fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
-                    </Box>
+                    </StyledImageBox>
                     <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       Cash On Delivery(COD)
                     </Typography>
-                  </Box>
+                  </StyledRadioBox>
                 </label>
               </Grid>
               <Grid item xs={6} md={4}>
@@ -489,27 +432,8 @@ const CheckoutComponent = () => {
                     value="2c2p"
                     onChange={(e) => setPayment(e.target.value)}
                   />
-                  <Box
-                    className="radio_check"
-                    sx={{
-                      border: `1px solid ${colors.grey[300]}`,
-                      py: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                      flexDirection: "column",
-                      borderRadius: "4px",
-                      boxShadow: `1px 1px 1px ${colors.blue[100]}`,
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "80px",
-                        height: "80px",
-                      }}
-                    >
+                  <StyledRadioBox className="radio_check">
+                    <StyledImageBox>
                       <Image
                         src={"/2c2p.png"}
                         alt="2c2p Gif"
@@ -517,146 +441,191 @@ const CheckoutComponent = () => {
                         fill
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
-                    </Box>
+                    </StyledImageBox>
                     <Typography sx={{ color: colors.blue[500], fontSize: 14 }}>
                       2C2P
                     </Typography>
-                  </Box>
+                  </StyledRadioBox>
                 </label>
               </Grid>
             </Grid>
+            {/* Choose Payment method end */}
+
+            {/* Order Summary start */}
             <Typography
               sx={{ color: colors.blue[500], fontWeight: 500, py: 2 }}
             >
               Order Summary
             </Typography>
-            <TableContainer>
-              <Table aria-label="simple table">
-                <TableBody>
-                  {cartData?.cart_item.map((cart, index) => {
-                    return (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          "&:last-child td, &:last-child th": {
-                            border: 0,
-                            borderBottom: `1px solid ${colors.grey[300]}`,
-                          },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {(index = index + 1)}
-                        </TableCell>
-                        <TableCell>{cart.product[0].name}</TableCell>
-                        <TableCell>
-                          {new Intl.NumberFormat("mm-MM", {
-                            style: "currency",
-                            currency: "MMK",
-                            currencyDisplay: "code",
-                          }).format(
-                            cart.product[0].discount.length > 0
-                              ? cart.product[0].discount[0].promo_price
-                              : cart.product[0].price
-                          )}
-                        </TableCell>
-                        <TableCell>{cart.qty}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                py: 2,
-                px: 1,
-              }}
-            >
-              <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
-                Subtotal:{" "}
-              </Typography>
-              {cartData ? (
-                <Typography sx={{ fontSize: 14 }}>
-                  {new Intl.NumberFormat("mm-MM", {
-                    style: "currency",
-                    currency: "MMK",
-                    currencyDisplay: "code",
-                  }).format(cartData.subtotal)}
-                </Typography>
-              ) : (
-                ""
-              )}
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                py: 2,
-                backgroundColor: colors.grey[100],
-                alignItems: "center",
-                px: 1,
-              }}
-            >
-              <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
-                Standard Delivery:{" "}
-              </Typography>
-              <Typography sx={{ fontSize: 14 }}>0 Ks </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                py: 2,
-                alignItems: "center",
-                px: 1,
-              }}
-            >
-              <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
-                Total:{" "}
-              </Typography>
-              <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
-                {cartData ? (
-                  <Typography sx={{ fontSize: 14 }}>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(cartData.subtotal)}
-                  </Typography>
-                ) : (
-                  ""
-                )}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                color: colors.blue[500],
-                marginTop: theme.spacing(3),
-              }}
-            >
-              <ArrowBackIcon />
-              <Link href={"/product"} legacyBehavior>
-                <a
-                  style={{
-                    textDecoration: "none",
-                    fontWeight: 500,
-                    color: colors.blue[500],
-                  }}
-                >
-                  Continue Shopping
-                </a>
-              </Link>
-            </Box>
+            <OrderSummary />
+            {/* Order Summary end */}
           </Grid>
         </Grid>
       </Container>
     </Box>
   );
 };
+
+const OrderSummary = () => {
+  const cartData = cartStore((store) => store.cart);
+  const theme = useTheme();
+  return (
+    <Box>
+      <TableContainer>
+        <Table aria-label="simple table">
+          <TableBody>
+            {cartData?.cart_item.map((cart, index) => {
+              return (
+                <TableRow
+                  key={index}
+                  sx={{
+                    "&:last-child td, &:last-child th": {
+                      border: 0,
+                      borderBottom: `1px solid ${colors.grey[300]}`,
+                    },
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    {(index = index + 1)}
+                  </TableCell>
+                  <TableCell>{cart.product[0].name}</TableCell>
+                  <TableCell>
+                    {new Intl.NumberFormat("mm-MM", {
+                      style: "currency",
+                      currency: "MMK",
+                      currencyDisplay: "code",
+                    }).format(
+                      cart.product[0].discount.length > 0
+                        ? cart.product[0].discount[0].promo_price
+                        : cart.product[0].price
+                    )}
+                  </TableCell>
+                  <TableCell>{cart.qty}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          py: 2,
+          px: 1,
+        }}
+      >
+        <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+          Subtotal:{" "}
+        </Typography>
+        {cartData ? (
+          <Typography sx={{ fontSize: 14 }}>
+            {new Intl.NumberFormat("mm-MM", {
+              style: "currency",
+              currency: "MMK",
+              currencyDisplay: "code",
+            }).format(cartData.subtotal)}
+          </Typography>
+        ) : (
+          ""
+        )}
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          py: 2,
+          backgroundColor: colors.grey[100],
+          alignItems: "center",
+          px: 1,
+        }}
+      >
+        <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+          Standard Delivery:{" "}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }}>0 Ks </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          py: 2,
+          alignItems: "center",
+          px: 1,
+        }}
+      >
+        <Typography sx={{ fontWeight: 500, fontSize: 18 }}>Total: </Typography>
+        <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
+          {cartData ? (
+            <Typography sx={{ fontSize: 14 }}>
+              {new Intl.NumberFormat("mm-MM", {
+                style: "currency",
+                currency: "MMK",
+                currencyDisplay: "code",
+              }).format(cartData.subtotal)}
+            </Typography>
+          ) : (
+            ""
+          )}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          color: colors.blue[500],
+          marginTop: theme.spacing(3),
+        }}
+      >
+        <ArrowBackIcon />
+        <Link href={"/product"} legacyBehavior>
+          <a
+            style={{
+              textDecoration: "none",
+              fontWeight: 500,
+              color: colors.blue[500],
+            }}
+          >
+            Continue Shopping
+          </a>
+        </Link>
+      </Box>
+    </Box>
+  );
+};
+
+const Breadcrumb = () => {
+  return (
+    <Breadcrumbs aria-label="breadcrumb" sx={{ py: 2 }}>
+      <Link href="/" legacyBehavior>
+        <a style={{ textDecoration: "none" }}>Home</a>
+      </Link>
+      <Link href="/product" legacyBehavior>
+        <a style={{ textDecoration: "none" }}>Product</a>
+      </Link>
+      <Typography color="text.primary">Product Detail</Typography>
+      <Typography color="text.primary">Payment</Typography>
+    </Breadcrumbs>
+  );
+};
+
+const StyledRadioBox = styled(Box)(({ theme }) => ({
+  border: `1px solid ${colors.grey[300]}`,
+  padding: "6px 0px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  flexDirection: "column",
+  borderRadius: "4px",
+  boxShadow: `1px 1px 5px ${colors.grey[100]}`,
+}));
+
+const StyledImageBox = styled(Box)(({ theme }) => ({
+  position: "relative",
+  width: "80px",
+  height: "80px",
+}));
 
 export default CheckoutComponent;

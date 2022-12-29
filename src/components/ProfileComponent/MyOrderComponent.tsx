@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useSession } from "next-auth/react";
 import orderStore from "@stores/order.store";
 import moment from "moment";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const MyOrderComponent = () => {
   const { data: session } = useSession();
@@ -68,25 +69,21 @@ const MyOrderComponent = () => {
                     <TableCell>
                       {order.status == "pending" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
-                          color="primary"
+                          color="warning"
                         />
                       ) : order.status == "confirm" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
                           color="secondary"
                         />
                       ) : order.status == "ontheway" ? (
-                        <Chip
-                          label="Chip Filled"
-                          size="small"
-                          color="warning"
-                        />
+                        <Chip label={order.status} size="small" color="info" />
                       ) : order.status == "complete" ? (
                         <Chip
-                          label="Chip Filled"
+                          label={order.status}
                           size="small"
                           color="success"
                         />
@@ -94,9 +91,27 @@ const MyOrderComponent = () => {
                         ""
                       )}
                     </TableCell>
-                    <TableCell>{order.total_price}</TableCell>
                     <TableCell>
-                      <Button variant="contained">View All</Button>
+                      {new Intl.NumberFormat("mm-MM", {
+                        style: "currency",
+                        currency: "MMK",
+                        currencyDisplay: "code",
+                      }).format(Number(order.total_price))}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        sx={{
+                          boxShadow: 0,
+                          "&:hover": {
+                            boxShadow: 0,
+                          },
+                        }}
+                        startIcon={<VisibilityIcon />}
+                      >
+                        View All
+                      </Button>
                     </TableCell>
                   </StyledTableRow>
                 );
