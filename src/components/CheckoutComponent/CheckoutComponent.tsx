@@ -220,6 +220,7 @@ const CheckoutComponent = () => {
                       id="outlined-basic"
                       label="Full Name"
                       variant="outlined"
+                      inputRef={fullNameRef}
                       fullWidth
                       size="small"
                     />
@@ -227,49 +228,44 @@ const CheckoutComponent = () => {
                   <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"
-                      label="Email Address"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="outlined-basic"
                       label="Phone Number"
+                      inputRef={phoneRef}
                       variant="outlined"
                       fullWidth
                       size="small"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"
-                      label="Billing Address"
+                      label="Township"
                       variant="outlined"
+                      inputRef={townshipRef}
                       fullWidth
                       size="small"
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"
                       label="City"
+                      inputRef={cityRef}
                       variant="outlined"
                       fullWidth
                       size="small"
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <TextField
                       id="outlined-basic"
                       label="Region"
+                      inputRef={regionRef}
                       variant="outlined"
                       fullWidth
                       size="small"
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={6}>
                     <FormControl fullWidth size="small">
                       <InputLabel id="demo-simple-select-label">
                         Address Type
@@ -289,7 +285,19 @@ const CheckoutComponent = () => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Address"
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      size="small"
+                      inputRef={addressRef}
+                    />
+                  </Grid>
+                  {/* <Grid item xs={6}>
                     <FormControl fullWidth size="small">
                       <InputLabel id="demo-simple-select-label-country">
                         Country
@@ -306,7 +314,7 @@ const CheckoutComponent = () => {
                         <MenuItem value={30}>Japan</MenuItem>
                       </Select>
                     </FormControl>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Box>
             )}
