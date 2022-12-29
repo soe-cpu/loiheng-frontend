@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  Chip,
   colors,
   Divider,
   Stack,
@@ -17,10 +19,13 @@ import React from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { useSession } from "next-auth/react";
 import orderStore from "@stores/order.store";
+import moment from "moment";
 
 const MyOrderComponent = () => {
   const { data: session } = useSession();
   const fetch = orderStore((store) => store.fetch);
+  const orders = orderStore((store) => store.orders);
+  // console.log(orders);
   React.useEffect(() => {
     if (session) {
       fetch(session);
@@ -46,39 +51,56 @@ const MyOrderComponent = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <StyledTableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  Test
-                </TableCell>
-                <TableCell>Hi</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-              </StyledTableRow>
-              <StyledTableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  Test
-                </TableCell>
-                <TableCell>Hi</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-              </StyledTableRow>
-              <StyledTableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  Test
-                </TableCell>
-                <TableCell>Hi</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-                <TableCell>Test</TableCell>
-              </StyledTableRow>
+              {orders?.map((order, index) => {
+                return (
+                  <StyledTableRow
+                    key={index}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {index++}
+                    </TableCell>
+                    <TableCell>
+                      {moment(order.created_at)
+                        .startOf("millisecond")
+                        .fromNow()}
+                    </TableCell>
+                    <TableCell>
+                      {order.status == "pending" ? (
+                        <Chip
+                          label="Chip Filled"
+                          size="small"
+                          color="primary"
+                        />
+                      ) : order.status == "confirm" ? (
+                        <Chip
+                          label="Chip Filled"
+                          size="small"
+                          color="secondary"
+                        />
+                      ) : order.status == "ontheway" ? (
+                        <Chip
+                          label="Chip Filled"
+                          size="small"
+                          color="warning"
+                        />
+                      ) : order.status == "complete" ? (
+                        <Chip
+                          label="Chip Filled"
+                          size="small"
+                          color="success"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </TableCell>
+                    <TableCell>{order.total_price}</TableCell>
+                    <TableCell>
+                      <Button variant="contained">View All</Button>
+                    </TableCell>
+                  </StyledTableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
