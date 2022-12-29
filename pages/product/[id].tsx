@@ -37,7 +37,7 @@ export default function ProductPage(props: ProductPage) {
 	return (
 		<Box>
 			<Head>
-				<title>Loi Heng | {data.name}</title>
+				<title>{`Loi Heng | ${data.name}`}</title>
 				<meta name="description" content="Loi Heng" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
