@@ -11,9 +11,7 @@ const useAllProduct = (
 	const url = process.env.API_URL;
 	const res = useSWR<GetProductListResponse>(
 		[
-			`${url}products?category_id=${categories?.join(
-				","
-			)}&brand_id=${brands?.join(",")}&limit=${limit}&page=${page}`,
+			`${url}products?category_id=${categories}&brand_id=${brands}&limit=${limit}&page=${page}`,
 		],
 		fetcher
 	);

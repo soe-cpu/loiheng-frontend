@@ -159,11 +159,11 @@ const HomeComponent = () => {
 		error: newProductError,
 		isValidating: newProductIsValidating,
 	} = useAllNewArrivalProduct();
-	const {
-		data: featureProductData,
-		error: featureProductError,
-		isValidating: featureProductIsValidating,
-	} = useAllFeatureProduct();
+	// const {
+	// 	data: featureProductData,
+	// 	error: featureProductError,
+	// 	isValidating: featureProductIsValidating,
+	// } = useAllFeatureProduct();
 	const {
 		data: brandData,
 		error: brandError,
@@ -189,9 +189,9 @@ const HomeComponent = () => {
 		if (newProductData) {
 			setNewProduct(newProductData.data);
 		}
-		if (featureProductData) {
-			setFeatureProduct(featureProductData.data);
-		}
+		// if (featureProductData) {
+		// 	setFeatureProduct(featureProductData.data);
+		// }
 		if (brandData) {
 			setBrand(brandData.data);
 		}
@@ -205,7 +205,7 @@ const HomeComponent = () => {
 		setNewProduct,
 		brandData,
 		setBrand,
-		featureProductData,
+		// featureProductData,
 		setFeatureProduct,
 		promotionProducts,
 	]);
@@ -245,7 +245,7 @@ const HomeComponent = () => {
 						</Slider>
 					</Box>
 				</Box>
-				<Box sx={{ pb: 4 }}>
+				{/* <Box sx={{ pb: 4 }}>
 					<Stack
 						justifyContent={"space-between"}
 						direction={"row"}
@@ -271,7 +271,7 @@ const HomeComponent = () => {
 							})}
 						</Slider>
 					</Box>
-				</Box>
+				</Box> */}
 				<Box sx={{ pb: 4 }}>
 					<Stack
 						justifyContent={"space-between"}
