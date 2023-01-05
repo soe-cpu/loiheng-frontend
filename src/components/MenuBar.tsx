@@ -217,14 +217,19 @@ const MenuBar = () => {
                 </Search>
                 <Link href={"/addtocart"}>
                   <Badge
-                    badgeContent={cart?.cart_item?.length ?? ""}
+                    badgeContent={
+                      cart?.cart_item?.length ? cart?.cart_item?.length : "0"
+                    }
                     color="primary"
                   >
                     <ShoppingCartOutlinedIcon color="action" />
                   </Badge>
                 </Link>
                 <Link href={"/wishlists"}>
-                  <Badge badgeContent={wishlists?.length} color="primary">
+                  <Badge
+                    badgeContent={wishlists?.length ? wishlists?.length : "0"}
+                    color="primary"
+                  >
                     <FavoriteBorderOutlinedIcon color="action" />
                   </Badge>
                 </Link>
