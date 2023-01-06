@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Session } from "next-auth";
+import { toast } from "react-hot-toast";
 import { removeDuplicateObjects } from "src/utils/removeDuplicateObjects";
 import create from "zustand";
 import createVanilla from "zustand/vanilla";
@@ -229,6 +230,7 @@ const store = createVanilla<WishlistStoreInterface>((set, get) => ({
           const rr = [...wishlists, product];
           const list = removeDuplicateObjects(rr);
           set({ wishlists: list });
+          toast.success("Wishlist added successfully!");
         }
       });
   },
@@ -247,6 +249,7 @@ const store = createVanilla<WishlistStoreInterface>((set, get) => ({
           const result = wishlists.filter((p) => p.id !== product.id);
           const list = removeDuplicateObjects(result);
           set({ wishlists: list });
+          toast.success("Wishlist removed successfully!");
         }
       });
   },
