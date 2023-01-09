@@ -131,7 +131,14 @@ const HeaderBar = () => {
         >
           <Link href={"/"}>
             <Box sx={{ position: "relative", width: "200px", height: "50px" }}>
-              <Image src={"/loi-heng-logo.png"} alt={"logo"} fill />
+              <Image
+                src={"/loi-heng-logo.png"}
+                alt={"logo"}
+                fill
+                sizes="(max-width: 768px) 50vw,
+              (max-width: 1200px) 50vw,
+              33vw"
+              />
             </Box>
           </Link>
           <Box sx={{ display: "flex", alignItems: "center" }}>
