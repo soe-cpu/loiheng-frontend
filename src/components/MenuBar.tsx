@@ -197,7 +197,7 @@ const MenuBar = () => {
 					<AppBar
 						elevation={1}
 						color={"inherit"}
-						sx={{ display: isMobile ? "block" : "none", zIndex: 100000000 }}
+						sx={{ display: isMobile ? "block" : "none", zIndex: 1000 }}
 					>
 						<Toolbar>
 							<IconButton onClick={toggleDrawer}>
