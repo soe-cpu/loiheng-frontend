@@ -327,12 +327,13 @@ const HomeComponent = () => {
 												border: `1px solid ${colors.grey[300]}`,
 											}}
 										>
-											<Link href={`/brands/${brand.id}`}>
+											<Link href={`/product?brands=${brand.id}`}>
 												<Image
 													loader={myLoader}
 													src={brand.picture}
 													alt="Brand Image"
 													fill
+													style={{ objectFit: "contain", padding: "10px" }}
 													sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
 												/>
 											</Link>

@@ -21,6 +21,8 @@ import {
 	TableRow,
 	Tabs,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { GoLocation } from "react-icons/go";
@@ -234,7 +236,9 @@ const ProductDetailComponent = (props: Product) => {
 		}
 	};
 
-	useEffect(() => {}, []);
+	const theme = useTheme();
+
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
 		<Box sx={{ py: 4 }}>
@@ -249,7 +253,7 @@ const ProductDetailComponent = (props: Product) => {
 											key={pic.id}
 											sx={{
 												width: "100%",
-												height: "300px",
+												height: isMobile ? "300px" : "350px",
 												position: "relative",
 											}}
 										>
@@ -257,6 +261,9 @@ const ProductDetailComponent = (props: Product) => {
 												src={"https://api.loiheng.duckdns.org/" + pic.image}
 												alt={"Product Image"}
 												fill
+												style={{
+													objectFit: "contain",
+												}}
 											/>
 										</Box>
 									);
