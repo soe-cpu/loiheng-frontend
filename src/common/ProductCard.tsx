@@ -127,7 +127,9 @@ const ProductCard = (props: ProductInterface) => {
 							WebkitBoxOrient: "vertical",
 						}}
 					>
-						{props.data.name}
+						<Link href={`/product/${props.data.id}`} passHref legacyBehavior>
+							<StyledLink>{props.data.name}</StyledLink>
+						</Link>
 					</Typography>
 					{props.data.discount.length > 0 ? (
 						<Typography
@@ -285,6 +287,8 @@ const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
 
 const StyledLink = styled("a")(({ theme }) => ({
 	cursor: "pointer",
+	textDecoration: "none",
+	color: "black",
 }));
 
 export default ProductCard;

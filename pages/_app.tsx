@@ -9,6 +9,7 @@ import { StyledEngineProvider } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import Script from "next/script";
 import Zendesk from "react-zendesk";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 const ZENDESK_KEY = "d3d22b75-f615-4441-887e-948e823a63df";
 
 export type NextPageWithLayout = NextPage & {

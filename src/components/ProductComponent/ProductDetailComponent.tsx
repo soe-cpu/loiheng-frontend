@@ -53,6 +53,7 @@ import { GetProductListResponse } from "@atoms/productListAtom";
 import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
 import { isInWishlist } from "src/utils/isInWishlist";
 import cartStore from "@stores/cart.store";
+import InnerImageZoom from "react-inner-image-zoom";
 // Tab start //
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -261,14 +262,20 @@ const ProductDetailComponent = (props: Product) => {
 												position: "relative",
 											}}
 										>
-											<Image
+											<InnerImageZoom
+												src={"https://api.loiheng.duckdns.org/" + pic.image}
+												className={"absolute object-contain"}
+												zoomType="click"
+												zoomPreload={true}
+											/>
+											{/* <Image
 												src={"https://api.loiheng.duckdns.org/" + pic.image}
 												alt={"Product Image"}
 												fill
 												style={{
 													objectFit: "contain",
 												}}
-											/>
+											/> */}
 										</Box>
 									);
 								})}
