@@ -158,7 +158,11 @@ const ProductDetailComponent = (props: Product) => {
 		}
 	};
 
-	const { data: productData, error, isValidating } = useAllProduct([], [], 1);
+	const {
+		data: productData,
+		error,
+		isValidating,
+	} = useAllProduct([], [], "", 1);
 	const [products, setProduct] =
 		React.useState<GetProductListResponse["data"]>();
 	useEffect(() => {
