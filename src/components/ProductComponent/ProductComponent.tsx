@@ -60,12 +60,14 @@ const ProductComponent = (props: {
 	const [total, setTotal] = useState<number>(0);
 	const [page, setPage] = useState<number>(1);
 	const [categories, setCategories] = useState<SubCategory[]>([]);
+	const [keyword, setKeyword] = useState<string>("");
 
 	const { brands: selectedBrands, categories: selectedCategories } =
 		useFilterQuery();
 	const { data, error, isValidating } = useAllProduct(
 		selectedCategories,
 		selectedBrands,
+		keyword,
 		page
 	);
 
@@ -169,6 +171,13 @@ const ProductComponent = (props: {
 			setCategories(list);
 		}
 	}, [data, setProduct, props]);
+
+	React.useEffect(() => {
+		const keyword = router.query.keyword as string;
+		if (keyword) {
+			setKeyword(keyword);
+		}
+	}, [router]);
 
 	return (
 		<Box sx={{ py: 2 }}>

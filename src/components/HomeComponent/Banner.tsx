@@ -35,7 +35,7 @@ export const Banner = (props: BannerProps) => {
 							<Box
 								className=" bg-[#DEE0DF] "
 								width={"100%"}
-								height={isMobile ? "200px" : "512px"}
+								height={isMobile ? "200px" : "460px"}
 								position={"relative"}
 							>
 								<Image
