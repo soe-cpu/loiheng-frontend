@@ -7,6 +7,10 @@ import { SWRConfig } from "swr";
 import "../styles/globals.css";
 import { StyledEngineProvider } from "@mui/material";
 import { Toaster } from "react-hot-toast";
+import Script from "next/script";
+import Zendesk from "react-zendesk";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+const ZENDESK_KEY = "d3d22b75-f615-4441-887e-948e823a63df";
 
 export type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode;
@@ -15,6 +19,23 @@ export type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 };
+
+const setting = {
+	color: {
+		theme: "#000",
+	},
+	launcher: {
+		chatLabel: {
+			"en-US": "Need Help",
+		},
+	},
+	contactForm: {
+		fields: [
+			{ id: "description", prefill: { "*": "My pre-filled description" } },
+		],
+	},
+};
+
 function MyApp({
 	Component,
 	pageProps: { session, fallback, ...pageProps },
@@ -30,6 +51,7 @@ function MyApp({
 				{/* <ToastContainer /> */}
 				<StyledEngineProvider injectFirst>
 					<Toaster position="bottom-right" reverseOrder={false} />
+					<Zendesk defer zendeskKey={ZENDESK_KEY} {...setting} />
 					<ThemeWrapper>{getLayout(<Component {...pageProps} />)}</ThemeWrapper>
 				</StyledEngineProvider>
 			</SessionProvider>

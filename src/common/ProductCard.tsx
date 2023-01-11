@@ -76,7 +76,7 @@ const ProductCard = (props: ProductInterface) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: "320px",
+        minHeight: "370px",
       }}
     >
       <Link href={`/product/${props.data.id}`} legacyBehavior>
@@ -85,7 +85,7 @@ const ProductCard = (props: ProductInterface) => {
             sx={{
               position: "relative",
               width: "100%",
-              height: isMobile ? "250px" : "150px",
+              height: isMobile ? "250px" : "200px",
               transition: "transform 0.3s",
               "&:hover": {
                 transform: "scale(1.05)",
@@ -97,6 +97,9 @@ const ProductCard = (props: ProductInterface) => {
               alt={"ProductImage"}
               fill
               loader={myLoader}
+              style={{
+                objectFit: "contain",
+              }}
               sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
             />
           </Box>
@@ -124,7 +127,9 @@ const ProductCard = (props: ProductInterface) => {
               WebkitBoxOrient: "vertical",
             }}
           >
-            {props.data.name}
+            <Link href={`/product/${props.data.id}`} passHref legacyBehavior>
+              <StyledLink>{props.data.name}</StyledLink>
+            </Link>
           </Typography>
           {props.data.discount.length > 0 ? (
             <Typography
@@ -282,6 +287,8 @@ const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
 
 const StyledLink = styled("a")(({ theme }) => ({
   cursor: "pointer",
+  textDecoration: "none",
+  color: "black",
 }));
 
 export default ProductCard;

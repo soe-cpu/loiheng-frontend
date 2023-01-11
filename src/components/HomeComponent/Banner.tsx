@@ -33,16 +33,17 @@ export const Banner = (props: BannerProps) => {
 					return (
 						<SwiperSlide key={b.id}>
 							<Box
-								className=" bg-[#DEE0DF]"
+								className=" bg-[#DEE0DF] "
 								width={"100%"}
-								height={isMobile ? "200px" : "400px"}
+								height={isMobile ? "200px" : "460px"}
 								position={"relative"}
 							>
 								<Image
 									loader={myLoader}
-									style={{ objectFit: "cover" }}
+									style={{ objectFit: "fill" }}
 									src={b.image}
 									alt="Banner Slider"
+									className="aspect-w-16 aspect-h-9"
 									fill
 									sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
 								/>

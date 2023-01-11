@@ -77,7 +77,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
                 sx={{
                   position: "relative",
                   width: "100%",
-                  height: isMobile ? "250px" : "180px",
+                  height: isMobile ? "250px" : "200px",
                   transition: "transform 0.3s",
                   "&:hover": {
                     transform: "scale(1.05)",

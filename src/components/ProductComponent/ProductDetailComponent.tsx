@@ -21,6 +21,8 @@ import {
 	TableRow,
 	Tabs,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { GoLocation } from "react-icons/go";
@@ -51,6 +53,7 @@ import { GetProductListResponse } from "@atoms/productListAtom";
 import FavoriteSharpIcon from "@mui/icons-material/FavoriteSharp";
 import { isInWishlist } from "src/utils/isInWishlist";
 import cartStore from "@stores/cart.store";
+import InnerImageZoom from "react-inner-image-zoom";
 // Tab start //
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -156,7 +159,11 @@ const ProductDetailComponent = (props: Product) => {
 		}
 	};
 
-	const { data: productData, error, isValidating } = useAllProduct([], [], 1);
+	const {
+		data: productData,
+		error,
+		isValidating,
+	} = useAllProduct([], [], "", 1);
 	const [products, setProduct] =
 		React.useState<GetProductListResponse["data"]>();
 	useEffect(() => {
@@ -234,7 +241,9 @@ const ProductDetailComponent = (props: Product) => {
 		}
 	};
 
-	useEffect(() => {}, []);
+	const theme = useTheme();
+
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
 		<Box sx={{ py: 4 }}>
@@ -249,15 +258,24 @@ const ProductDetailComponent = (props: Product) => {
 											key={pic.id}
 											sx={{
 												width: "100%",
-												height: "300px",
+												height: isMobile ? "300px" : "350px",
 												position: "relative",
 											}}
 										>
-											<Image
+											<InnerImageZoom
+												src={"https://api.loiheng.duckdns.org/" + pic.image}
+												className={"absolute object-contain"}
+												zoomType="click"
+												zoomPreload={true}
+											/>
+											{/* <Image
 												src={"https://api.loiheng.duckdns.org/" + pic.image}
 												alt={"Product Image"}
 												fill
-											/>
+												style={{
+													objectFit: "contain",
+												}}
+											/> */}
 										</Box>
 									);
 								})}
