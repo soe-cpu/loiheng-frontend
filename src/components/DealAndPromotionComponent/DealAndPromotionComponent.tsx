@@ -268,10 +268,16 @@ const ProductComponent = (props: {
                   <Typography>View: </Typography>
                   <Box sx={{ display: "flex" }}>
                     <IconButton onClick={handleClickGrid}>
-                      <AppsIcon fontSize="small" />
+                      <AppsIcon
+                        fontSize="small"
+                        sx={{ color: show == true ? colors.blue[500] : "" }}
+                      />
                     </IconButton>
                     <IconButton onClick={handleClickList}>
-                      <ListIcon fontSize="small" />
+                      <ListIcon
+                        fontSize="small"
+                        sx={{ color: show == true ? "" : colors.blue[500] }}
+                      />
                     </IconButton>
                   </Box>
                 </Stack>
