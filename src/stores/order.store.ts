@@ -145,11 +145,9 @@ export interface OrderStoreInterface {
     region?: string,
     address_type?: number,
     street_address?: string,
-    cart_id?: number,
     payment_method?: string,
     coupon_code?: string,
-    coupon_price?: string,
-    subtotal?: number
+    coupon_price?: string
   ) => Promise<boolean>;
 }
 
@@ -182,11 +180,9 @@ const orderStore = create<OrderStoreInterface>((set, get) => ({
     region?: string,
     address_type?: number,
     street_address?: string,
-    cart_id?: number,
     payment_method?: string,
     coupon_code?: string,
-    coupon_price?: string,
-    subtotal?: number
+    coupon_price?: string
   ) => {
     const url = process.env.API_URL;
     const res = axios.post<CreateOrderResponse>(
@@ -200,11 +196,9 @@ const orderStore = create<OrderStoreInterface>((set, get) => ({
         region,
         address_type,
         street_address,
-        cart_id,
         payment_method,
         coupon_code,
         coupon_price,
-        subtotal,
       },
       {
         headers: {

@@ -101,11 +101,9 @@ const CheckoutComponent = () => {
         region,
         address_type,
         street_address,
-        cartData.id,
         payment,
         coupon_code,
-        coupon_price,
-        cartData.subtotal
+        coupon_price
       ).then((res) => {
         if (res) {
           router.push("/profile/my-orders");
@@ -367,7 +365,7 @@ const CheckoutComponent = () => {
                     <input
                       type="radio"
                       name="payment"
-                      value="banaccount"
+                      value="bankaccount"
                       onChange={(e) => setPayment(e.target.value)}
                     />
                     <StyledRadioBox className="radio_check">
@@ -468,6 +466,114 @@ const CheckoutComponent = () => {
                 </Grid>
               </Grid>
               {/* Choose Payment method end */}
+
+              {/* Payment Info start */}
+              {payment == "bankaccount" ? (
+                <Box
+                  sx={{ border: `1px solid ${colors.grey[300]}`, p: 1, my: 2 }}
+                >
+                  <Typography
+                    sx={{ color: colors.blue[500], fontWeight: 500, pb: 2 }}
+                  >
+                    Bank Payment Information
+                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} lg={6}>
+                      <Box
+                        sx={{
+                          border: `1px solid ${colors.blue[500]}`,
+                          p: 1,
+                          gap: 2,
+                          boxShadow: `1px 1px 5px ${colors.grey[300]}`,
+                          borderRadius: "4px",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            position: "relative",
+                            width: "100%",
+                            height: "110px",
+                          }}
+                        >
+                          <Image
+                            src={"/kbz.png"}
+                            alt="Cod Gif"
+                            loader={myLoader}
+                            fill
+                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                          />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2">
+                            A/C name:{" "}
+                            <span style={{ color: colors.blue[500] }}>
+                              Soe Soe Aye
+                            </span>
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            A/C number:{" "}
+                            <span style={{ color: colors.blue[500] }}>
+                              02510104501423801
+                            </span>
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} lg={6}>
+                      <Box
+                        sx={{
+                          border: `1px solid ${colors.blue[500]}`,
+                          p: 1,
+                          gap: 2,
+                          boxShadow: `1px 1px 5px ${colors.grey[300]}`,
+                          borderRadius: "4px",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            position: "relative",
+                            width: "100%",
+                            height: "110px",
+                          }}
+                        >
+                          <Image
+                            src={"/aya.jpg"}
+                            alt="Cod Gif"
+                            loader={myLoader}
+                            fill
+                            sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                          />
+                        </Box>
+                        <Box>
+                          <Typography variant="subtitle2">
+                            A/C name:{" "}
+                            <span style={{ color: colors.blue[500] }}>
+                              Thein Han & Khine Myae{" "}
+                            </span>
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            A/C number:{" "}
+                            <span style={{ color: colors.blue[500] }}>
+                              400276 88539
+                            </span>
+                          </Typography>
+                        </Box>
+                        {/* <Typography variant="subtitle2">
+                          AYA-SPECIAL ACCOUNT
+                        </Typography> */}
+                      </Box>
+                    </Grid>
+                  </Grid>
+                </Box>
+              ) : (
+                ""
+              )}
+
+              {/* Payment Info end */}
 
               {/* Order Summary start */}
               <Typography
