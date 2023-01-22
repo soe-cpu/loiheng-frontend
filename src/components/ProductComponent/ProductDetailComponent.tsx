@@ -140,7 +140,11 @@ const ProductDetailComponent = (props: Product) => {
 	const [nav1, setNav1] = useState<any>();
 	const [nav2, setNav2] = useState<any>();
 
+	// Hooks
 	const { data } = useSession();
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	const router = useRouter();
 
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
@@ -240,10 +244,6 @@ const ProductDetailComponent = (props: Product) => {
 			signIn();
 		}
 	};
-
-	const theme = useTheme();
-
-	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
 		<Box sx={{ py: 4 }}>
@@ -557,6 +557,11 @@ const ProductDetailComponent = (props: Product) => {
 													boxShadow: 0,
 													backgroundColor: colors.blue[700],
 												},
+											}}
+											onClick={() => {
+												router.push(
+													`/checkout?product_id=${props.id}&qty=${quantity}`
+												);
 											}}
 										>
 											Buy Now
