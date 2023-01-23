@@ -104,7 +104,14 @@ const CheckoutComponent = () => {
 		const qty = buyNowProduct?.qty;
 
 		if (session && (cartData || buyNowProduct)) {
-			if (address_id === 0) {
+			if (
+				address_id === 0 &&
+				full_name === "" &&
+				street_address === "" &&
+				city === "" &&
+				township === "" &&
+				phone === ""
+			) {
 				return Swal.fire(
 					"No Address!",
 					"You must choose an address.",
@@ -115,6 +122,8 @@ const CheckoutComponent = () => {
 			if (payment === "") {
 				return Swal.fire("No Payment!", "You must choose payment.", "warning");
 			}
+
+			Swal.showLoading(null);
 
 			const res = order(
 				session,
@@ -132,6 +141,7 @@ const CheckoutComponent = () => {
 				product_id,
 				qty
 			).then((res) => {
+				Swal.hideLoading();
 				if (res) {
 					router.replace("/profile/my-orders");
 					Swal.fire(
@@ -142,6 +152,7 @@ const CheckoutComponent = () => {
 				}
 			});
 		} else {
+			Swal.hideLoading();
 			toast.error("Something went wrong!");
 			Swal.fire(
 				"Something went wrong!",
