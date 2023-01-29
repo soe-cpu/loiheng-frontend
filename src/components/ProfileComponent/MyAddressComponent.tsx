@@ -167,11 +167,11 @@ const MyAddressComponent = () => {
                   onChange={handleChange}
                   required
                 >
-                  <MenuItem value={1}>Home</MenuItem>
-                  <MenuItem value={2}>Work</MenuItem>
-                  <MenuItem value={3}>Address 1</MenuItem>
-                  <MenuItem value={4}>Address 2</MenuItem>
-                  <MenuItem value={5}>Address 3</MenuItem>
+                  <MenuItem value={"Home"}>Home</MenuItem>
+                  <MenuItem value={"Work"}>Work</MenuItem>
+                  <MenuItem value={"Address One"}>Address One</MenuItem>
+                  <MenuItem value={"Address Two"}>Address Two</MenuItem>
+                  <MenuItem value={"Address Three"}>Address Three</MenuItem>
                 </Select>
               </FormControl>
               <TextField
