@@ -39,12 +39,16 @@ import orderStore from "@stores/order.store";
 import { Session } from "next-auth";
 import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { Product } from "@interfaces/product.interface";
+import { ProductDetails } from "@apis/useProductDetails";
+import Swal from "sweetalert2";
 
 const myLoader = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
 const CheckoutComponent = () => {
+  // NOTE: Hooks
   const router = useRouter();
 
   const cartData = cartStore((store) => store.cart);
@@ -52,6 +56,12 @@ const CheckoutComponent = () => {
   const [country, setCountry] = React.useState("");
   const [addressType, setAddressType] = React.useState("");
   const [showAddress, setShowAddress] = React.useState<Address>();
+  const [product, setProduct] =
+    React.useState<ProductDetails["data"]["products"][0]>();
+  const [buyNowProduct, setBuyNowProduct] = React.useState<{
+    product_id: number;
+    qty: number;
+  }>();
 
   const handleChangeAddressType = (event: SelectChangeEvent) => {
     setAddressType(event.target.value as string);
@@ -90,7 +100,31 @@ const CheckoutComponent = () => {
     const address_type = Number(addressType);
     const coupon_code = "";
     const coupon_price = "";
-    if (session && cartData) {
+    const product_id = buyNowProduct?.product_id;
+    const qty = buyNowProduct?.qty;
+
+    if (session && (cartData || buyNowProduct)) {
+      if (
+        address_id === 0 &&
+        full_name === "" &&
+        street_address === "" &&
+        city === "" &&
+        township === "" &&
+        phone === ""
+      ) {
+        return Swal.fire(
+          "No Address!",
+          "You must choose an address.",
+          "warning"
+        );
+      }
+
+      if (payment === "") {
+        return Swal.fire("No Payment!", "You must choose payment.", "warning");
+      }
+
+      Swal.showLoading(null);
+
       const res = order(
         session,
         address_id,
@@ -103,15 +137,28 @@ const CheckoutComponent = () => {
         street_address,
         payment,
         coupon_code,
-        coupon_price
+        coupon_price,
+        product_id,
+        qty
       ).then((res) => {
+        Swal.hideLoading();
         if (res) {
-          router.push("/profile/my-orders");
-          toast.success("Order successfully!");
+          router.replace("/profile/my-orders");
+          Swal.fire(
+            "Order Added",
+            "Thanks for purchasing from Loiheng.",
+            "success"
+          );
         }
       });
     } else {
+      Swal.hideLoading();
       toast.error("Something went wrong!");
+      Swal.fire(
+        "Something went wrong!",
+        "Something went wrong to process order.",
+        "error"
+      );
     }
   };
 
@@ -122,9 +169,30 @@ const CheckoutComponent = () => {
     }
   }, [address, addressData]);
 
+  React.useEffect(() => {
+    const url = process.env.API_URL;
+
+    const { product_id, qty } = router.query;
+    if (product_id && qty) {
+      getProduct(product_id as unknown as number);
+      setBuyNowProduct({
+        product_id: product_id as unknown as number,
+        qty: qty as unknown as number,
+      });
+    }
+
+    async function getProduct(id: number) {
+      const response = await fetch(`${url}products/detail/${product_id}`);
+
+      const data = (await response.json()) as ProductDetails;
+
+      setProduct(data.data.products[0]);
+    }
+  }, []);
+
   return (
     <Box>
-      {cartData ? (
+      {cartData || buyNowProduct ? (
         <Container maxWidth={"lg"}>
           <Breadcrumb />
           <Grid container spacing={3} sx={{ pb: 2 }}>
@@ -277,11 +345,13 @@ const CheckoutComponent = () => {
                           label="Age"
                           onChange={handleChangeAddressType}
                         >
-                          <MenuItem value={1}>Home</MenuItem>
-                          <MenuItem value={2}>Work</MenuItem>
-                          <MenuItem value={3}>Address 1</MenuItem>
-                          <MenuItem value={4}>Address 2</MenuItem>
-                          <MenuItem value={5}>Address 3</MenuItem>
+                          <MenuItem value={"Home"}>Home</MenuItem>
+                          <MenuItem value={"Work"}>Work</MenuItem>
+                          <MenuItem value={"Address One"}>Address One</MenuItem>
+                          <MenuItem value={"Address Two"}>Address Two</MenuItem>
+                          <MenuItem value={"Address Three"}>
+                            Address Three
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -515,7 +585,7 @@ const CheckoutComponent = () => {
                           <Typography variant="subtitle2">
                             A/C number:{" "}
                             <span style={{ color: colors.blue[500] }}>
-                              02510104501423801
+                              04510104501423801
                             </span>
                           </Typography>
                         </Box>
@@ -581,7 +651,7 @@ const CheckoutComponent = () => {
               >
                 Order Summary
               </Typography>
-              <OrderSummary />
+              <OrderSummary product={product} qty={buyNowProduct?.qty} />
               {/* Order Summary end */}
             </Grid>
           </Grid>
@@ -633,7 +703,12 @@ const CheckoutComponent = () => {
   );
 };
 
-const OrderSummary = () => {
+interface OrderSummaryProps {
+  product?: any;
+  qty?: number;
+}
+
+const OrderSummary = (props: OrderSummaryProps) => {
   const cartData = cartStore((store) => store.cart);
   const theme = useTheme();
   return (
@@ -641,36 +716,66 @@ const OrderSummary = () => {
       <TableContainer>
         <Table aria-label="simple table">
           <TableBody>
-            {cartData?.cart_item.map((cart, index) => {
-              return (
-                <TableRow
-                  key={index}
-                  sx={{
-                    "&:last-child td, &:last-child th": {
-                      border: 0,
-                      borderBottom: `1px solid ${colors.grey[300]}`,
-                    },
-                  }}
-                >
-                  <TableCell component="th" scope="row">
-                    {(index = index + 1)}
-                  </TableCell>
-                  <TableCell>{cart.product[0].name}</TableCell>
-                  <TableCell>
-                    {new Intl.NumberFormat("mm-MM", {
-                      style: "currency",
-                      currency: "MMK",
-                      currencyDisplay: "code",
-                    }).format(
-                      cart.product[0].discount.length > 0
-                        ? cart.product[0].discount[0].promo_price
-                        : cart.product[0].price
-                    )}
-                  </TableCell>
-                  <TableCell>{cart.qty}</TableCell>
-                </TableRow>
-              );
-            })}
+            {props.product ? (
+              <TableRow
+                sx={{
+                  "&:last-child td, &:last-child th": {
+                    border: 0,
+                    borderBottom: `1px solid ${colors.grey[300]}`,
+                  },
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  1
+                </TableCell>
+                <TableCell>{props?.product?.name ?? "Name"}</TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat("mm-MM", {
+                    style: "currency",
+                    currency: "MMK",
+                    currencyDisplay: "code",
+                  }).format(
+                    props?.product?.discount.length > 0
+                      ? props?.product?.discount[0].promo_price
+                      : props?.product?.price
+                  )}
+                </TableCell>
+                <TableCell>{props?.qty}</TableCell>
+              </TableRow>
+            ) : (
+              <>
+                {cartData?.cart_item.map((cart, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        "&:last-child td, &:last-child th": {
+                          border: 0,
+                          borderBottom: `1px solid ${colors.grey[300]}`,
+                        },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {(index = index + 1)}
+                      </TableCell>
+                      <TableCell>{cart.product[0].name}</TableCell>
+                      <TableCell>
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(
+                          cart.product[0].discount.length > 0
+                            ? cart.product[0].discount[0].promo_price
+                            : cart.product[0].price
+                        )}
+                      </TableCell>
+                      <TableCell>{cart.qty}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -685,7 +790,19 @@ const OrderSummary = () => {
         <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
           Subtotal:{" "}
         </Typography>
-        {cartData ? (
+        {props.product && props.qty ? (
+          <Typography sx={{ fontSize: 14 }}>
+            {new Intl.NumberFormat("mm-MM", {
+              style: "currency",
+              currency: "MMK",
+              currencyDisplay: "code",
+            }).format(
+              props?.product?.discount.length > 0
+                ? props?.product?.discount[0].promo_price * props.qty
+                : props?.product?.price * props.qty
+            )}
+          </Typography>
+        ) : cartData ? (
           <Typography sx={{ fontSize: 14 }}>
             {new Intl.NumberFormat("mm-MM", {
               style: "currency",
@@ -723,7 +840,19 @@ const OrderSummary = () => {
       >
         <Typography sx={{ fontWeight: 500, fontSize: 18 }}>Total: </Typography>
         <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
-          {cartData ? (
+          {props.product && props.qty ? (
+            <Typography sx={{ fontSize: 14 }}>
+              {new Intl.NumberFormat("mm-MM", {
+                style: "currency",
+                currency: "MMK",
+                currencyDisplay: "code",
+              }).format(
+                props?.product?.discount.length > 0
+                  ? props?.product?.discount[0].promo_price * props.qty
+                  : props?.product?.price * props.qty
+              )}
+            </Typography>
+          ) : cartData ? (
             <Typography sx={{ fontSize: 14 }}>
               {new Intl.NumberFormat("mm-MM", {
                 style: "currency",
@@ -734,6 +863,17 @@ const OrderSummary = () => {
           ) : (
             ""
           )}
+          {/* {cartData ? (
+						<Typography sx={{ fontSize: 14 }}>
+							{new Intl.NumberFormat("mm-MM", {
+								style: "currency",
+								currency: "MMK",
+								currencyDisplay: "code",
+							}).format(cartData.subtotal)}
+						</Typography>
+					) : (
+						""
+					)} */}
         </Typography>
       </Box>
       <Box
