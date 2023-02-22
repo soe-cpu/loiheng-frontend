@@ -58,6 +58,9 @@ const CheckoutComponent = () => {
   const [country, setCountry] = React.useState("");
   const [addressType, setAddressType] = React.useState("");
   const [deliveryTownship, setDeliveryTownship] = React.useState("");
+  const [deliveryPrice, setDeliveryPrice] = React.useState<
+    String | undefined
+  >();
   const [showAddress, setShowAddress] = React.useState<Address>();
   const [product, setProduct] =
     React.useState<ProductDetails["data"]["products"][0]>();
@@ -80,7 +83,7 @@ const CheckoutComponent = () => {
       setDelivery(deli.data);
     }
   }, [deli, setDelivery]);
-  console.log(delivery);
+  // console.log(delivery);
   // Delivery fetch end //
 
   const handleChangeAddressType = (event: SelectChangeEvent) => {
@@ -88,6 +91,9 @@ const CheckoutComponent = () => {
   };
   const handleChangeDeliveryTownship = (event: SelectChangeEvent) => {
     setDeliveryTownship(event.target.value as string);
+    const deli_id = event.target.value as string;
+    const dd = delivery?.deliveries.find((d) => d.id == Number(deli_id));
+    setDeliveryPrice(dd?.fee);
   };
   const handleChangeAddress = (event: SelectChangeEvent) => {
     setAddress(event.target.value as string);
@@ -97,7 +103,7 @@ const CheckoutComponent = () => {
   };
 
   const [payment, setPayment] = useState("");
-  console.log(payment);
+  // console.log(payment);
 
   const { data: session } = useSession();
   // Api get Address start //
@@ -139,6 +145,14 @@ const CheckoutComponent = () => {
         return Swal.fire(
           "No Address!",
           "You must choose an address.",
+          "warning"
+        );
+      }
+
+      if (delivery_id === 0) {
+        return Swal.fire(
+          "No Delivery!",
+          "You must choose an delivery.",
           "warning"
         );
       }
@@ -707,7 +721,11 @@ const CheckoutComponent = () => {
                 Order Summary
               </Typography>
 
-              <OrderSummary product={product} qty={buyNowProduct?.qty} />
+              <OrderSummary
+                product={product}
+                qty={buyNowProduct?.qty}
+                deliveryPrice={deliveryPrice}
+              />
               {/* Order Summary end */}
             </Grid>
           </Grid>
@@ -762,6 +780,7 @@ const CheckoutComponent = () => {
 interface OrderSummaryProps {
   product?: any;
   qty?: number;
+  deliveryPrice?: any;
 }
 
 const OrderSummary = (props: OrderSummaryProps) => {
@@ -883,7 +902,13 @@ const OrderSummary = (props: OrderSummaryProps) => {
         <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
           Standard Delivery:{" "}
         </Typography>
-        <Typography sx={{ fontSize: 14 }}>0 Ks </Typography>
+        <Typography sx={{ fontSize: 14 }}>
+          {new Intl.NumberFormat("mm-MM", {
+            style: "currency",
+            currency: "MMK",
+            currencyDisplay: "code",
+          }).format(props.deliveryPrice ? props.deliveryPrice : 0)}
+        </Typography>
       </Box>
       <Box
         sx={{
@@ -904,8 +929,9 @@ const OrderSummary = (props: OrderSummaryProps) => {
                 currencyDisplay: "code",
               }).format(
                 props?.product?.discount.length > 0
-                  ? props?.product?.discount[0].promo_price * props.qty
-                  : props?.product?.price * props.qty
+                  ? props?.product?.discount[0].promo_price * props.qty +
+                      props?.deliveryPrice
+                  : props?.product?.price * props.qty + props?.deliveryPrice
               )}
             </Typography>
           ) : cartData ? (
@@ -914,7 +940,7 @@ const OrderSummary = (props: OrderSummaryProps) => {
                 style: "currency",
                 currency: "MMK",
                 currencyDisplay: "code",
-              }).format(cartData.subtotal)}
+              }).format(cartData.subtotal + Number(props?.deliveryPrice))}
             </Typography>
           ) : (
             ""
