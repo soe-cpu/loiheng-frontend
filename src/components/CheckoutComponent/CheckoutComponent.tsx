@@ -42,6 +42,8 @@ import toast from "react-hot-toast";
 import { Product } from "@interfaces/product.interface";
 import { ProductDetails } from "@apis/useProductDetails";
 import Swal from "sweetalert2";
+import useAllDelivery from "@apis/useAllDelivery";
+import { GetDeliveryResponse } from "@atoms/deliveryListAtom";
 
 const myLoader = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
@@ -55,6 +57,7 @@ const CheckoutComponent = () => {
   const [address, setAddress] = React.useState("0");
   const [country, setCountry] = React.useState("");
   const [addressType, setAddressType] = React.useState("");
+  const [deliveryTownship, setDeliveryTownship] = React.useState("");
   const [showAddress, setShowAddress] = React.useState<Address>();
   const [product, setProduct] =
     React.useState<ProductDetails["data"]["products"][0]>();
@@ -63,8 +66,28 @@ const CheckoutComponent = () => {
     qty: number;
   }>();
 
+  // Delivery fetch start //
+  const {
+    data: deli,
+    error: deliError,
+    isValidating: deliIsValidating,
+  } = useAllDelivery();
+
+  const [delivery, setDelivery] = React.useState<GetDeliveryResponse["data"]>();
+
+  React.useEffect(() => {
+    if (deli) {
+      setDelivery(deli.data);
+    }
+  }, [deli, setDelivery]);
+  console.log(delivery);
+  // Delivery fetch end //
+
   const handleChangeAddressType = (event: SelectChangeEvent) => {
     setAddressType(event.target.value as string);
+  };
+  const handleChangeDeliveryTownship = (event: SelectChangeEvent) => {
+    setDeliveryTownship(event.target.value as string);
   };
   const handleChangeAddress = (event: SelectChangeEvent) => {
     setAddress(event.target.value as string);
@@ -98,6 +121,7 @@ const CheckoutComponent = () => {
     const region = regionRef.current?.value;
     const phone = phoneRef.current?.value;
     const address_type = Number(addressType);
+    const delivery_id = Number(deliveryTownship);
     const coupon_code = "";
     const coupon_price = "";
     const product_id = buyNowProduct?.product_id;
@@ -139,7 +163,8 @@ const CheckoutComponent = () => {
         coupon_code,
         coupon_price,
         product_id,
-        qty
+        qty,
+        delivery_id
       ).then((res) => {
         Swal.hideLoading();
         if (res) {
@@ -645,12 +670,43 @@ const CheckoutComponent = () => {
 
               {/* Payment Info end */}
 
+              {/* Delivery start */}
+              <Typography
+                sx={{ color: colors.blue[500], fontWeight: 500, py: 2 }}
+              >
+                Select Delivery
+              </Typography>
+              <Box>
+                <FormControl fullWidth size="small">
+                  <InputLabel id="demo-simple-select-label">
+                    Township
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={deliveryTownship}
+                    label="Age"
+                    onChange={handleChangeDeliveryTownship}
+                  >
+                    {delivery?.deliveries.map((de) => {
+                      return (
+                        <MenuItem key={de.id} value={de.id}>
+                          {de.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Box>
+              {/* Delivery end */}
+
               {/* Order Summary start */}
               <Typography
                 sx={{ color: colors.blue[500], fontWeight: 500, py: 2 }}
               >
                 Order Summary
               </Typography>
+
               <OrderSummary product={product} qty={buyNowProduct?.qty} />
               {/* Order Summary end */}
             </Grid>
