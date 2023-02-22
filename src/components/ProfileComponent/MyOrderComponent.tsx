@@ -17,21 +17,13 @@ import {
 } from "@mui/material";
 import React from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { useSession } from "next-auth/react";
 import orderStore from "@stores/order.store";
 import moment from "moment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Link from "next/link";
 
 const MyOrderComponent = () => {
-  const { data: session } = useSession();
-  const fetch = orderStore((store) => store.fetch);
   const orders = orderStore((store) => store.orders);
-  // console.log(orders);
-  React.useEffect(() => {
-    if (session) {
-      fetch(session);
-    }
-  }, [session, fetch]);
   return (
     <Box>
       <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
@@ -99,19 +91,26 @@ const MyOrderComponent = () => {
                       }).format(Number(order.total_price))}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        sx={{
-                          boxShadow: 0,
-                          "&:hover": {
-                            boxShadow: 0,
-                          },
-                        }}
-                        startIcon={<VisibilityIcon />}
+                      <Link
+                        href={`/profile/my-orders/${order.id}`}
+                        legacyBehavior
                       >
-                        View All
-                      </Button>
+                        <a style={{ textDecoration: "none" }}>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            sx={{
+                              boxShadow: 0,
+                              "&:hover": {
+                                boxShadow: 0,
+                              },
+                            }}
+                            startIcon={<VisibilityIcon />}
+                          >
+                            View All
+                          </Button>
+                        </a>
+                      </Link>
                     </TableCell>
                   </StyledTableRow>
                 );
