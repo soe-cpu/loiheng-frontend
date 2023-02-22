@@ -705,7 +705,18 @@ const CheckoutComponent = () => {
                     {delivery?.deliveries.map((de) => {
                       return (
                         <MenuItem key={de.id} value={de.id}>
-                          {de.name}
+                          <span
+                            style={{ fontWeight: 600, paddingRight: "4px" }}
+                          >
+                            {de.name}
+                          </span>{" "}
+                          (
+                          {new Intl.NumberFormat("mm-MM", {
+                            style: "currency",
+                            currency: "MMK",
+                            currencyDisplay: "code",
+                          }).format(Number(de.fee))}
+                          )
                         </MenuItem>
                       );
                     })}
