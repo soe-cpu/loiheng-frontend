@@ -382,7 +382,7 @@ const ProductComponent = (props: {
                 page={page}
                 onChange={handlePage}
                 variant="outlined"
-                shape="rounded"
+                color={"primary"}
                 showFirstButton
                 showLastButton
                 size={isMobile ? "medium" : "large"}

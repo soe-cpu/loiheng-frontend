@@ -90,6 +90,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
                   fill
                   loader={myLoader}
                   sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: "contain" }}
                 />
               </Box>
             </StyledLink>
@@ -140,7 +141,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
               <Chip
                 label={props.data.category[0].name}
                 size={"small"}
-                sx={{ backgroundColor: colors.grey[400], fontWeight: 500 }}
+                sx={{ backgroundColor: colors.green[100], fontWeight: 500 }}
               />
               <Box sx={{ py: 2 }}>
                 {props.data.discount.length > 0 ? (
@@ -154,7 +155,7 @@ const HorizontalProductCard = (props: ProductInterface) => {
                   >
                     <del
                       style={{
-                        fontSize: 12,
+                        fontSize: 14,
                         color: colors.red[500],
                         fontWeight: 400,
                       }}
