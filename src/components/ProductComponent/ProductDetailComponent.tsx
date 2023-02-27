@@ -230,6 +230,15 @@ const ProductDetailComponent = (props: Product) => {
       },
     ],
   };
+  const asNav = {
+    slidesToShow: 5,
+    swipeToSlide: true,
+    focusOnSelect: true,
+    infinite: false,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    dots: false,
+  };
 
   const wishlists = wishlistStore((store) => store.wishlists);
 
@@ -248,10 +257,15 @@ const ProductDetailComponent = (props: Product) => {
   return (
     <Box sx={{ py: 4 }}>
       <Container maxWidth={"lg"}>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={6} lg={4}>
-            <div>
-              <Slider infinite={false} asNavFor={nav2} ref={slider1}>
+            <div style={{ display: "flex", gap: 4, flexDirection: "column" }}>
+              <Slider
+                infinite={false}
+                asNavFor={nav2}
+                ref={slider1}
+                arrows={false}
+              >
                 {props.product_pictures.map((pic) => {
                   return (
                     <Box
@@ -260,6 +274,8 @@ const ProductDetailComponent = (props: Product) => {
                         width: "100%",
                         height: isMobile ? "300px" : "350px",
                         position: "relative",
+                        p: 3,
+                        border: `1px solid ${colors.grey[300]}`,
                       }}
                     >
                       <InnerImageZoom
@@ -280,28 +296,22 @@ const ProductDetailComponent = (props: Product) => {
                   );
                 })}
               </Slider>
-              <Slider
-                asNavFor={nav1}
-                ref={slider2}
-                slidesToShow={5}
-                swipeToSlide={true}
-                focusOnSelect={true}
-                infinite={false}
-              >
+              <Slider asNavFor={nav1} ref={slider2} {...asNav}>
                 {props.product_pictures.map((pic) => {
                   return (
-                    <Box
-                      sx={{ pr: 1 }}
-                      key={pic.id}
-                      width={"100%"}
-                      height={"60px"}
-                      position={"relative"}
-                    >
-                      <Image
-                        src={"https://api.loiheng.duckdns.org/" + pic.image}
-                        alt={"Product Image"}
-                        fill
-                      />
+                    <Box sx={{ p: "2px" }} key={pic.id}>
+                      <Box width={"100%"} height={"70px"} position={"relative"}>
+                        <Image
+                          src={"https://api.loiheng.duckdns.org/" + pic.image}
+                          alt={"Product Image"}
+                          fill
+                          style={{
+                            border: `1px solid ${colors.grey[300]}`,
+                            boxShadow: `1px 1px 5px ${colors.grey[300]}`,
+                            borderRadius: "4px",
+                          }}
+                        />
+                      </Box>
                     </Box>
                   );
                 })}

@@ -207,7 +207,7 @@ const ProductCard = (props: ProductInterface) => {
               color: "#fff",
               height: "30px",
               "&:hover": {
-                boxShadow: 0,
+                boxShadow: "4px",
                 backgroundColor: colors.blue[700],
               },
             }}
@@ -273,7 +273,7 @@ const ProductCard = (props: ProductInterface) => {
 //   },
 // }));
 
-const FavButton = styled(IconButton)<ButtonProps>(({ theme }) => ({
+const FavButton = styled(IconButton)(({ theme }) => ({
   color: colors.blue[500],
   borderRadius: "5px",
   height: "30px",
