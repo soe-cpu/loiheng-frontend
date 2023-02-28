@@ -102,6 +102,9 @@ const CheckoutComponent = () => {
     setCountry(event.target.value as string);
   };
 
+  const { coupon_code, coupon_type, coupon_value } = router.query;
+  // console.log(coupon_code);
+
   const [payment, setPayment] = useState("");
   // console.log(payment);
 
@@ -128,7 +131,7 @@ const CheckoutComponent = () => {
     const phone = phoneRef.current?.value;
     const address_type = Number(addressType);
     const delivery_id = Number(deliveryTownship);
-    const coupon_code = "";
+    const couponCode = coupon_code;
     const coupon_price = "";
     const product_id = buyNowProduct?.product_id;
     const qty = buyNowProduct?.qty;
@@ -174,7 +177,7 @@ const CheckoutComponent = () => {
         address_type,
         street_address,
         payment,
-        coupon_code,
+        String(couponCode),
         coupon_price,
         product_id,
         qty,
@@ -736,6 +739,8 @@ const CheckoutComponent = () => {
                 product={product}
                 qty={buyNowProduct?.qty}
                 deliveryPrice={deliveryPrice}
+                coupon_type={coupon_type}
+                coupon_value={Number(coupon_value)}
               />
               {/* Order Summary end */}
             </Grid>
@@ -792,6 +797,8 @@ interface OrderSummaryProps {
   product?: any;
   qty?: number;
   deliveryPrice?: any;
+  coupon_type?: string | string[];
+  coupon_value?: number;
 }
 
 const OrderSummary = (props: OrderSummaryProps) => {
@@ -900,6 +907,37 @@ const OrderSummary = (props: OrderSummaryProps) => {
           ""
         )}
       </Box>
+      {props.coupon_value ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            py: 2,
+            alignItems: "center",
+            px: 1,
+          }}
+        >
+          <Typography sx={{ fontSize: 14, fontWeight: 500 }}>
+            Promo Code Discount:{" "}
+          </Typography>
+          {props.coupon_type == "amount" ? (
+            <Typography sx={{ fontSize: 14, color: colors.red[500] }}>
+              -{" "}
+              {new Intl.NumberFormat("mm-MM", {
+                style: "currency",
+                currency: "MMK",
+                currencyDisplay: "code",
+              }).format(props.coupon_value ? props.coupon_value : 0)}
+            </Typography>
+          ) : (
+            <Typography sx={{ fontSize: 14 }}>
+              {props.coupon_value} %
+            </Typography>
+          )}
+        </Box>
+      ) : (
+        ""
+      )}
       <Box
         sx={{
           display: "flex",
@@ -921,6 +959,7 @@ const OrderSummary = (props: OrderSummaryProps) => {
           }).format(props.deliveryPrice ? props.deliveryPrice : 0)}
         </Typography>
       </Box>
+
       <Box
         sx={{
           display: "flex",
@@ -933,26 +972,70 @@ const OrderSummary = (props: OrderSummaryProps) => {
         <Typography sx={{ fontWeight: 500, fontSize: 18 }}>Total: </Typography>
         <Typography sx={{ fontWeight: 500, fontSize: 18 }}>
           {props.product && props.qty ? (
-            <Typography sx={{ fontSize: 14 }}>
-              {new Intl.NumberFormat("mm-MM", {
-                style: "currency",
-                currency: "MMK",
-                currencyDisplay: "code",
-              }).format(
-                props?.product?.discount.length > 0
-                  ? props?.product?.discount[0].promo_price * props.qty +
-                      props?.deliveryPrice
-                  : props?.product?.price * props.qty + props?.deliveryPrice
-              )}
-            </Typography>
+            props.deliveryPrice ? (
+              <Typography sx={{ fontSize: 14 }}>
+                {new Intl.NumberFormat("mm-MM", {
+                  style: "currency",
+                  currency: "MMK",
+                  currencyDisplay: "code",
+                }).format(
+                  props?.product?.discount.length > 0
+                    ? props?.product?.discount[0].promo_price * props.qty +
+                        props?.deliveryPrice
+                    : props?.product?.price * props.qty +
+                        Number(props?.deliveryPrice)
+                )}
+              </Typography>
+            ) : (
+              <Typography sx={{ fontSize: 14 }}>
+                {new Intl.NumberFormat("mm-MM", {
+                  style: "currency",
+                  currency: "MMK",
+                  currencyDisplay: "code",
+                }).format(
+                  props?.product?.discount.length > 0
+                    ? props?.product?.discount[0].promo_price * props.qty
+                    : props?.product?.price * props.qty
+                )}
+              </Typography>
+            )
           ) : cartData ? (
-            <Typography sx={{ fontSize: 14 }}>
-              {new Intl.NumberFormat("mm-MM", {
-                style: "currency",
-                currency: "MMK",
-                currencyDisplay: "code",
-              }).format(cartData.subtotal + Number(props?.deliveryPrice))}
-            </Typography>
+            props.deliveryPrice ? (
+              <Typography sx={{ fontSize: 14 }}>
+                {new Intl.NumberFormat("mm-MM", {
+                  style: "currency",
+                  currency: "MMK",
+                  currencyDisplay: "code",
+                }).format(
+                  cartData.subtotal -
+                    (props.coupon_type == "amount"
+                      ? props.coupon_value
+                        ? props.coupon_value
+                        : 0
+                      : props.coupon_value
+                      ? (props.coupon_value / 100) * cartData.subtotal
+                      : 0) +
+                    Number(props?.deliveryPrice)
+                )}
+              </Typography>
+            ) : (
+              <Typography sx={{ fontSize: 14 }}>
+                {new Intl.NumberFormat("mm-MM", {
+                  style: "currency",
+                  currency: "MMK",
+                  currencyDisplay: "code",
+                }).format(
+                  cartData.subtotal -
+                    (props.coupon_type == "amount"
+                      ? props.coupon_value
+                        ? props.coupon_value
+                        : 0
+                      : props.coupon_value
+                      ? (props.coupon_value / 100) * cartData.subtotal
+                      : 0)
+                )}
+              </Typography>
+            )
           ) : (
             ""
           )}
