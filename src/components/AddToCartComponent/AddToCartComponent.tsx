@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
@@ -21,17 +21,46 @@ import cartStore from "@stores/cart.store";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { CartItemComponent } from "./CartItem";
+import couponStore from "@stores/coupon.store";
+import { Coupon } from "@interfaces/coupon.interface";
+import Swal from "sweetalert2";
 
 const myLoaderGif = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
 const AddToCartComponent = () => {
-  const [subtotal, setSubtotal] = useState<number>();
+  const [coupon, setCoupon] = useState<Coupon>();
   const cartData = cartStore((store) => store.cart);
   const removeCartItem = cartStore((store) => store.removeFromCart);
 
+  const applyCoupon = couponStore((store) => store.checkCoupon);
+
   const { data: session } = useSession();
+  const couponCode = useRef<HTMLInputElement>(null);
+
+  // Apply coupon
+  const applyCouponCode = () => {
+    const code = couponCode.current?.value;
+
+    if (session) {
+      const res = applyCoupon(session, code);
+      res.then((d) => {
+        if (d.success) {
+          toast.success(d.message);
+          setCoupon(d.data);
+        } else {
+          if (code == "") {
+            return Swal.fire("Opps!", "Coupon code is empty.", "warning");
+          } else {
+            toast.error(d.message);
+          }
+        }
+      });
+    }
+  };
+
+  console.log(coupon);
 
   const removeItem = (cart_item_id: number) => {
     if (session) {
@@ -116,11 +145,17 @@ const AddToCartComponent = () => {
               <Box sx={{ display: "flex", gap: 4 }}>
                 <Typography variant="h6">Promocode:</Typography>
                 <InputBase
-                  sx={{ border: `1px solid ${colors.grey[300]}` }}
+                  sx={{
+                    border: `1px solid ${colors.blue[300]}`,
+                    px: 2,
+                    backgroundColor: colors.grey[100],
+                  }}
                   fullWidth
+                  inputRef={couponCode}
                 ></InputBase>
                 <Button
                   variant="contained"
+                  disabled={coupon ? true : false}
                   size="small"
                   sx={{
                     boxShadow: 0,
@@ -131,6 +166,7 @@ const AddToCartComponent = () => {
                       backgroundColor: colors.blue[700],
                     },
                   }}
+                  onClick={applyCouponCode}
                 >
                   Apply
                 </Button>
@@ -166,15 +202,54 @@ const AddToCartComponent = () => {
                     ""
                   )}
 
-                  <Typography>0 MMK</Typography>
+                  <Typography>
+                    {coupon ? (
+                      coupon.type == "amount" ? (
+                        <Typography>
+                          {new Intl.NumberFormat("mm-MM", {
+                            style: "currency",
+                            currency: "MMK",
+                            currencyDisplay: "code",
+                          }).format(coupon.value)}
+                        </Typography>
+                      ) : (
+                        <Typography>{coupon.value} %</Typography>
+                      )
+                    ) : (
+                      0
+                    )}
+                  </Typography>
                   {cartData ? (
-                    <Typography>
-                      {new Intl.NumberFormat("mm-MM", {
-                        style: "currency",
-                        currency: "MMK",
-                        currencyDisplay: "code",
-                      }).format(cartData.subtotal)}
-                    </Typography>
+                    coupon ? (
+                      coupon.type == "amount" ? (
+                        <Typography>
+                          {new Intl.NumberFormat("mm-MM", {
+                            style: "currency",
+                            currency: "MMK",
+                            currencyDisplay: "code",
+                          }).format(cartData.subtotal - coupon.value)}
+                        </Typography>
+                      ) : (
+                        <Typography>
+                          {new Intl.NumberFormat("mm-MM", {
+                            style: "currency",
+                            currency: "MMK",
+                            currencyDisplay: "code",
+                          }).format(
+                            cartData.subtotal -
+                              (coupon.value / 100) * cartData.subtotal
+                          )}
+                        </Typography>
+                      )
+                    ) : (
+                      <Typography>
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(cartData.subtotal)}
+                      </Typography>
+                    )
                   ) : (
                     ""
                   )}
@@ -206,7 +281,19 @@ const AddToCartComponent = () => {
                   </Link>
                 </Box>
                 <Box>
-                  <Link href={"/checkout"} legacyBehavior>
+                  <Link
+                    href={`/checkout${
+                      coupon
+                        ? "?coupon_code=" +
+                          coupon.code +
+                          "&coupon_type=" +
+                          coupon.type +
+                          "&coupon_value=" +
+                          coupon.value
+                        : ""
+                    }`}
+                    legacyBehavior
+                  >
                     <a style={{ textDecoration: "none" }}>
                       <Button
                         variant="contained"
