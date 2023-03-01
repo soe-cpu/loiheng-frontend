@@ -45,7 +45,11 @@ const BrandComponent = () => {
                     height: "120px",
                     position: "relative",
                     border: `1px solid ${colors.grey[300]}`,
-                    p: 2,
+                    "&:hover": {
+                      boxShadow: 1,
+                      transition: "0.5s",
+                      transitionTimingFunction: "ease-in-out",
+                    },
                   }}
                 >
                   {!brand.picture ? (
@@ -56,12 +60,13 @@ const BrandComponent = () => {
                       height={"400px"}
                     />
                   ) : (
-                    <Link href={`/brands/${brand.id}`}>
+                    <Link href={`/product?brands=${brand.id}`}>
                       <Image
                         loader={myLoader}
                         src={brand.picture}
                         alt="Brand Image"
                         fill
+                        style={{ objectFit: "contain", padding: "4px" }}
                         sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw, 33vw"
                       />
                     </Link>
