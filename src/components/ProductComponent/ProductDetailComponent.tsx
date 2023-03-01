@@ -683,7 +683,7 @@ const ProductDetailComponent = (props: Product) => {
             <Tab label="Description" {...a11yProps(0)} />
             <Tab label="Other Specification" {...a11yProps(1)} />
             <Tab label="Support & Download" {...a11yProps(2)} />
-            <Tab label="Reviews" {...a11yProps(3)} />
+            {/* <Tab label="Reviews" {...a11yProps(3)} /> */}
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>

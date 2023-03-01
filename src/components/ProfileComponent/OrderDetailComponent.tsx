@@ -503,6 +503,26 @@ const OrderDetailComponent = () => {
                       }).format(Number(orderDetail?.delivery_fee))}
                     </TableCell>
                   </TableRow>
+                  {orderDetail?.coupon_price ? (
+                    <TableRow
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell colSpan={4} align="right">
+                        <Typography variant="subtitle2">
+                          Delivery Fee:
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        {new Intl.NumberFormat("mm-MM", {
+                          style: "currency",
+                          currency: "MMK",
+                          currencyDisplay: "code",
+                        }).format(Number(orderDetail?.coupon_price))}
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    ""
+                  )}
                   <TableRow
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >

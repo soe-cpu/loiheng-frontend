@@ -9,7 +9,7 @@ const OrderDetail = () => {
   return (
     <Box>
       <Head>
-        <title>Loi Heng | Profile</title>
+        <title>Loi Heng | Order Detail</title>
         <meta name="description" content="Loi Heng Profile" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
