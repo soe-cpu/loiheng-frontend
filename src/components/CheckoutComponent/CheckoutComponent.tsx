@@ -131,7 +131,7 @@ const CheckoutComponent = () => {
     const phone = phoneRef.current?.value;
     const address_type = Number(addressType);
     const delivery_id = Number(deliveryTownship);
-    const couponCode = coupon_code;
+    const couponCode = coupon_code ? coupon_code : "";
     const coupon_price = "";
     const product_id = buyNowProduct?.product_id;
     const qty = buyNowProduct?.qty;
