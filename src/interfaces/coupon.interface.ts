@@ -6,9 +6,9 @@ export interface Coupon {
   value: number;
   type: string;
   is_customer: number;
-  note: string;
+  note?: any;
   created_by: number;
   is_active: number;
   created_at: Date;
-  updated_at: Date;
+  is_used: boolean;
 }
