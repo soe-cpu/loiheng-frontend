@@ -28,6 +28,7 @@ import addressStore from "@stores/addressStore";
 import { useSession } from "next-auth/react";
 import { AddressCard } from "./AddressCard";
 import toast from "react-hot-toast";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const MyAddressComponent = () => {
   const theme = useTheme();
@@ -104,7 +105,7 @@ const MyAddressComponent = () => {
         direction={"row"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        sx={{ p: 2 }}
+        sx={{ p: 3 }}
       >
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
           <LocationOnOutlinedIcon />
@@ -112,6 +113,7 @@ const MyAddressComponent = () => {
         </Stack>
         <Button
           variant="contained"
+          size="small"
           sx={{
             backgroundColor: colors.blue[500],
             color: "#fff",
@@ -120,6 +122,7 @@ const MyAddressComponent = () => {
               backgroundColor: colors.blue[600],
             },
           }}
+          startIcon={<AiOutlinePlus />}
           onClick={handleOpen}
         >
           Add Address

@@ -1015,7 +1015,7 @@ const OrderSummary = (props: OrderSummaryProps) => {
                       : props.coupon_value
                       ? (props.coupon_value / 100) * cartData.subtotal
                       : 0) +
-                    Number(props?.deliveryPrice)
+                    +props?.deliveryPrice
                 )}
               </Typography>
             ) : (
