@@ -39,6 +39,7 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import addressStore from "@stores/addressStore";
 import orderStore from "@stores/order.store";
+import couponStore from "@stores/coupon.store";
 
 const HeaderBar = () => {
   const theme = useTheme();
@@ -74,6 +75,8 @@ const HeaderBar = () => {
   const fetchWishlists = wishlistStore((store) => store.fetch);
   const { fetch: fetchCarts, cart } = cartStore();
   const fetchOrder = orderStore((store) => store.fetch);
+  const fetchCoupon = couponStore((store) => store.fetch);
+  const fetchCustomerCoupon = couponStore((store) => store.fetchCustomerCoupon);
 
   React.useEffect(() => {
     if (data) {
@@ -81,6 +84,8 @@ const HeaderBar = () => {
       fetchCarts(data);
       fetchAddress(data);
       fetchOrder(data);
+      fetchCoupon(data);
+      fetchCustomerCoupon(data);
     }
     if (topHead) {
       setTopHeader(topHead);
@@ -93,6 +98,8 @@ const HeaderBar = () => {
     setTopHeader,
     fetchAddress,
     fetchOrder,
+    fetchCoupon,
+    fetchCustomerCoupon,
   ]);
 
   const handleKeyword = (e: string) => {

@@ -26,12 +26,12 @@ const MyOrderComponent = () => {
   const orders = orderStore((store) => store.orders);
   return (
     <Box>
-      <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
+      <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 3 }}>
         <ShoppingCartOutlinedIcon />
         <Typography variant="h6">My Orders</Typography>
       </Stack>
       <Divider />
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 3 }}>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

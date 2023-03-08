@@ -43,12 +43,19 @@ const myLoaderGif = ({ src, width, quality }: any) => {
   return `${src}?q=${quality || 75}`;
 };
 
+enum SortEnum {
+  NONE = "",
+  IS_FEATURE = "is_feature_product",
+  LOWEST_PRICE = "lowest_price",
+  HIGHEST_PRICE = "highest_price",
+}
+
 const ProductComponent = (props: {
   brands: GetAllBrands;
   categories: GetAllCategories;
 }) => {
   const [show, setShow] = useState<boolean>(true);
-  const [age, setAge] = React.useState("");
+  const [sort, setSort] = React.useState(SortEnum.NONE);
   const [prices, setPrices] = React.useState<number | number[]>([0, 1000]);
   const [minMaxPrices, setMinMaxPrices] = React.useState<number[]>([0, 1000]);
 
@@ -61,7 +68,9 @@ const ProductComponent = (props: {
   const { data, error, isValidating } = useAllPromoProduct(
     selectedCategories,
     selectedBrands,
-    page
+    page,
+    15,
+    sort
   );
   const [product, setProduct] =
     React.useState<GetProductListResponse["data"]>();
@@ -93,7 +102,9 @@ const ProductComponent = (props: {
   };
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    if (event.target.value !== undefined) {
+      setSort(event.target.value as SortEnum);
+    }
   };
 
   const handlePriceRange = (e: Event, value: number | number[]) => {
@@ -247,20 +258,26 @@ const ProductComponent = (props: {
                 <Stack direction={"row"} alignItems={"center"}>
                   <Typography>Sort By: </Typography>
                   <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="demo-select-small">Age</InputLabel>
+                    <InputLabel id="demo-select-small">Type</InputLabel>
                     <Select
                       labelId="demo-select-small"
                       id="demo-select-small"
-                      value={age}
-                      label="Age"
+                      value={sort}
+                      label="Type"
                       onChange={handleChange}
                     >
-                      <MenuItem value="">
+                      <MenuItem value={SortEnum.NONE}>
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={SortEnum.IS_FEATURE}>
+                        Feature Product
+                      </MenuItem>
+                      <MenuItem value={SortEnum.LOWEST_PRICE}>
+                        Lowest Price
+                      </MenuItem>
+                      <MenuItem value={SortEnum.HIGHEST_PRICE}>
+                        Highest Price
+                      </MenuItem>
                     </Select>
                   </FormControl>
                 </Stack>

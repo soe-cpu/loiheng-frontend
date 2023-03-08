@@ -242,7 +242,7 @@ const OrderDetailComponent = () => {
 
   return (
     <Box>
-      <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 2 }}>
+      <Stack direction={"row"} alignItems={"center"} spacing={1} sx={{ p: 3 }}>
         <ShoppingCartOutlinedIcon />
         <Typography variant="h6">
           My Orders{" "}
