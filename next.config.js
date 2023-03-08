@@ -9,6 +9,7 @@ const nextConfig = {
   },
   experimental: {
     esmExternals: false,
+    outputStandalone: true,
   }
 };
 
